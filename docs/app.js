@@ -1135,10 +1135,24 @@ function initInteractivePlaygrounds() {
     }
 
     if (containerPopup) {
-      containerPopup.style.display = (mode === 'pulldown') ? 'none' : 'flex';
+      if (mode === 'pulldown') {
+        containerPopup.style.display = 'none';
+        containerPopup.classList.remove('full-width');
+      } else {
+        containerPopup.style.display = 'flex';
+        if (mode === 'popup') containerPopup.classList.add('full-width');
+        else containerPopup.classList.remove('full-width');
+      }
     }
     if (containerPulldown) {
-      containerPulldown.style.display = (mode === 'popup') ? 'none' : 'flex';
+      if (mode === 'popup') {
+        containerPulldown.style.display = 'none';
+        containerPulldown.classList.remove('full-width');
+      } else {
+        containerPulldown.style.display = 'flex';
+        if (mode === 'pulldown') containerPulldown.classList.add('full-width');
+        else containerPulldown.classList.remove('full-width');
+      }
     }
     if (rowKnobPopupProfile) {
       rowKnobPopupProfile.style.display = (mode === 'pulldown') ? 'none' : 'flex';

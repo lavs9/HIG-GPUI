@@ -1831,7 +1831,7 @@ gpui-kit = "0.1"</code></pre>
             </div>
 
             <div class="playground-body">
-              <div class="playground-stage" style="display: flex; justify-content: center; align-items: center; padding: 28px 20px;">
+              <div class="playground-stage">
                 <div class="mac-popup-showcase-card">
                   <div class="mac-popup-card-header">
                     <div>
@@ -1841,97 +1841,99 @@ gpui-kit = "0.1"</code></pre>
                     <span class="mac-badge subtle" id="popup-mode-badge">Side-by-Side</span>
                   </div>
 
-                  <!-- Control 1: MacPopupButton -->
-                  <div class="mac-popup-card-row" id="container-popup-control">
-                    <div class="mac-popup-card-row-top">
-                      <span class="mac-popup-card-label">MacPopupButton (Selection)</span>
-                      <span class="mac-popup-card-hint">Double Chevrons ⬍ · Mutually Exclusive</span>
-                    </div>
-                    <div class="mac-menu-anchor" id="anchor-popup-btn">
-                      <button class="mac-popup-btn" id="knob-target-popup-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-                        <span class="mac-btn-icon-label">
-                          <svg class="mac-btn-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-                          <span id="knob-popup-label">Display P3 (Wide Color)</span>
-                        </span>
-                        <span class="mac-popup-chevrons">
-                          <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 3L3.5 1L6 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                          <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 1L3.5 3L6 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                        </span>
-                      </button>
+                  <div class="mac-popup-card-grid">
+                    <!-- Control 1: MacPopupButton -->
+                    <div class="mac-popup-card-col" id="container-popup-control">
+                      <div class="mac-popup-card-row-top">
+                        <span class="mac-popup-card-label">MacPopupButton (Selection)</span>
+                        <span class="mac-popup-card-hint">Double Chevrons ⬍ · Mutually Exclusive</span>
+                      </div>
+                      <div class="mac-menu-anchor" id="anchor-popup-btn">
+                        <button class="mac-popup-btn" id="knob-target-popup-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+                          <span class="mac-btn-icon-label">
+                            <svg class="mac-btn-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            <span id="knob-popup-label">Display P3 (Wide Color)</span>
+                          </span>
+                          <span class="mac-popup-chevrons">
+                            <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 3L3.5 1L6 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                            <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 1L3.5 3L6 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                          </span>
+                        </button>
 
-                      <div class="mac-dropdown-menu" id="knob-popup-dropdown" role="listbox">
-                        <div class="mac-menu-section-title">COLOR PROFILES</div>
-                        <div class="mac-dropdown-item selected" data-value="Display P3 (Wide Color)">
-                          <span class="mac-dropdown-check">✓</span>
-                          <span class="mac-dropdown-title">Display P3 (Wide Color)</span>
-                          <span class="mac-dropdown-meta">DCI-P3</span>
-                        </div>
-                        <div class="mac-dropdown-item" data-value="sRGB (Web Standard)">
-                          <span class="mac-dropdown-check"></span>
-                          <span class="mac-dropdown-title">sRGB (Web Standard)</span>
-                          <span class="mac-dropdown-meta">Default</span>
-                        </div>
-                        <div class="mac-dropdown-item" data-value="Adobe RGB (1998)">
-                          <span class="mac-dropdown-check"></span>
-                          <span class="mac-dropdown-title">Adobe RGB (1998)</span>
-                          <span class="mac-dropdown-meta">Print</span>
-                        </div>
-                        <div class="mac-dropdown-item" data-value="ProPhoto RGB (Archival)">
-                          <span class="mac-dropdown-check"></span>
-                          <span class="mac-dropdown-title">ProPhoto RGB (Archival)</span>
-                          <span class="mac-dropdown-meta">16-bit</span>
+                        <div class="mac-dropdown-menu" id="knob-popup-dropdown" role="listbox">
+                          <div class="mac-menu-section-title">COLOR PROFILES</div>
+                          <div class="mac-dropdown-item selected" data-value="Display P3 (Wide Color)">
+                            <span class="mac-dropdown-check">✓</span>
+                            <span class="mac-dropdown-title">Display P3 (Wide Color)</span>
+                            <span class="mac-dropdown-meta">DCI-P3</span>
+                          </div>
+                          <div class="mac-dropdown-item" data-value="sRGB (Web Standard)">
+                            <span class="mac-dropdown-check"></span>
+                            <span class="mac-dropdown-title">sRGB (Web Standard)</span>
+                            <span class="mac-dropdown-meta">Default</span>
+                          </div>
+                          <div class="mac-dropdown-item" data-value="Adobe RGB (1998)">
+                            <span class="mac-dropdown-check"></span>
+                            <span class="mac-dropdown-title">Adobe RGB (1998)</span>
+                            <span class="mac-dropdown-meta">Print</span>
+                          </div>
+                          <div class="mac-dropdown-item" data-value="ProPhoto RGB (Archival)">
+                            <span class="mac-dropdown-check"></span>
+                            <span class="mac-dropdown-title">ProPhoto RGB (Archival)</span>
+                            <span class="mac-dropdown-meta">16-bit</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="mac-popup-card-footer">
-                      Selected choice becomes button title; double chevrons indicate mutually exclusive selection.
-                    </div>
-                  </div>
-
-                  <!-- Control 2: MacPullDownButton -->
-                  <div class="mac-popup-card-row" id="container-pulldown-control">
-                    <div class="mac-popup-card-row-top">
-                      <span class="mac-popup-card-label">MacPullDownButton (Action Menu)</span>
-                      <span class="mac-popup-card-hint">Single Down Chevron ▾ · Context Actions</span>
-                    </div>
-                    <div class="mac-menu-anchor" id="anchor-pulldown-btn">
-                      <button class="mac-pulldown-btn" id="knob-target-pulldown-btn" type="button" aria-haspopup="menu" aria-expanded="false">
-                        <span class="mac-btn-icon-label">
-                          <svg class="mac-btn-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                          <span id="knob-pulldown-label">Export Actions</span>
-                        </span>
-                        <span class="mac-pulldown-chevron">
-                          <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                        </span>
-                      </button>
-
-                      <div class="mac-dropdown-menu" id="knob-pulldown-dropdown" role="menu">
-                        <div class="mac-menu-section-title">QUICK ACTIONS</div>
-                        <div class="mac-dropdown-item" data-action="Quick Export as PNG" data-shortcut="⌘E">
-                          <span class="mac-dropdown-icon">⚡</span>
-                          <span class="mac-dropdown-title">Quick Export as PNG</span>
-                          <span class="mac-kbd">⌘E</span>
-                        </div>
-                        <div class="mac-dropdown-item" data-action="Export for Web…" data-shortcut="⇧⌘E">
-                          <span class="mac-dropdown-icon">📦</span>
-                          <span class="mac-dropdown-title">Export for Web…</span>
-                          <span class="mac-kbd">⇧⌘E</span>
-                        </div>
-                        <div class="mac-dropdown-separator"></div>
-                        <div class="mac-dropdown-item" data-action="Batch Convert Album…" data-shortcut="⌥⌘B">
-                          <span class="mac-dropdown-icon">🔄</span>
-                          <span class="mac-dropdown-title">Batch Convert Album…</span>
-                          <span class="mac-kbd">⌥⌘B</span>
-                        </div>
-                        <div class="mac-dropdown-item" data-action="Copy Profile Info" data-shortcut="⌥⌘C">
-                          <span class="mac-dropdown-icon">📋</span>
-                          <span class="mac-dropdown-title">Copy Profile Info</span>
-                          <span class="mac-kbd">⌥⌘C</span>
-                        </div>
+                      <div class="mac-popup-card-footer">
+                        Selected choice becomes button title; double chevrons indicate mutually exclusive selection.
                       </div>
                     </div>
-                    <div class="mac-popup-card-footer">
-                      Title remains constant ("Export Actions"); menu items execute immediate actions with shortcuts.
+
+                    <!-- Control 2: MacPullDownButton -->
+                    <div class="mac-popup-card-col" id="container-pulldown-control">
+                      <div class="mac-popup-card-row-top">
+                        <span class="mac-popup-card-label">MacPullDownButton (Action Menu)</span>
+                        <span class="mac-popup-card-hint">Single Down Chevron ▾ · Context Actions</span>
+                      </div>
+                      <div class="mac-menu-anchor" id="anchor-pulldown-btn">
+                        <button class="mac-pulldown-btn" id="knob-target-pulldown-btn" type="button" aria-haspopup="menu" aria-expanded="false">
+                          <span class="mac-btn-icon-label">
+                            <svg class="mac-btn-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span id="knob-pulldown-label">Export Actions</span>
+                          </span>
+                          <span class="mac-pulldown-chevron">
+                            <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                          </span>
+                        </button>
+
+                        <div class="mac-dropdown-menu" id="knob-pulldown-dropdown" role="menu">
+                          <div class="mac-menu-section-title">QUICK ACTIONS</div>
+                          <div class="mac-dropdown-item" data-action="Quick Export as PNG" data-shortcut="⌘E">
+                            <span class="mac-dropdown-icon">⚡</span>
+                            <span class="mac-dropdown-title">Quick Export as PNG</span>
+                            <span class="mac-kbd">⌘E</span>
+                          </div>
+                          <div class="mac-dropdown-item" data-action="Export for Web…" data-shortcut="⇧⌘E">
+                            <span class="mac-dropdown-icon">📦</span>
+                            <span class="mac-dropdown-title">Export for Web…</span>
+                            <span class="mac-kbd">⇧⌘E</span>
+                          </div>
+                          <div class="mac-dropdown-separator"></div>
+                          <div class="mac-dropdown-item" data-action="Batch Convert Album…" data-shortcut="⌥⌘B">
+                            <span class="mac-dropdown-icon">🔄</span>
+                            <span class="mac-dropdown-title">Batch Convert Album…</span>
+                            <span class="mac-kbd">⌥⌘B</span>
+                          </div>
+                          <div class="mac-dropdown-item" data-action="Copy Profile Info" data-shortcut="⌥⌘C">
+                            <span class="mac-dropdown-icon">📋</span>
+                            <span class="mac-dropdown-title">Copy Profile Info</span>
+                            <span class="mac-kbd">⌥⌘C</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mac-popup-card-footer">
+                        Title remains constant ("Export Actions"); menu items execute immediate actions with shortcuts.
+                      </div>
                     </div>
                   </div>
                 </div>

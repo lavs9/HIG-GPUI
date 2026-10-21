@@ -1399,18 +1399,66 @@ pre {
   margin: 4px 6px;
 }
 
+/* MacPopupButton & MacPullDownButton Showcase Section Clearance */
+#popup-button .playground-wrapper {
+  overflow: visible;
+}
+
+#popup-button .playground-body {
+  overflow: visible;
+  min-height: 520px;
+}
+
+#popup-button .playground-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 36px 28px 180px 28px;
+  min-height: 520px;
+  overflow: visible;
+}
+
 /* Inspector Showcase Card */
 .mac-popup-showcase-card {
   width: 100%;
-  max-width: 580px;
+  max-width: 660px;
   background: var(--apple-surface);
   border: 1px solid var(--apple-border);
   border-radius: 10px;
   box-shadow: var(--shadow-sm);
-  padding: 18px 20px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
+  min-height: 340px;
+  position: relative;
+}
+
+.mac-popup-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+@media (max-width: 680px) {
+  .mac-popup-card-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.mac-popup-card-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mac-popup-card-col.full-width {
+  grid-column: 1 / -1;
+  max-width: 380px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .mac-popup-card-header {
@@ -1435,8 +1483,8 @@ pre {
 
 .mac-popup-card-row-top {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .mac-popup-card-label {
@@ -1454,6 +1502,7 @@ pre {
   font-size: 11px;
   color: var(--apple-tertiary-label);
   line-height: 1.4;
+  margin-top: 4px;
 }
 
 /* MacDisclosure */
