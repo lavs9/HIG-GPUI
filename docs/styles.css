@@ -24,7 +24,8 @@
   --apple-quaternary-label: #A1A1A6;
 
   --apple-separator: rgba(60, 60, 67, 0.12);
-  --apple-border: rgba(0, 0, 0, 0.1);
+  --apple-border: rgba(0, 0, 0, 0.12);
+  --apple-subtle-border: rgba(0, 0, 0, 0.12);
   --apple-focus-ring: rgba(0, 122, 255, 0.5);
 
   --apple-system-red: #FF3B30;
@@ -63,7 +64,8 @@
   --apple-quaternary-label: rgba(235, 235, 245, 0.18);
 
   --apple-separator: rgba(84, 84, 88, 0.35);
-  --apple-border: rgba(255, 255, 255, 0.12);
+  --apple-border: rgba(255, 255, 255, 0.14);
+  --apple-subtle-border: rgba(255, 255, 255, 0.14);
   --apple-focus-ring: rgba(10, 132, 255, 0.65);
 
   --apple-system-red: #FF453A;
@@ -1849,26 +1851,262 @@ pre {
 }
 
 /* 4. MacDatePicker */
-.mac-datepicker-demo {
+.mac-datepicker-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
+.mac-datepicker-demo {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
+
+.mac-datepicker-demo.disabled,
+.mac-calendar-card.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 .mac-datepicker-segment {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 24px;
-  padding: 0 8px;
-  background-color: var(--apple-surface);
-  border: 1px solid var(--apple-subtle-border);
-  border-radius: 5px;
-  font-size: 12px;
+  gap: 8px;
+  height: 28px;
+  padding: 0 10px;
+  background-color: var(--apple-window-bg);
+  border: 1px solid var(--apple-border);
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 450;
   color: var(--apple-label);
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+  position: relative;
 }
+
 .mac-datepicker-segment:hover {
   border-color: var(--apple-accent);
+  background-color: var(--apple-surface-hover);
+}
+
+.mac-datepicker-segment.open,
+.mac-datepicker-segment:focus-within {
+  border-color: var(--apple-accent);
+  box-shadow: 0 0 0 2px var(--apple-focus-ring);
+  background-color: var(--apple-surface);
+}
+
+.mac-datepicker-chevron {
+  display: inline-flex;
+  align-items: center;
+  color: var(--apple-tertiary-label);
+  transition: transform 0.15s ease;
+  margin-left: 2px;
+}
+
+.mac-datepicker-segment.open .mac-datepicker-chevron {
+  transform: rotate(180deg);
+  color: var(--apple-accent);
+}
+
+/* Calendar Card / Popover */
+.mac-calendar-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: none;
+  animation: calPopIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mac-calendar-popover.open {
+  display: block;
+}
+
+@keyframes calPopIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.mac-calendar-card {
+  width: 272px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 10px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mac-calendar-card.inline {
+  position: static;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mac-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0 4px 0;
+}
+
+.mac-cal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apple-label);
+}
+
+.mac-cal-nav-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--apple-secondary-label);
+  transition: all 0.1s;
+}
+
+.mac-cal-nav-btn:hover {
+  background-color: var(--apple-surface-hover);
+  color: var(--apple-label);
+  border-color: var(--apple-border);
+}
+
+.mac-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--apple-tertiary-label);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.mac-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.mac-cal-day {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 450;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--apple-label);
+  transition: all 0.12s;
+  user-select: none;
+}
+
+.mac-cal-day.other-month {
+  color: var(--apple-quaternary-label);
+  opacity: 0.45;
+}
+
+.mac-cal-day:hover:not(.selected) {
+  background-color: var(--apple-surface-hover);
+}
+
+.mac-cal-day.today:not(.selected) {
+  font-weight: 700;
+  color: var(--apple-accent);
+}
+
+.mac-cal-day.selected {
+  background-color: var(--apple-accent) !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mac-cal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--apple-separator);
+  font-size: 11px;
+}
+
+.mac-cal-today-btn {
+  background: none;
+  border: none;
+  color: var(--apple-accent);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.mac-cal-today-btn:hover {
+  text-decoration: underline;
+}
+
+.mac-cal-time-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--apple-secondary-label);
+}
+
+/* Stepper Mode View */
+.mac-datepicker-stepper-view {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--apple-border);
+  border-radius: 6px;
+  background-color: var(--apple-window-bg);
+  height: 28px;
+  padding: 0 4px 0 8px;
+  gap: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.mac-datepicker-stepper-arrows {
+  display: flex;
+  flex-direction: column;
+  margin-left: 4px;
+}
+.mac-datepicker-mini-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  font-size: 8px;
+  color: var(--apple-secondary-label);
+}
+.mac-datepicker-mini-btn:hover {
+  color: var(--apple-accent);
 }
 
 /* 5. MacContextMenu & Menu Bar */

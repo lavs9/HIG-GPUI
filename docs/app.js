@@ -683,27 +683,241 @@ function initInteractivePlaygrounds() {
   });
 
   // ----------------------------------------------------
-  // 8. MacDatePicker Playground
+  // 8. MacDatePicker Playground & Interactive Calendar
   // ----------------------------------------------------
   const dateInput = document.getElementById('knob-date-input');
   const dateShowTime = document.getElementById('knob-date-showtime');
+  const dateStyleKnob = document.getElementById('knob-date-style');
+  const dateDisabledKnob = document.getElementById('knob-date-disabled');
   const dateDisp = document.getElementById('knob-date-val');
+  const dateTrigger = document.getElementById('knob-date-trigger');
   const timeSeg = document.getElementById('knob-time-segment');
+  const timeVal = document.getElementById('knob-time-val');
   const dateCode = document.getElementById('dynamic-code-date');
 
-  function updateDatePicker() {
-    const val = dateInput?.value || 'Oct 21, 2026';
-    const showTime = dateShowTime?.checked || false;
-    if (dateDisp) dateDisp.textContent = val;
-    if (timeSeg) timeSeg.style.display = showTime ? 'flex' : 'none';
+  const dateCompactView = document.getElementById('datepicker-compact-view');
+  const dateGraphicalView = document.getElementById('datepicker-graphical-view');
+  const dateStepperView = document.getElementById('datepicker-stepper-view');
+  const datePopover = document.getElementById('datepicker-calendar-popover');
+  const calHeaderTitle = document.getElementById('cal-header-title');
+  const calDaysGrid = document.getElementById('cal-days-grid');
+  const calPrevBtn = document.getElementById('cal-prev-btn');
+  const calNextBtn = document.getElementById('cal-next-btn');
+  const calTodayBtn = document.getElementById('cal-today-btn');
+  const calFooterTime = document.getElementById('cal-footer-time');
 
-    if (dateCode) {
-      dateCode.textContent = `MacDatePicker::new("date-input")\n    .date(2026, 10, 21)\n    .time(12, 30)\n    .show_time(${showTime})\n    .on_change(cx.listener(|this, y, m, d, cx| {\n        this.update_timestamp(y, m, d);\n    }))`;
+  const calInlineTitle = document.querySelector('.cal-inline-title');
+  const calInlineDaysGrid = document.querySelector('.cal-inline-days-grid');
+  const calInlinePrev = document.querySelector('.cal-inline-prev');
+  const calInlineNext = document.querySelector('.cal-inline-next');
+  const calInlineToday = document.querySelector('.cal-inline-today');
+  const calInlineTime = document.querySelector('.cal-inline-time');
+
+  const stepperDateDisp = document.getElementById('stepper-date-disp');
+  const stepperDateUp = document.getElementById('stepper-date-up');
+  const stepperDateDown = document.getElementById('stepper-date-down');
+
+  let curYear = 2026;
+  let curMonth = 9; // 0-indexed: 9 = October
+  let curDay = 21;
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function buildCalendarCells(gridEl, isInline) {
+    if (!gridEl) return;
+    gridEl.innerHTML = '';
+
+    const firstDayIndex = new Date(curYear, curMonth, 1).getDay();
+    const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+    const prevMonthDays = new Date(curYear, curMonth, 0).getDate();
+
+    // Previous month trailing days
+    for (let i = firstDayIndex - 1; i >= 0; i--) {
+      const dayNum = prevMonthDays - i;
+      const cell = document.createElement('div');
+      cell.className = 'mac-cal-day other-month';
+      cell.textContent = dayNum;
+      gridEl.appendChild(cell);
+    }
+
+    // Current month days
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement('div');
+      cell.className = 'mac-cal-day';
+      if (day === curDay) cell.classList.add('selected');
+      cell.textContent = day;
+
+      cell.addEventListener('click', (e) => {
+        e.stopPropagation();
+        curDay = day;
+        updateDatePicker();
+        if (!isInline && datePopover) {
+          datePopover.classList.remove('open');
+          dateTrigger?.classList.remove('open');
+        }
+        showToast(`Date selected: ${shortMonthNames[curMonth]} ${curDay}, ${curYear}`);
+      });
+
+      gridEl.appendChild(cell);
+    }
+
+    // Next month leading days
+    const totalRendered = firstDayIndex + daysInMonth;
+    const remaining = (7 - (totalRendered % 7)) % 7;
+    for (let next = 1; next <= remaining; next++) {
+      const cell = document.createElement('div');
+      cell.className = 'mac-cal-day other-month';
+      cell.textContent = next;
+      gridEl.appendChild(cell);
     }
   }
 
-  dateInput?.addEventListener('input', updateDatePicker);
+  function updateDatePicker() {
+    const style = dateStyleKnob?.value || 'compact';
+    const showTime = dateShowTime?.checked ?? true;
+    const isDisabled = dateDisabledKnob?.checked ?? false;
+
+    const dateFormatted = `${shortMonthNames[curMonth]} ${curDay}, ${curYear}`;
+    const timeFormatted = '12:30 PM';
+
+    if (dateDisp) dateDisp.textContent = dateFormatted;
+    if (dateInput) dateInput.value = dateFormatted;
+    if (stepperDateDisp) stepperDateDisp.textContent = dateFormatted;
+    if (timeSeg) timeSeg.style.display = showTime ? 'inline-flex' : 'none';
+    if (timeVal) timeVal.textContent = timeFormatted;
+    if (calFooterTime) calFooterTime.textContent = timeFormatted;
+    if (calInlineTime) calInlineTime.textContent = timeFormatted;
+
+    // View Switching
+    if (dateCompactView) dateCompactView.style.display = style === 'compact' ? 'inline-flex' : 'none';
+    if (dateGraphicalView) dateGraphicalView.style.display = style === 'graphical' ? 'flex' : 'none';
+    if (dateStepperView) dateStepperView.style.display = style === 'stepper' ? 'inline-flex' : 'none';
+
+    if (style !== 'compact' && datePopover) {
+      datePopover.classList.remove('open');
+      dateTrigger?.classList.remove('open');
+    }
+
+    // Disabled state
+    const container = document.getElementById('knob-target-datepicker-container');
+    if (container) {
+      if (isDisabled) container.classList.add('disabled');
+      else container.classList.remove('disabled');
+    }
+    if (dateCompactView) {
+      if (isDisabled) dateCompactView.classList.add('disabled');
+      else dateCompactView.classList.remove('disabled');
+    }
+    if (dateGraphicalView) {
+      if (isDisabled) dateGraphicalView.classList.add('disabled');
+      else dateGraphicalView.classList.remove('disabled');
+    }
+
+    // Titles & Grid
+    const titleText = `${monthNames[curMonth]} ${curYear}`;
+    if (calHeaderTitle) calHeaderTitle.textContent = titleText;
+    if (calInlineTitle) calInlineTitle.textContent = titleText;
+
+    buildCalendarCells(calDaysGrid, false);
+    buildCalendarCells(calInlineDaysGrid, true);
+
+    if (dateCode) {
+      const stylePascal = style === 'graphical' ? 'Graphical' : (style === 'stepper' ? 'Stepper' : 'Compact');
+      let c = `MacDatePicker::new("date-picker")\n`;
+      c += `    .picker_style(MacDatePickerStyle::${stylePascal})\n`;
+      c += `    .date(${curYear}, ${curMonth + 1}, ${curDay})\n`;
+      if (showTime) c += `    .time(12, 30)\n    .show_time(true)\n`;
+      else c += `    .show_time(false)\n`;
+      if (isDisabled) c += `    .disabled(true)\n`;
+      c += `    .on_change(cx.listener(|this, y, m, d, cx| {\n        this.update_timestamp(y, m, d);\n    }))`;
+      dateCode.textContent = c;
+    }
+  }
+
+  // Event Listeners for DatePicker
+  if (dateTrigger && datePopover) {
+    dateTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dateCompactView?.classList.contains('disabled')) return;
+      const isOpen = datePopover.classList.toggle('open');
+      dateTrigger.classList.toggle('open', isOpen);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!datePopover.contains(e.target) && !dateTrigger.contains(e.target)) {
+        datePopover.classList.remove('open');
+        dateTrigger.classList.remove('open');
+      }
+    });
+  }
+
+  function prevMonth() {
+    curMonth--;
+    if (curMonth < 0) {
+      curMonth = 11;
+      curYear--;
+    }
+    curDay = Math.min(curDay, new Date(curYear, curMonth + 1, 0).getDate());
+    updateDatePicker();
+  }
+
+  function nextMonth() {
+    curMonth++;
+    if (curMonth > 11) {
+      curMonth = 0;
+      curYear++;
+    }
+    curDay = Math.min(curDay, new Date(curYear, curMonth + 1, 0).getDate());
+    updateDatePicker();
+  }
+
+  function setToday() {
+    const today = new Date();
+    curYear = today.getFullYear();
+    curMonth = today.getMonth();
+    curDay = today.getDate();
+    updateDatePicker();
+    showToast(`Jumped to today: ${shortMonthNames[curMonth]} ${curDay}, ${curYear}`);
+  }
+
+  calPrevBtn?.addEventListener('click', (e) => { e.stopPropagation(); prevMonth(); });
+  calNextBtn?.addEventListener('click', (e) => { e.stopPropagation(); nextMonth(); });
+  calTodayBtn?.addEventListener('click', (e) => { e.stopPropagation(); setToday(); });
+
+  calInlinePrev?.addEventListener('click', (e) => { e.stopPropagation(); prevMonth(); });
+  calInlineNext?.addEventListener('click', (e) => { e.stopPropagation(); nextMonth(); });
+  calInlineToday?.addEventListener('click', (e) => { e.stopPropagation(); setToday(); });
+
+  stepperDateUp?.addEventListener('click', () => {
+    const maxDays = new Date(curYear, curMonth + 1, 0).getDate();
+    curDay = curDay < maxDays ? curDay + 1 : 1;
+    updateDatePicker();
+  });
+
+  stepperDateDown?.addEventListener('click', () => {
+    const maxDays = new Date(curYear, curMonth + 1, 0).getDate();
+    curDay = curDay > 1 ? curDay - 1 : maxDays;
+    updateDatePicker();
+  });
+
+  dateStyleKnob?.addEventListener('change', updateDatePicker);
   dateShowTime?.addEventListener('change', updateDatePicker);
+  dateDisabledKnob?.addEventListener('change', updateDatePicker);
+  dateInput?.addEventListener('input', (e) => {
+    const val = e.target.value;
+    const parts = val.replace(',', '').split(/\s+/);
+    if (parts.length >= 3) {
+      const mIdx = shortMonthNames.findIndex(m => m.toLowerCase() === parts[0].toLowerCase().slice(0, 3));
+      const d = parseInt(parts[1], 10);
+      const y = parseInt(parts[2], 10);
+      if (mIdx >= 0 && !isNaN(d) && !isNaN(y)) {
+        curMonth = mIdx;
+        curDay = d;
+        curYear = y;
+        updateDatePicker();
+      }
+    }
+  });
 
   // ----------------------------------------------------
   // 9. MacSegmentedControl Playground

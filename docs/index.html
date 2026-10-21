@@ -1255,23 +1255,99 @@ gpui-kit = "0.1"</code></pre>
 
             <div class="playground-body">
               <div class="playground-stage">
-                <div class="mac-datepicker-demo">
-                  <div class="mac-datepicker-segment">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span id="knob-date-val">Oct 21, 2026</span>
+                <div class="mac-datepicker-container" id="knob-target-datepicker-container">
+                  <!-- 1. Compact View (Default) -->
+                  <div class="mac-datepicker-demo" id="datepicker-compact-view">
+                    <div class="mac-datepicker-segment" id="knob-date-trigger" title="Click to open calendar">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                      <span id="knob-date-val">Oct 21, 2026</span>
+                      <span class="mac-datepicker-chevron">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      </span>
+                    </div>
+
+                    <div class="mac-datepicker-segment" id="knob-time-segment">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span id="knob-time-val">12:30 PM</span>
+                    </div>
                   </div>
-                  <div class="mac-datepicker-segment" id="knob-time-segment">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span id="knob-time-val">12:30 PM</span>
+
+                  <!-- Popover Calendar (Opens on click in Compact Mode) -->
+                  <div class="mac-calendar-popover" id="datepicker-calendar-popover">
+                    <div class="mac-calendar-card">
+                      <div class="mac-cal-header">
+                        <button class="mac-cal-nav-btn" id="cal-prev-btn" title="Previous Month">‹</button>
+                        <span class="mac-cal-title" id="cal-header-title">October 2026</span>
+                        <button class="mac-cal-nav-btn" id="cal-next-btn" title="Next Month">›</button>
+                      </div>
+                      <div class="mac-cal-weekdays">
+                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                      </div>
+                      <div class="mac-cal-grid" id="cal-days-grid">
+                        <!-- Populated by JS -->
+                      </div>
+                      <div class="mac-cal-footer">
+                        <button class="mac-cal-today-btn" id="cal-today-btn">Today</button>
+                        <span class="mac-cal-time-pill" id="cal-footer-time">12:30 PM</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 2. Graphical View (Inline Calendar) -->
+                  <div class="mac-calendar-card inline" id="datepicker-graphical-view" style="display: none;">
+                    <div class="mac-cal-header">
+                      <button class="mac-cal-nav-btn cal-inline-prev">‹</button>
+                      <span class="mac-cal-title cal-inline-title">October 2026</span>
+                      <button class="mac-cal-nav-btn cal-inline-next">›</button>
+                    </div>
+                    <div class="mac-cal-weekdays">
+                      <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                    </div>
+                    <div class="mac-cal-grid cal-inline-days-grid">
+                      <!-- Populated by JS -->
+                    </div>
+                    <div class="mac-cal-footer">
+                      <button class="mac-cal-today-btn cal-inline-today">Today</button>
+                      <span class="mac-cal-time-pill cal-inline-time">12:30 PM</span>
+                    </div>
+                  </div>
+
+                  <!-- 3. Stepper View -->
+                  <div class="mac-datepicker-stepper-view" id="datepicker-stepper-view" style="display: none;">
+                    <span id="stepper-date-disp" style="font-size: 12px; font-weight: 500;">Oct 21, 2026</span>
+                    <div class="mac-datepicker-stepper-arrows">
+                      <button class="mac-datepicker-mini-btn" id="stepper-date-up">▲</button>
+                      <button class="mac-datepicker-mini-btn" id="stepper-date-down">▼</button>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="playground-sidebar">
                 <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Picker Style</span>
+                  <select id="knob-date-style" class="knob-select">
+                    <option value="compact" selected>Compact (Popover Calendar)</option>
+                    <option value="graphical">Graphical (Inline Calendar)</option>
+                    <option value="stepper">Stepper (Textual Increments)</option>
+                  </select>
+                </div>
                 <div class="knob-row-horizontal">
                   <span class="knob-label">Include Time Segment</span>
                   <input type="checkbox" id="knob-date-showtime" checked style="cursor: pointer;">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-date-disabled" style="cursor: pointer;">
                 </div>
                 <div class="knob-row">
                   <span class="knob-label">Sample Date</span>
