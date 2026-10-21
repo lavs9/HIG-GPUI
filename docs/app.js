@@ -1243,7 +1243,17 @@ function initMaterialsPlayground() {
   const matDensityLabel = document.getElementById('mat-density-label');
   const wallpaperThumbs = document.querySelectorAll('.wallpaper-thumb');
 
+  const matViewGrid = document.getElementById('mat-view-grid');
+  const matViewList = document.getElementById('mat-view-list');
+  const matViewLayers = document.getElementById('mat-view-layers');
+  const matActiveLayerName = document.getElementById('mat-active-layer-name');
+  const matActiveLayerBlur = document.getElementById('mat-active-layer-blur');
+  const matBtnDismiss = document.getElementById('mat-btn-dismiss');
+  const matBtnApply = document.getElementById('mat-btn-apply');
+
   if (!matCard) return;
+
+  let currentViewMode = 'grid'; // 'grid' | 'list' | 'layers'
 
   const THICKNESS_DATA = {
     'ultra-thin': { blur: 16, lightOpacity: 0.35, darkOpacity: 0.40, name: 'UltraThin' },
@@ -1266,6 +1276,14 @@ function initMaterialsPlayground() {
     'fullscreen': { thickness: 'ultra-thick', blend: 'within-window', title: 'Full Screen Backdrop' },
     'tooltip': { thickness: 'regular', blend: 'within-window', title: 'Tool Tip Bubble' },
   };
+
+  function updateViewMode(mode) {
+    currentViewMode = mode;
+    if (matViewGrid) matViewGrid.style.display = mode === 'grid' ? 'flex' : 'none';
+    if (matViewList) matViewList.style.display = mode === 'list' ? 'flex' : 'none';
+    if (matViewLayers) matViewLayers.style.display = mode === 'layers' ? 'flex' : 'none';
+    updateMaterials();
+  }
 
   function updateMaterials() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1304,29 +1322,44 @@ function initMaterialsPlayground() {
     const isActive = knobMatState?.value !== 'inactive';
     const reduceTransparency = knobMatReduceTransparency?.checked || false;
     const rimHighlight = knobMatRim?.checked !== false;
+    const isTinted = matSwitch?.classList.contains('on');
+    const densityVal = parseInt(matDensitySlider?.value || '65', 10);
 
     let bg = '';
     let filter = '';
     let borderColor = '';
     let sat = isActive ? '180%' : '100%';
 
+    // Scale blur with density slider
+    const densityFactor = densityVal / 65.0;
+    const blurRadius = Math.round(thickness.blur * densityFactor);
+
     if (reduceTransparency) {
       filter = 'none';
       bg = isDark ? '#242426' : '#F2F2F7';
       borderColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)';
     } else if (role === 'hud') {
-      filter = `blur(36px) saturate(${sat})`;
+      filter = `blur(${Math.max(12, blurRadius)}px) saturate(${sat})`;
       bg = 'rgba(28, 28, 32, 0.88)';
       borderColor = rimHighlight ? 'rgba(255, 255, 255, 0.22)' : 'transparent';
     } else if (role === 'selection') {
-      filter = `blur(${thickness.blur}px) saturate(${sat})`;
+      filter = `blur(${blurRadius}px) saturate(${sat})`;
       bg = isDark ? 'rgba(10, 132, 255, 0.25)' : 'rgba(0, 122, 255, 0.18)';
       borderColor = rimHighlight ? (isDark ? 'rgba(10, 132, 255, 0.45)' : 'rgba(0, 122, 255, 0.35)') : 'transparent';
     } else {
-      filter = `blur(${thickness.blur}px) saturate(${sat})`;
+      filter = `blur(${blurRadius}px) saturate(${sat})`;
       const baseAlpha = isDark ? thickness.darkOpacity : thickness.lightOpacity;
       const alpha = isActive ? baseAlpha : Math.min(1.0, baseAlpha + 0.08);
-      bg = isDark ? `rgba(34, 34, 38, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
+
+      if (isTinted) {
+        // macOS Desktop Tinting subtly blends accent hue into the frosted material
+        bg = isDark 
+          ? `color-mix(in srgb, rgba(34, 34, 38, ${alpha}) 88%, var(--apple-accent) 12%)`
+          : `color-mix(in srgb, rgba(255, 255, 255, ${alpha}) 90%, var(--apple-accent) 10%)`;
+      } else {
+        bg = isDark ? `rgba(34, 34, 38, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
+      }
+
       borderColor = rimHighlight ? (isDark ? 'rgba(255, 255, 255, 0.20)' : 'rgba(0, 0, 0, 0.10)') : 'transparent';
     }
 
@@ -1335,9 +1368,17 @@ function initMaterialsPlayground() {
     matCard.style.backgroundColor = bg;
     matCard.style.border = rimHighlight ? `1px solid ${borderColor}` : '1px solid transparent';
 
+    // Update Layers inspector text
+    if (matActiveLayerName) {
+      matActiveLayerName.textContent = `MacMaterialSurface (${thickness.name} Glass)`;
+    }
+    if (matActiveLayerBlur) {
+      matActiveLayerBlur.textContent = `${reduceTransparency ? '0' : blurRadius}px Blur`;
+    }
+
     if (matHudText) {
       const curOpacity = Math.round((isDark ? thickness.darkOpacity : thickness.lightOpacity) * 100);
-      matHudText.textContent = `Tier: ${thickness.name} | Blur: ${reduceTransparency ? 0 : thickness.blur}px | Opacity: ${curOpacity}% | Sat: ${sat}`;
+      matHudText.textContent = `Tier: ${thickness.name} | Blur: ${reduceTransparency ? 0 : blurRadius}px | Opacity: ${curOpacity}% | Mode: ${currentViewMode.toUpperCase()}`;
     }
 
     if (matCode) {
@@ -1360,24 +1401,47 @@ function initMaterialsPlayground() {
         code += `    .blending_mode(MacBlendingMode::BehindWindow)\n`;
       }
       code += `;\n\n`;
-      code += `// 1. Container Surface View\n`;
-      code += `MacMaterialSurface::new("glass_surface")\n`;
-      code += `    .material(material)\n`;
-      code += `    .corner_radius(12.0)\n`;
-      code += `    .child(\n`;
-      code += `        div()\n`;
-      code += `            .p_4()\n`;
-      code += `            .flex()\n`;
-      code += `            .flex_col()\n`;
-      code += `            .gap_3()\n`;
-      code += `            .child(div().text_color(apple_colors.label).child("Liquid Glass Material"))\n`;
-      code += `            .child(div().text_color(apple_colors.secondary_label).child("Translucent frosted blur"))\n`;
-      code += `    )\n\n`;
-      code += `// 2. Or apply directly to any GPUI Div via extension trait:\n`;
-      code += `div()\n`;
-      code += `    .mac_material(MacMaterialThickness::${thickness.name}, ${isDark})\n`;
-      code += `    .rounded_lg()\n`;
-      code += `    .p_4();`;
+
+      if (currentViewMode === 'grid') {
+        code += `// View Mode: Grid Layout inside Frosted Material\n`;
+        code += `MacMaterialSurface::new("photo_grid_surface")\n`;
+        code += `    .material(material)\n`;
+        code += `    .corner_radius(12.0)\n`;
+        code += `    .child(\n`;
+        code += `        div()\n`;
+        code += `            .p_4()\n`;
+        code += `            .flex()\n`;
+        code += `            .gap_2()\n`;
+        code += `            .child(MacImageView::new("img1").size(100.0, 70.0).caption("Yosemite.raw"))\n`;
+        code += `            .child(MacImageView::new("img2").size(100.0, 70.0).caption("BigSur.heic"))\n`;
+        code += `            .child(MacImageView::new("img3").size(100.0, 70.0).caption("Sonoma.dng"))\n`;
+        code += `    );`;
+      } else if (currentViewMode === 'list') {
+        code += `// View Mode: Table / List View inside Frosted Material\n`;
+        code += `MacMaterialSurface::new("photo_list_surface")\n`;
+        code += `    .material(material)\n`;
+        code += `    .corner_radius(12.0)\n`;
+        code += `    .child(\n`;
+        code += `        MacTableView::new("materials_table")\n`;
+        code += `            .column("File Name", 140.0)\n`;
+        code += `            .column("Size", 70.0)\n`;
+        code += `            .column("Format", 80.0)\n`;
+        code += `            .row(vec!["IMG_0412.CR3", "32.8 MB", "Canon RAW"])\n`;
+        code += `            .row(vec!["DSCF8921.RAF", "28.4 MB", "Fuji Film"])\n`;
+        code += `            .selected_row(Some(0))\n`;
+        code += `    );`;
+      } else {
+        code += `// View Mode: Z-Index Layer Stack Architecture\n`;
+        code += `div()\n`;
+        code += `    .relative()\n`;
+        code += `    // Layer 1: BehindWindow Desktop Wallpaper\n`;
+        code += `    .child(desktop_wallpaper_layer())\n`;
+        code += `    // Layer 2: MacMaterialSurface translucent blur\n`;
+        code += `    .child(MacMaterialSurface::new("frost_layer").material(material))\n`;
+        code += `    // Layer 3: Vibrant foreground UI\n`;
+        code += `    .child(vibrant_controls_layer());`;
+      }
+
       matCode.textContent = code;
     }
   }
@@ -1395,6 +1459,7 @@ function initMaterialsPlayground() {
   if (matSwitch) {
     matSwitch.addEventListener('click', () => {
       matSwitch.classList.toggle('on');
+      updateMaterials();
     });
   }
 
@@ -1402,12 +1467,49 @@ function initMaterialsPlayground() {
     btn.addEventListener('click', () => {
       matSegmentedBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      const mode = btn.getAttribute('data-mat') || 'grid';
+      updateViewMode(mode);
+    });
+  });
+
+  // Interactive selection in list view
+  const matListRows = document.querySelectorAll('.mat-list-row');
+  matListRows.forEach(row => {
+    row.addEventListener('click', () => {
+      matListRows.forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
     });
   });
 
   if (matDensitySlider && matDensityLabel) {
     matDensitySlider.addEventListener('input', (e) => {
       matDensityLabel.textContent = `${e.target.value}%`;
+      updateMaterials();
+    });
+  }
+
+  if (matBtnDismiss) {
+    matBtnDismiss.addEventListener('click', () => {
+      if (knobMatThickness) knobMatThickness.value = 'regular';
+      if (knobMatRole) knobMatRole.value = 'custom';
+      if (knobMatBlend) knobMatBlend.value = 'within-window';
+      if (knobMatState) knobMatState.value = 'active';
+      if (knobMatReduceTransparency) knobMatReduceTransparency.checked = false;
+      if (knobMatRim) knobMatRim.checked = true;
+      if (matDensitySlider) {
+        matDensitySlider.value = '65';
+        if (matDensityLabel) matDensityLabel.textContent = '65%';
+      }
+      updateMaterials();
+      showToast('Material reset to defaults');
+    });
+  }
+
+  if (matBtnApply) {
+    matBtnApply.addEventListener('click', () => {
+      const thicknessKey = knobMatThickness?.value || 'regular';
+      const thickness = THICKNESS_DATA[thicknessKey] || THICKNESS_DATA.regular;
+      showToast(`Applied ${thickness.name} (${thickness.blur}px blur) to surface`);
     });
   }
 

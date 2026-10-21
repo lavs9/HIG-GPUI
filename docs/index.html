@@ -430,6 +430,87 @@ gpui-kit = "0.1"</code></pre>
                         </div>
                       </div>
 
+                      <!-- Dynamic View Mode Container -->
+                      <div id="mat-view-content" style="margin-top: 2px; margin-bottom: 2px;">
+                        <!-- 1. Grid View (Active) -->
+                        <div id="mat-view-grid" class="mat-view-panel">
+                          <div class="mat-grid-container">
+                            <div class="mat-grid-item">
+                              <div class="mat-grid-thumb thumb-1"></div>
+                              <div class="mat-grid-caption">
+                                <span class="mat-grid-title">Yosemite.raw</span>
+                                <span class="mat-grid-sub">48.2 MB</span>
+                              </div>
+                            </div>
+                            <div class="mat-grid-item">
+                              <div class="mat-grid-thumb thumb-2"></div>
+                              <div class="mat-grid-caption">
+                                <span class="mat-grid-title">BigSur.heic</span>
+                                <span class="mat-grid-sub">12.4 MB</span>
+                              </div>
+                            </div>
+                            <div class="mat-grid-item">
+                              <div class="mat-grid-thumb thumb-3"></div>
+                              <div class="mat-grid-caption">
+                                <span class="mat-grid-title">Sonoma.dng</span>
+                                <span class="mat-grid-sub">34.1 MB</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- 2. List View -->
+                        <div id="mat-view-list" class="mat-view-panel" style="display: none;">
+                          <div class="mat-list-container">
+                            <div class="mat-list-row selected">
+                              <div class="mat-list-col-name">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.85;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                <span>IMG_0412.CR3</span>
+                              </div>
+                              <span class="mat-list-col-meta">32.8 MB</span>
+                              <span class="mat-list-badge">Canon RAW</span>
+                            </div>
+                            <div class="mat-list-row">
+                              <div class="mat-list-col-name">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.85;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                <span>DSCF8921.RAF</span>
+                              </div>
+                              <span class="mat-list-col-meta">28.4 MB</span>
+                              <span class="mat-list-badge">Fuji Film</span>
+                            </div>
+                            <div class="mat-list-row">
+                              <div class="mat-list-col-name">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.85;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                <span>_SON0123.ARW</span>
+                              </div>
+                              <span class="mat-list-col-meta">45.0 MB</span>
+                              <span class="mat-list-badge">Sony Alpha</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- 3. Layers View (HIG Z-Index Stack Visualizer) -->
+                        <div id="mat-view-layers" class="mat-view-panel" style="display: none;">
+                          <div class="mat-layers-container">
+                            <div class="mat-layer-item">
+                              <span class="mat-layer-tag">Layer 3</span>
+                              <span style="font-weight: 500;">Foreground Vibrancy UI</span>
+                              <span class="mat-layer-role">Vibrant Blend</span>
+                            </div>
+                            <div class="mat-layer-item active-material">
+                              <span class="mat-layer-tag">Layer 2</span>
+                              <span id="mat-active-layer-name" style="font-weight: 600;">MacMaterialSurface</span>
+                              <span class="mat-layer-role" id="mat-active-layer-blur">32px Blur</span>
+                            </div>
+                            <div class="mat-layer-item">
+                              <span class="mat-layer-tag">Layer 1</span>
+                              <span style="font-weight: 500;">BehindWindow Wallpaper</span>
+                              <span class="mat-layer-role">Source Buffer</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                       <div style="display: flex; flex-direction: column; gap: 6px;">
                         <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--apple-secondary-label);">
                           <span>Transmission Density</span>
@@ -439,8 +520,8 @@ gpui-kit = "0.1"</code></pre>
                       </div>
 
                       <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
-                        <button class="mac-btn mac-btn-push" style="height: 24px; font-size: 11.5px; padding: 0 10px;">Dismiss</button>
-                        <button class="mac-btn mac-btn-prominent" style="height: 24px; font-size: 11.5px; padding: 0 12px;">Apply Effect</button>
+                        <button class="mac-btn mac-btn-push" id="mat-btn-dismiss" style="height: 24px; font-size: 11.5px; padding: 0 10px;">Dismiss</button>
+                        <button class="mac-btn mac-btn-prominent" id="mat-btn-apply" style="height: 24px; font-size: 11.5px; padding: 0 12px;">Apply Effect</button>
                       </div>
                     </div>
                   </div>

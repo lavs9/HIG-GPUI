@@ -2450,3 +2450,203 @@ pre {
   background: linear-gradient(135deg, #181924, #592070);
 }
 
+/* Material Card View Mode Panels (Grid, List, Layers) */
+.mat-view-panel {
+  display: flex;
+  flex-direction: column;
+  animation: matFadeIn 0.2s ease-in-out;
+}
+
+@keyframes matFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 1. Grid View */
+.mat-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mat-grid-item {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+[data-theme="light"] .mat-grid-item {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mat-grid-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--apple-accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mat-grid-thumb {
+  height: 52px;
+  position: relative;
+}
+
+.mat-grid-thumb.thumb-1 {
+  background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+}
+.mat-grid-thumb.thumb-2 {
+  background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+}
+.mat-grid-thumb.thumb-3 {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.mat-grid-caption {
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mat-grid-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--apple-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-grid-sub {
+  font-size: 9.5px;
+  color: var(--apple-secondary-label);
+  font-family: var(--font-mono);
+}
+
+/* 2. List View */
+.mat-list-container {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .mat-list-container {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.mat-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  padding: 0 8px;
+  font-size: 11.5px;
+  color: var(--apple-label);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.15s ease;
+}
+
+[data-theme="light"] .mat-list-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mat-list-row:last-child {
+  border-bottom: none;
+}
+
+.mat-list-row:hover:not(.selected) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="light"] .mat-list-row:hover:not(.selected) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mat-list-row.selected {
+  background: var(--apple-accent);
+  color: #FFFFFF !important;
+}
+
+.mat-list-row.selected .mat-list-col-meta,
+.mat-list-row.selected .mat-list-badge {
+  color: #FFFFFF !important;
+  opacity: 0.9;
+}
+
+.mat-list-col-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.mat-list-col-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--apple-secondary-label);
+}
+
+.mat-list-badge {
+  font-size: 9.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--apple-label);
+}
+
+/* 3. Layers View */
+.mat-layers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mat-layer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--apple-label);
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .mat-layer-item {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.mat-layer-item.active-material {
+  border-color: var(--apple-accent);
+  background: var(--apple-accent-translucent);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--apple-accent);
+}
+
+.mat-layer-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--apple-label);
+}
+
+.mat-layer-role {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--apple-accent);
+  font-weight: 600;
+}
+
+
