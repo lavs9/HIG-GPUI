@@ -1,0 +1,23 @@
+<svg width="400" height="180" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="180" rx="12" fill="#F5F5F7" stroke="#E5E5EA" stroke-width="1"/>
+  
+  <!-- Row 1: Checked -->
+  <g transform="translate(40, 35)">
+    <rect width="16" height="16" rx="4" fill="#007AFF"/>
+    <path d="M4 8L7 11L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Checked State (#007AFF Accent)</text>
+  </g>
+
+  <!-- Row 2: Mixed / Indeterminate -->
+  <g transform="translate(40, 75)">
+    <rect width="16" height="16" rx="4" fill="#007AFF"/>
+    <rect x="4" y="7" width="8" height="2" rx="1" fill="white"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Mixed / Indeterminate State</text>
+  </g>
+
+  <!-- Row 3: Unchecked -->
+  <g transform="translate(40, 115)">
+    <rect width="16" height="16" rx="4" fill="#FFFFFF" stroke="#C7C7CC" stroke-width="1"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Unchecked (3.5pt corner radius)</text>
+  </g>
+</svg>

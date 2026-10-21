@@ -508,74 +508,75 @@ pre {
 /* MacSwitch */
 .mac-switch {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   width: 38px;
   height: 22px;
+  border-radius: 11px;
+  background-color: rgba(120, 120, 128, 0.25);
   cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  user-select: none;
 }
 
 .mac-switch.mini {
   width: 28px;
   height: 16px;
+  border-radius: 8px;
 }
 
-.mac-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.mac-switch-slider {
+.mac-switch-thumb {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(120, 120, 128, 0.25);
-  border-radius: 22px;
-  transition: background-color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.mac-switch-slider::before {
-  position: absolute;
-  content: "";
-  height: 18px;
+  top: 2px;
+  left: 2px;
   width: 18px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
+  height: 18px;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 0.5px 1px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mac-switch.mini .mac-switch-slider::before {
-  height: 12px;
+.mac-switch.mini .mac-switch-thumb {
   width: 12px;
-  left: 2px;
-  bottom: 2px;
+  height: 12px;
 }
 
-.mac-switch input:checked + .mac-switch-slider {
-  background-color: var(--apple-switch-green);
+.mac-switch.on {
+  background-color: var(--apple-switch-green, #34C759);
 }
 
-.mac-switch input:checked + .mac-switch-slider::before {
+.mac-switch.on .mac-switch-thumb {
   transform: translateX(16px);
 }
 
-.mac-switch.mini input:checked + .mac-switch-slider::before {
+.mac-switch.mini.on .mac-switch-thumb {
   transform: translateX(12px);
 }
 
-/* MacCheckbox */
-.mac-checkbox-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  cursor: pointer;
-  user-select: none;
+.mac-switch.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-.mac-checkbox {
+/* MacCheckbox */
+.mac-checkbox-label,
+.mac-checkbox-interactive,
+.mac-checkbox-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 450;
+  cursor: pointer;
+  user-select: none;
+  color: var(--apple-label);
+  line-height: 1.4;
+}
+
+.mac-checkbox-box {
   width: 14px;
   height: 14px;
   border-radius: 3.5px;
@@ -584,37 +585,76 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  position: relative;
 }
 
-.mac-checkbox.checked {
+.mac-checkbox-box .check-icon {
+  width: 10px;
+  height: 10px;
+  stroke: #FFFFFF;
+  stroke-width: 3;
+  display: none;
+}
+
+.mac-checkbox-box .dash-icon {
+  width: 8px;
+  height: 2px;
+  background-color: #FFFFFF;
+  border-radius: 1px;
+  display: none;
+}
+
+.mac-checkbox-box.checked {
   background-color: var(--apple-accent);
   border-color: var(--apple-accent);
 }
 
-.mac-checkbox svg {
-  width: 10px;
-  height: 10px;
-  stroke: white;
-  stroke-width: 2.5;
-  display: none;
-}
-
-.mac-checkbox.checked svg {
+.mac-checkbox-box.checked .check-icon {
   display: block;
 }
 
-/* MacRadio */
-.mac-radio-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  cursor: pointer;
-  user-select: none;
+.mac-checkbox-box.mixed {
+  background-color: var(--apple-accent);
+  border-color: var(--apple-accent);
 }
 
-.mac-radio {
+.mac-checkbox-box.mixed .dash-icon {
+  display: block;
+}
+
+.mac-checkbox-box.disabled,
+.mac-checkbox-row.disabled,
+.mac-checkbox-interactive.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* MacRadio */
+.mac-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.mac-radio-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 450;
+  cursor: pointer;
+  user-select: none;
+  color: var(--apple-label);
+  line-height: 1.4;
+  width: auto;
+}
+
+.mac-radio-circle {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -623,29 +663,45 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
-}
-
-.mac-radio.selected {
-  background-color: var(--apple-accent);
-  border-color: var(--apple-accent);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
 }
 
 .mac-radio-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: white;
+  background-color: #FFFFFF;
   display: none;
 }
 
-.mac-radio.selected .mac-radio-dot {
+.mac-radio-row.selected .mac-radio-circle {
+  background-color: var(--apple-accent);
+  border-color: var(--apple-accent);
+}
+
+.mac-radio-row.selected .mac-radio-dot {
   display: block;
+}
+
+.mac-radio-row.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.mac-radio-text {
+  font-size: 13px;
+  font-weight: 450;
+  color: var(--apple-label);
+  white-space: normal;
 }
 
 /* MacSegmentedControl */
 .mac-segmented {
   display: inline-flex;
+  align-items: center;
+  height: 28px;
   background-color: rgba(120, 120, 128, 0.16);
   padding: 2px;
   border-radius: 7px;
@@ -653,20 +709,48 @@ pre {
 }
 
 .mac-segment {
-  padding: 4px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 16px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 450;
   border-radius: 5px;
   cursor: pointer;
   color: var(--apple-label);
-  transition: all 0.15s;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  white-space: nowrap;
 }
 
+.mac-segment:not(:last-child):not(.active):not(.selected)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background-color: rgba(60, 60, 67, 0.2);
+}
+
+.mac-segment.active,
 .mac-segment.selected {
-  background-color: var(--apple-surface);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  background-color: var(--apple-surface-elevated, #FFFFFF);
+  color: var(--apple-label);
   font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.mac-segment.active::after,
+.mac-segment.selected::after {
+  display: none;
+}
+
+[data-theme="dark"] .mac-segment.active,
+[data-theme="dark"] .mac-segment.selected {
+  background-color: #636366;
+  color: #FFFFFF;
 }
 
 /* MacButton */

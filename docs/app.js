@@ -316,7 +316,7 @@ function initInteractiveComponents() {
 
   // MacRadio
   document.querySelectorAll('.mac-radio-group').forEach(group => {
-    const radios = group.querySelectorAll('.mac-radio:not(.disabled)');
+    const radios = group.querySelectorAll('.mac-radio-row:not(.disabled), .mac-radio:not(.disabled)');
     radios.forEach(radio => {
       radio.addEventListener('click', () => {
         radios.forEach(r => r.classList.remove('selected'));

@@ -1,0 +1,23 @@
+<svg width="400" height="180" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="180" rx="12" fill="#F5F5F7" stroke="#E5E5EA" stroke-width="1"/>
+  
+  <!-- Row 1: Selected -->
+  <g transform="translate(40, 35)">
+    <circle cx="8" cy="8" r="7" fill="#007AFF"/>
+    <circle cx="8" cy="8" r="3" fill="white"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Match All Keywords (Selected)</text>
+  </g>
+
+  <!-- Row 2: Unselected -->
+  <g transform="translate(40, 75)">
+    <circle cx="8" cy="8" r="7" fill="#FFFFFF" stroke="#C7C7CC" stroke-width="1"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Match Any Keyword (Unselected)</text>
+  </g>
+
+  <!-- Row 3: Disabled Selected -->
+  <g transform="translate(40, 115)" opacity="0.45">
+    <circle cx="8" cy="8" r="7" fill="#007AFF"/>
+    <circle cx="8" cy="8" r="3" fill="white"/>
+    <text x="28" y="13" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#1D1D1F">Natural Language Neural Search (Disabled)</text>
+  </g>
+</svg>

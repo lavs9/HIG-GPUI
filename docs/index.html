@@ -485,40 +485,98 @@ MacSwitch::new("mini-hdr-switch", self.hdr_preview)
             </div>
             <div class="preview-stage">
               <div style="display: flex; flex-direction: column; gap: 14px;">
-                <div class="mac-checkbox-interactive" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <div class="mac-checkbox-interactive mac-checkbox-row">
                   <div class="mac-checkbox-box checked">
                     <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     <div class="dash-icon"></div>
                   </div>
-                  <span style="font-size: 13px; font-weight: 500;">Enable Hardware Video Acceleration (Checked)</span>
+                  <span>Enable Hardware Video Acceleration (Checked)</span>
                 </div>
 
-                <div class="mac-checkbox-interactive" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <div class="mac-checkbox-interactive mac-checkbox-row">
                   <div class="mac-checkbox-box mixed">
                     <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     <div class="dash-icon"></div>
                   </div>
-                  <span style="font-size: 13px; font-weight: 500;">Batch Select Album Folders (Mixed / Indeterminate)</span>
+                  <span>Batch Select Album Folders (Mixed / Indeterminate)</span>
                 </div>
 
-                <div class="mac-checkbox-interactive" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <div class="mac-checkbox-interactive mac-checkbox-row">
                   <div class="mac-checkbox-box">
                     <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     <div class="dash-icon"></div>
                   </div>
-                  <span style="font-size: 13px; font-weight: 500;">Automatic Crash Reports (Unchecked)</span>
+                  <span>Automatic Crash Reports (Unchecked)</span>
                 </div>
               </div>
             </div>
             <div class="preview-controls">
               <span>Click any checkbox above to cycle: Checked → Mixed → Unchecked</span>
               <span class="mac-badge neutral">14×14 pt</span>
+            </div>
+          </div>
+
+          <!-- MacCheckbox State Gallery -->
+          <div class="state-gallery">
+            <div class="state-item">
+              <div class="state-label">Checked State</div>
+              <div class="mac-checkbox-row">
+                <div class="mac-checkbox-box checked">
+                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span>Checked Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">#007AFF Accent + Tick</span>
+            </div>
+            <div class="state-item">
+              <div class="state-label">Unchecked State</div>
+              <div class="mac-checkbox-row">
+                <div class="mac-checkbox-box"></div>
+                <span>Unchecked Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">3.5pt corner radius</span>
+            </div>
+            <div class="state-item">
+              <div class="state-label">Mixed State</div>
+              <div class="mac-checkbox-row">
+                <div class="mac-checkbox-box mixed">
+                  <div class="dash-icon" style="display: block;"></div>
+                </div>
+                <span>Indeterminate</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">Horizontal dash</span>
+            </div>
+            <div class="state-item">
+              <div class="state-label">Disabled State</div>
+              <div class="mac-checkbox-row disabled">
+                <div class="mac-checkbox-box checked">
+                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span style="color: var(--apple-tertiary-label);">Disabled Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">40% Opacity</span>
+            </div>
+            <div class="state-item dark-mode-card">
+              <div class="state-label">Dark Appearance</div>
+              <div class="mac-checkbox-row">
+                <div class="mac-checkbox-box checked">
+                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span style="color: #F5F5F7;">Dark Checked</span>
+              </div>
+              <span style="font-size: 11px; color: #8E8E93;">Dynamic contrast</span>
             </div>
           </div>
 
@@ -567,18 +625,18 @@ MacCheckbox::new("export-metadata", MacCheckboxState::Checked)
               <span style="width: 40px;"></span>
             </div>
             <div class="preview-stage">
-              <div class="mac-radio-group" style="display: flex; flex-direction: column; gap: 14px;">
-                <div class="mac-radio selected" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+              <div class="mac-radio-group">
+                <div class="mac-radio-row selected">
                   <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                  <span style="font-size: 13px; font-weight: 500;">Match All Keywords (AND condition)</span>
+                  <span class="mac-radio-text">Match All Keywords (AND condition)</span>
                 </div>
-                <div class="mac-radio" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <div class="mac-radio-row">
                   <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                  <span style="font-size: 13px; font-weight: 500;">Match Any Keyword (OR condition)</span>
+                  <span class="mac-radio-text">Match Any Keyword (OR condition)</span>
                 </div>
-                <div class="mac-radio" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <div class="mac-radio-row">
                   <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                  <span style="font-size: 13px; font-weight: 500;">Natural Language Neural Semantic Search</span>
+                  <span class="mac-radio-text">Natural Language Neural Semantic Search</span>
                 </div>
               </div>
             </div>
@@ -586,6 +644,63 @@ MacCheckbox::new("export-metadata", MacCheckboxState::Checked)
               <span>HIG Spec: 14×14pt circle, 6pt concentric selection dot</span>
               <span class="mac-badge neutral">Mutual Exclusion</span>
             </div>
+          </div>
+
+          <!-- MacRadio State Gallery -->
+          <div class="state-gallery">
+            <div class="state-item">
+              <div class="state-label">Selected State</div>
+              <div class="mac-radio-row selected">
+                <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                <span class="mac-radio-text">Active Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">Concentric dot</span>
+            </div>
+            <div class="state-item">
+              <div class="state-label">Unselected State</div>
+              <div class="mac-radio-row">
+                <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                <span class="mac-radio-text">Inactive Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">Empty circle</span>
+            </div>
+            <div class="state-item">
+              <div class="state-label">Disabled Selected</div>
+              <div class="mac-radio-row selected disabled">
+                <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                <span class="mac-radio-text" style="color: var(--apple-tertiary-label);">Disabled Option</span>
+              </div>
+              <span style="font-size: 11px; color: var(--apple-secondary-label);">40% Opacity</span>
+            </div>
+            <div class="state-item dark-mode-card">
+              <div class="state-label">Dark Appearance</div>
+              <div class="mac-radio-row selected">
+                <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                <span class="mac-radio-text" style="color: #F5F5F7;">Dark Selected</span>
+              </div>
+              <span style="font-size: 11px; color: #8E8E93;">Adaptive dark accent</span>
+            </div>
+          </div>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-tab">Rust GPUI Implementation</span>
+              <button class="copy-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <pre><code>use gpui_apple_hig::MacRadio;
+
+MacRadio::new("search-mode-and", self.search_mode == SearchMode::And)
+    .label("Match All Keywords (AND condition)")
+    .on_click(cx.listener(|this, _event, cx| {
+        this.search_mode = SearchMode::And;
+        cx.notify();
+    }))</code></pre>
           </div>
         </section>
 
