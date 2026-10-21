@@ -77,6 +77,8 @@ pub struct AppleColors {
     pub toolbar_background: Hsla,
     pub control_background: Hsla,
     pub control_background_hover: Hsla,
+    pub control_hover: Hsla,
+    pub control_pressed: Hsla,
     pub popover_background: Hsla,
 
     // Labels & Text
@@ -118,6 +120,8 @@ impl AppleColors {
             toolbar_background: rgb(0xF6F6F6).into(),
             control_background: rgb(0xFFFFFF).into(),
             control_background_hover: rgb(0xF5F5F7).into(),
+            control_hover: rgba(0x0000000D).into(),
+            control_pressed: rgba(0x0000001A).into(),
             popover_background: rgb(0xFFFFFF).into(),
 
             // Text
@@ -158,6 +162,8 @@ impl AppleColors {
             toolbar_background: rgb(0x242426).into(),
             control_background: rgba(0xFFFFFF1F).into(),
             control_background_hover: rgba(0xFFFFFF2E).into(),
+            control_hover: rgba(0xFFFFFF1F).into(),
+            control_pressed: rgba(0xFFFFFF2E).into(),
             popover_background: rgb(0x252528).into(),
 
             // Text

@@ -33,10 +33,37 @@ fn test_keyboard_shortcut_formatting() {
     assert_eq!(format_mac_shortcut("cmd+,"), "⌘,");
     assert_eq!(format_mac_shortcut("alt+enter"), "⌥↵");
     assert_eq!(format_mac_shortcut("ctrl+c"), "⌃c");
+    assert_eq!(format_mac_shortcut("secondary-f"), "⌘f");
 }
 
 #[test]
 fn test_checkbox_state_conversion() {
     assert_eq!(MacCheckboxState::from(true), MacCheckboxState::Checked);
     assert_eq!(MacCheckboxState::from(false), MacCheckboxState::Unchecked);
+}
+
+#[test]
+fn test_button_sizes() {
+    assert_eq!(MacButtonSize::Small.height(), 20.0);
+    assert_eq!(MacButtonSize::Regular.height(), 24.0);
+    assert_eq!(MacButtonSize::Large.height(), 28.0);
+}
+
+#[test]
+fn test_spinner_sizes() {
+    assert_eq!(MacSpinnerSize::Small.size_px(), 16.0);
+    assert_eq!(MacSpinnerSize::Regular.size_px(), 24.0);
+    assert_eq!(MacSpinnerSize::Large.size_px(), 32.0);
+}
+
+#[test]
+fn test_text_field_sizes() {
+    assert_eq!(MacFieldSize::Small.height(), 20.0);
+    assert_eq!(MacFieldSize::Regular.height(), 24.0);
+    assert_eq!(MacFieldSize::Large.height(), 28.0);
+}
+
+#[test]
+fn test_dialog_variants() {
+    assert_eq!(MacDialogVariant::default(), MacDialogVariant::Informational);
 }

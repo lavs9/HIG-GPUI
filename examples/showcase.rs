@@ -1,5 +1,6 @@
 use gpui_kit::assets::IconName;
 use gpui_kit::component::input::InputState;
+use gpui_kit::component::scroll::ScrollableElement;
 use gpui_kit::component::TitleBar;
 use gpui_kit::*;
 
@@ -12,12 +13,19 @@ struct ShowcaseApp {
     mini_switch_val: bool,
     checkbox_val: bool,
     segmented_idx: usize,
+    slider_val: f32,
+    stepper_val: i32,
+    popup_idx: usize,
+    disclosure_expanded: bool,
+    show_dialog: bool,
     search_state: Entity<InputState>,
+    text_state: Entity<InputState>,
 }
 
 impl ShowcaseApp {
     fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
         let search_state = cx.new(|cx| InputState::new(window, cx).placeholder("Search photos, clips, songs..."));
+        let text_state = cx.new(|cx| InputState::new(window, cx).placeholder("Enter account name…"));
         Self {
             is_dark: false,
             accent: MacAccentColor::Blue,
@@ -25,7 +33,13 @@ impl ShowcaseApp {
             mini_switch_val: false,
             checkbox_val: true,
             segmented_idx: 0,
+            slider_val: 65.0,
+            stepper_val: 42,
+            popup_idx: 0,
+            disclosure_expanded: false,
+            show_dialog: false,
             search_state,
+            text_state,
         }
     }
 }
@@ -39,7 +53,7 @@ impl Render for ShowcaseApp {
             AppleColors::light(self.accent)
         };
 
-        div()
+        let mut root = div()
             .size_full()
             .bg(apple_colors.window_background)
             .flex()
@@ -74,10 +88,11 @@ impl Render for ShowcaseApp {
                             })),
                     ),
             )
-            // Main content area
+            // Main content area with scroll
             .child(
                 div()
                     .flex_1()
+                    .overflow_y_scrollbar()
                     .p(px(24.0))
                     .flex()
                     .flex_col()
@@ -88,7 +103,7 @@ impl Render for ShowcaseApp {
                             .title("Appearance")
                             .row(
                                 MacSettingsRow::new("row_mode", "Color Scheme")
-                                    .subtitle("Match system, or force Light / Dark")
+                                    .subtitle("Match system, or toggle Light / Dark")
                                     .icon(IconName::Sun)
                                     .control(
                                         MacSegmentedControl::new("theme_segmented")
@@ -147,13 +162,137 @@ impl Render for ShowcaseApp {
                                     ),
                             ),
                     )
+                    // Sliders & Adjustments Group
+                    .child(
+                        MacSettingsGroup::new("group_sliders")
+                            .title("Sliders & Steppers")
+                            .row(
+                                MacSettingsRow::new("row_slider", "Brightness")
+                                    .subtitle(format!("{:.0}%", self.slider_val))
+                                    .icon(IconName::Sun)
+                                    .control(
+                                        div()
+                                            .w(px(200.0))
+                                            .child(
+                                                MacSlider::new("brightness_slider")
+                                                    .value(self.slider_val)
+                                                    .min(0.0)
+                                                    .max(100.0)
+                                                    .on_change(cx.listener(|this, val: &f32, _, cx| {
+                                                        this.slider_val = *val;
+                                                        cx.notify();
+                                                    })),
+                                            ),
+                                    ),
+                            )
+                            .row(
+                                MacSettingsRow::new("row_stepper", "Cache Size")
+                                    .subtitle(format!("{} GB", self.stepper_val))
+                                    .control(
+                                        div()
+                                            .flex()
+                                            .items_center()
+                                            .gap_2()
+                                            .child(div().mac_body().child(format!("{} GB", self.stepper_val)))
+                                            .child(
+                                                MacStepper::new("stepper")
+                                                    .on_increment(cx.listener(|this, _, _, cx| {
+                                                        this.stepper_val += 1;
+                                                        cx.notify();
+                                                    }))
+                                                    .on_decrement(cx.listener(|this, _, _, cx| {
+                                                        this.stepper_val = (this.stepper_val - 1).max(0);
+                                                        cx.notify();
+                                                    })),
+                                            ),
+                                    ),
+                            )
+                            .row(
+                                MacSettingsRow::new("row_color", "Accent Swatch")
+                                    .subtitle("Custom color well")
+                                    .control(
+                                        MacColorWell::new("swatch", apple_colors.accent),
+                                    ),
+                            ),
+                    )
+                    // Menus & Inputs Group
+                    .child(
+                        MacSettingsGroup::new("group_inputs")
+                            .title("Menus & Inputs")
+                            .row(
+                                MacSettingsRow::new("row_popup", "Format")
+                                    .subtitle("Mutual exclusion pop-up button")
+                                    .control(
+                                        MacPopupButton::new("format_popup")
+                                            .item(MacMenuItem::new("jpeg", "JPEG Image"))
+                                            .item(MacMenuItem::new("png", "PNG Image"))
+                                            .item(MacMenuItem::new("heic", "HEIC Photo"))
+                                            .selected_index(self.popup_idx)
+                                            .on_change(cx.listener(|this, idx: &usize, _, cx| {
+                                                this.popup_idx = *idx;
+                                                cx.notify();
+                                            })),
+                                    ),
+                            )
+                            .row(
+                                MacSettingsRow::new("row_pulldown", "Action Menu")
+                                    .subtitle("Contextual pull-down button")
+                                    .control(
+                                        MacPullDownButton::new("action_pulldown", "Export As…")
+                                            .icon(IconName::Share),
+                                    ),
+                            )
+                            .row(
+                                MacSettingsRow::new("row_text", "Account")
+                                    .subtitle("Standard text field with focus ring")
+                                    .control(
+                                        div()
+                                            .w(px(200.0))
+                                            .child(MacTextField::new("acc_field", self.text_state.clone())),
+                                    ),
+                            ),
+                    )
+                    // Progress & Spinners Group
+                    .child(
+                        MacSettingsGroup::new("group_progress")
+                            .title("Indicators")
+                            .row(
+                                MacSettingsRow::new("row_prog", "Index Status")
+                                    .subtitle("Determinate progress bar (72%)")
+                                    .control(
+                                        div()
+                                            .w(px(160.0))
+                                            .child(MacProgress::new("prog").value(0.72)),
+                                    ),
+                            )
+                            .row(
+                                MacSettingsRow::new("row_spinner", "Background Sync")
+                                    .subtitle("Circular activity spinner")
+                                    .control(MacSpinner::new("spinner")),
+                            ),
+                    )
+                    // Disclosure Section
+                    .child(
+                        MacDisclosure::new("adv_disclosure", "Advanced Options")
+                            .expanded(self.disclosure_expanded)
+                            .on_toggle(cx.listener(|this, exp: &bool, _, cx| {
+                                this.disclosure_expanded = *exp;
+                                cx.notify();
+                            }))
+                            .child(
+                                div()
+                                    .mac_caption()
+                                    .text_color(apple_colors.secondary_label)
+                                    .child("Additional developer configuration options displayed in an expanding section."),
+                            ),
+                    )
                     // Action Buttons
                     .child(
                         MacSettingsGroup::new("group_actions")
-                            .title("Buttons")
+                            .title("Buttons & Modals")
                             .row(
-                                MacSettingsRow::new("row_buttons", "Button Styles")
-                                    .subtitle("Standard push, prominent accent, and destructive")
+                                MacSettingsRow::new("row_buttons", "Action Hierarchy")
+                                    .subtitle("Push, prominent accent, and alert modal")
                                     .control(
                                         div()
                                             .flex()
@@ -169,9 +308,13 @@ impl Render for ShowcaseApp {
                                                     .label("Save Changes"),
                                             )
                                             .child(
-                                                MacButton::new("btn_destructive")
+                                                MacButton::new("btn_alert")
                                                     .destructive()
-                                                    .label("Remove Index"),
+                                                    .label("Show Alert Dialog")
+                                                    .on_click(cx.listener(|this, _, _, cx| {
+                                                        this.show_dialog = true;
+                                                        cx.notify();
+                                                    })),
                                             ),
                                     ),
                             ),
@@ -183,7 +326,28 @@ impl Render for ShowcaseApp {
                     .leading(div().child("Apple HIG Design System"))
                     .center(MacBadge::new("badge_status", "4,281 items indexed").success())
                     .trailing(MacKbd::new("kbd_hint", "⇧⌘Space")),
-            )
+            );
+
+        if self.show_dialog {
+            root = root.child(
+                MacDialog::new("dialog", "Remove Photo Index?")
+                    .critical()
+                    .message("This removes the local embedding index from disk. You can recreate it at any time.")
+                    .primary_label("Remove")
+                    .secondary_label(Some("Cancel".into()))
+                    .destructive(true)
+                    .on_secondary(cx.listener(|this, _, _, cx| {
+                        this.show_dialog = false;
+                        cx.notify();
+                    }))
+                    .on_primary(cx.listener(|this, _, _, cx| {
+                        this.show_dialog = false;
+                        cx.notify();
+                    })),
+            );
+        }
+
+        root
     }
 }
 
@@ -192,7 +356,7 @@ fn main() {
         init(cx);
         apply_apple_theme(false, MacAccentColor::Blue, cx);
 
-        let bounds = Bounds::centered(None, size(px(960.0), px(640.0)), cx);
+        let bounds = Bounds::centered(None, size(px(960.0), px(720.0)), cx);
         let options = WindowOptions {
             window_bounds: Some(WindowBounds::Windowed(bounds)),
             window_min_size: Some(size(px(600.0), px(400.0))),
