@@ -1099,67 +1099,208 @@ function initInteractivePlaygrounds() {
   textDisabledCheck?.addEventListener('change', updateTextField);
 
   // ----------------------------------------------------
-  // 14. MacPopupButton Playground
+  // 14. MacPopupButton & MacPullDownButton Playground
   // ----------------------------------------------------
   const popupTargetBtn = document.getElementById('knob-target-popup-btn');
   const popupLabelDisp = document.getElementById('knob-popup-label');
   const popupDropdownMenu = document.getElementById('knob-popup-dropdown');
   const popupSelectKnob = document.getElementById('knob-popup-select');
+
+  const pulldownTargetBtn = document.getElementById('knob-target-pulldown-btn');
+  const pulldownLabelDisp = document.getElementById('knob-pulldown-label');
+  const pulldownDropdownMenu = document.getElementById('knob-pulldown-dropdown');
+  const pulldownSelectKnob = document.getElementById('knob-pulldown-label-select');
+
+  const popupModeKnob = document.getElementById('knob-popup-mode');
+  const popupModeBadge = document.getElementById('popup-mode-badge');
+  const containerPopup = document.getElementById('container-popup-control');
+  const containerPulldown = document.getElementById('container-pulldown-control');
+  const rowKnobPopupProfile = document.getElementById('row-knob-popup-profile');
+  const rowKnobPulldownAction = document.getElementById('row-knob-pulldown-action');
+
   const popupDisabledCheck = document.getElementById('knob-popup-disabled');
   const popupCode = document.getElementById('dynamic-code-popup');
 
-  function updatePopup(val) {
-    const selected = val || popupSelectKnob?.value || 'Export as sRGB (Web)';
+  function updatePopupControls(selectedProfileVal, pulldownLabelVal) {
+    const mode = popupModeKnob?.value || 'both';
     const isDisabled = popupDisabledCheck?.checked || false;
+    const selectedProfile = selectedProfileVal || popupSelectKnob?.value || 'Display P3 (Wide Color)';
+    const pulldownTitle = pulldownLabelVal || pulldownSelectKnob?.value || 'Export Actions';
 
-    if (popupLabelDisp) popupLabelDisp.textContent = selected;
-    if (popupSelectKnob) popupSelectKnob.value = selected;
+    // Update Mode Visibility & Badges
+    if (popupModeBadge) {
+      if (mode === 'both') popupModeBadge.textContent = 'Side-by-Side';
+      else if (mode === 'popup') popupModeBadge.textContent = 'Pop-Up Only';
+      else if (mode === 'pulldown') popupModeBadge.textContent = 'Pull-Down Only';
+    }
+
+    if (containerPopup) {
+      containerPopup.style.display = (mode === 'pulldown') ? 'none' : 'flex';
+    }
+    if (containerPulldown) {
+      containerPulldown.style.display = (mode === 'popup') ? 'none' : 'flex';
+    }
+    if (rowKnobPopupProfile) {
+      rowKnobPopupProfile.style.display = (mode === 'pulldown') ? 'none' : 'flex';
+    }
+    if (rowKnobPulldownAction) {
+      rowKnobPulldownAction.style.display = (mode === 'popup') ? 'none' : 'flex';
+    }
+
+    // Update Pop-Up Button state
+    if (popupLabelDisp) popupLabelDisp.textContent = selectedProfile;
+    if (popupSelectKnob) popupSelectKnob.value = selectedProfile;
 
     if (popupDropdownMenu) {
-      popupDropdownMenu.querySelectorAll('.mac-popover-item').forEach(item => {
-        if (item.getAttribute('data-value') === selected || item.textContent.trim() === selected) {
+      popupDropdownMenu.querySelectorAll('.mac-dropdown-item, .mac-popover-item').forEach(item => {
+        const val = item.getAttribute('data-value') || item.querySelector('.mac-dropdown-title')?.textContent?.trim() || item.textContent.trim();
+        const checkEl = item.querySelector('.mac-dropdown-check');
+        if (val === selectedProfile) {
           item.classList.add('selected');
+          if (checkEl) checkEl.textContent = '✓';
         } else {
           item.classList.remove('selected');
+          if (checkEl) checkEl.textContent = '';
         }
       });
     }
 
     if (popupTargetBtn) {
-      if (isDisabled) popupTargetBtn.classList.add('disabled');
-      else popupTargetBtn.classList.remove('disabled');
+      if (isDisabled) {
+        popupTargetBtn.classList.add('disabled');
+        popupTargetBtn.setAttribute('aria-disabled', 'true');
+      } else {
+        popupTargetBtn.classList.remove('disabled');
+        popupTargetBtn.removeAttribute('aria-disabled');
+      }
     }
 
+    // Update Pull-Down Button state
+    if (pulldownLabelDisp) pulldownLabelDisp.textContent = pulldownTitle;
+    if (pulldownSelectKnob) pulldownSelectKnob.value = pulldownTitle;
+
+    if (pulldownTargetBtn) {
+      if (isDisabled) {
+        pulldownTargetBtn.classList.add('disabled');
+        pulldownTargetBtn.setAttribute('aria-disabled', 'true');
+      } else {
+        pulldownTargetBtn.classList.remove('disabled');
+        pulldownTargetBtn.removeAttribute('aria-disabled');
+      }
+    }
+
+    // Dynamic GPUI Code Generation
     if (popupCode) {
-      popupCode.textContent = `MacPopupButton::new("color-space-popup")\n    .selected("${selected}")\n    .disabled(${isDisabled})\n    .item("sRGB (Web)")\n    .item("Display P3 (Wide Color)")\n    .item("Adobe RGB (Print)")\n    .item("ProPhoto RGB (Archival)")\n    .on_select(cx.listener(|this, val, cx| {\n        this.target_profile = val.to_string();\n    }))`;
+      const profileIndex = selectedProfile.includes('P3') ? 0
+        : selectedProfile.includes('sRGB') ? 1
+        : selectedProfile.includes('Adobe') ? 2 : 3;
+
+      if (mode === 'both') {
+        popupCode.textContent = `// 1. Mutually Exclusive Pop-Up Button (Double Chevrons)
+MacPopupButton::new("color-space")
+    .item(MacMenuItem::new("p3", "Display P3 (Wide Color)"))
+    .item(MacMenuItem::new("srgb", "sRGB (Web Standard)"))
+    .item(MacMenuItem::new("adobe", "Adobe RGB (1998)"))
+    .item(MacMenuItem::new("prophoto", "ProPhoto RGB (Archival)"))
+    .selected_index(${profileIndex})
+    .disabled(${isDisabled})
+    .on_change(cx.listener(|this, idx, cx| {
+        this.selected_color_space = *idx;
+    }))
+
+// 2. Action Trigger Pull-Down Button (Single Chevron)
+MacPullDownButton::new("export-actions", "${pulldownTitle}")
+    .icon(IconName::Share)
+    .disabled(${isDisabled})
+    .on_click(cx.listener(|this, _event, cx| {
+        this.show_export_menu(cx);
+    }))`;
+      } else if (mode === 'popup') {
+        popupCode.textContent = `MacPopupButton::new("color-space")
+    .item(MacMenuItem::new("p3", "Display P3 (Wide Color)"))
+    .item(MacMenuItem::new("srgb", "sRGB (Web Standard)"))
+    .item(MacMenuItem::new("adobe", "Adobe RGB (1998)"))
+    .item(MacMenuItem::new("prophoto", "ProPhoto RGB (Archival)"))
+    .selected_index(${profileIndex})
+    .disabled(${isDisabled})
+    .on_change(cx.listener(|this, idx, cx| {
+        this.selected_color_space = *idx;
+    }))`;
+      } else {
+        popupCode.textContent = `MacPullDownButton::new("export-actions", "${pulldownTitle}")
+    .icon(IconName::Share)
+    .disabled(${isDisabled})
+    .on_click(cx.listener(|this, _event, cx| {
+        this.show_export_menu(cx);
+    }))`;
+      }
     }
   }
 
+  // Pop-Up Button Interactions
   if (popupTargetBtn && popupDropdownMenu) {
     popupTargetBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (popupTargetBtn.classList.contains('disabled')) return;
-      popupDropdownMenu.classList.toggle('open');
+      if (pulldownDropdownMenu) pulldownDropdownMenu.classList.remove('open');
+      const isOpen = popupDropdownMenu.classList.toggle('open');
+      popupTargetBtn.setAttribute('aria-expanded', String(isOpen));
     });
 
-    popupDropdownMenu.querySelectorAll('.mac-popover-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const val = item.getAttribute('data-value') || item.textContent.trim();
-        updatePopup(val);
+    popupDropdownMenu.querySelectorAll('.mac-dropdown-item, .mac-popover-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = item.getAttribute('data-value') || item.querySelector('.mac-dropdown-title')?.textContent?.trim() || item.textContent.trim();
+        updatePopupControls(val);
         popupDropdownMenu.classList.remove('open');
-        showToast(`Profile: ${val}`);
+        popupTargetBtn.setAttribute('aria-expanded', 'false');
+        showToast(`Color Profile: ${val}`);
       });
     });
+  }
 
-    document.addEventListener('click', (e) => {
-      if (!popupTargetBtn.contains(e.target) && !popupDropdownMenu.contains(e.target)) {
-        popupDropdownMenu.classList.remove('open');
-      }
+  // Pull-Down Button Interactions
+  if (pulldownTargetBtn && pulldownDropdownMenu) {
+    pulldownTargetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (pulldownTargetBtn.classList.contains('disabled')) return;
+      if (popupDropdownMenu) popupDropdownMenu.classList.remove('open');
+      const isOpen = pulldownDropdownMenu.classList.toggle('open');
+      pulldownTargetBtn.setAttribute('aria-expanded', String(isOpen));
     });
 
-    popupSelectKnob?.addEventListener('change', () => updatePopup(popupSelectKnob.value));
-    popupDisabledCheck?.addEventListener('change', () => updatePopup());
+    pulldownDropdownMenu.querySelectorAll('.mac-dropdown-item, .mac-popover-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = item.getAttribute('data-action') || item.querySelector('.mac-dropdown-title')?.textContent?.trim() || item.textContent.trim();
+        const shortcut = item.getAttribute('data-shortcut') || item.querySelector('.mac-kbd')?.textContent?.trim() || '';
+        pulldownDropdownMenu.classList.remove('open');
+        pulldownTargetBtn.setAttribute('aria-expanded', 'false');
+        showToast(`Executed: ${action}${shortcut ? ' (' + shortcut + ')' : ''}`);
+      });
+    });
   }
+
+  // Global Outside Click to dismiss both menus
+  document.addEventListener('click', (e) => {
+    if (popupDropdownMenu && popupTargetBtn && !popupTargetBtn.contains(e.target) && !popupDropdownMenu.contains(e.target)) {
+      popupDropdownMenu.classList.remove('open');
+      popupTargetBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (pulldownDropdownMenu && pulldownTargetBtn && !pulldownTargetBtn.contains(e.target) && !pulldownDropdownMenu.contains(e.target)) {
+      pulldownDropdownMenu.classList.remove('open');
+      pulldownTargetBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Sidebar controls
+  popupModeKnob?.addEventListener('change', () => updatePopupControls());
+  popupSelectKnob?.addEventListener('change', () => updatePopupControls(popupSelectKnob.value));
+  pulldownSelectKnob?.addEventListener('change', () => updatePopupControls(undefined, pulldownSelectKnob.value));
+  popupDisabledCheck?.addEventListener('change', () => updatePopupControls());
+
+  // Initialize
+  updatePopupControls();
 
   // ----------------------------------------------------
   // 15. MacContextMenu Playground

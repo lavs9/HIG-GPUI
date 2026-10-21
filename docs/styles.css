@@ -1200,13 +1200,20 @@ pre {
 }
 
 /* MacPopupButton & MacPullDownButton */
-.mac-popup-btn {
+.mac-menu-anchor {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+}
+
+.mac-popup-btn,
+.mac-pulldown-btn {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  height: 24px;
-  padding: 0 8px 0 10px;
+  gap: 8px;
+  height: 26px;
+  padding: 0 10px;
   border-radius: var(--radius-control);
   border: 1px solid var(--apple-border);
   background-color: var(--apple-surface);
@@ -1218,23 +1225,235 @@ pre {
   box-shadow: var(--shadow-sm);
   user-select: none;
   position: relative;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
 }
 
-.mac-popup-btn:hover {
+.mac-popup-btn:hover,
+.mac-pulldown-btn:hover {
   background-color: var(--apple-surface-hover);
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
-.mac-popup-btn.disabled {
-  opacity: 0.5;
+[data-theme="dark"] .mac-popup-btn:hover,
+[data-theme="dark"] .mac-pulldown-btn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.mac-popup-btn:active,
+.mac-pulldown-btn:active {
+  background-color: var(--apple-surface-active);
+}
+
+.mac-popup-btn.disabled,
+.mac-pulldown-btn.disabled {
+  opacity: 0.45;
   pointer-events: none;
+  cursor: not-allowed;
+}
+
+.mac-btn-icon-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.mac-btn-svg-icon {
+  display: inline-flex;
+  color: var(--apple-secondary-label);
+  flex-shrink: 0;
 }
 
 .mac-popup-chevrons {
+  font-size: 8px;
+  color: var(--apple-secondary-label);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1;
+  margin-left: 4px;
+}
+
+.mac-pulldown-chevron {
   font-size: 10px;
   color: var(--apple-secondary-label);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+/* Dropdown Menu Anchored to Buttons */
+.mac-dropdown-menu,
+.mac-popover-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  min-width: 240px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+  z-index: 250;
+  display: none;
+  flex-direction: column;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  animation: macMenuFadeIn 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes macMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mac-dropdown-menu.open,
+.mac-popover-menu.open {
+  display: flex;
+}
+
+.mac-menu-section-title {
+  padding: 6px 8px 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--apple-tertiary-label);
+  text-transform: uppercase;
+}
+
+.mac-dropdown-item,
+.mac-popover-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12.5px;
+  color: var(--apple-label);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.mac-dropdown-item:hover,
+.mac-popover-item:hover {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+.mac-dropdown-item:hover .mac-dropdown-check,
+.mac-dropdown-item:hover .mac-dropdown-meta,
+.mac-dropdown-item:hover .mac-kbd,
+.mac-dropdown-item:hover .mac-dropdown-icon,
+.mac-popover-item:hover .mac-kbd,
+.mac-popover-item:hover .mac-dropdown-meta {
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mac-dropdown-check {
+  width: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--apple-accent);
+}
+
+.mac-dropdown-item.selected .mac-dropdown-check::before {
+  content: "✓";
+}
+
+.mac-dropdown-title {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.mac-dropdown-icon {
+  font-size: 13px;
+  width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mac-dropdown-meta {
+  font-size: 11px;
+  color: var(--apple-secondary-label);
+}
+
+.mac-dropdown-separator {
+  height: 1px;
+  background-color: var(--apple-separator);
+  margin: 4px 6px;
+}
+
+/* Inspector Showcase Card */
+.mac-popup-showcase-card {
+  width: 100%;
+  max-width: 580px;
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  line-height: 0.8;
+  gap: 18px;
+}
+
+.mac-popup-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--apple-separator);
+  padding-bottom: 12px;
+}
+
+.mac-popup-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apple-label);
+}
+
+.mac-popup-card-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mac-popup-card-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.mac-popup-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--apple-label);
+}
+
+.mac-popup-card-hint {
+  font-size: 11px;
+  color: var(--apple-secondary-label);
+}
+
+.mac-popup-card-footer {
+  font-size: 11px;
+  color: var(--apple-tertiary-label);
+  line-height: 1.4;
 }
 
 /* MacDisclosure */
@@ -1638,51 +1857,7 @@ pre {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Floating Popover Menus */
-.mac-popover-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 6px;
-  background-color: var(--apple-surface);
-  border: 1px solid var(--apple-border);
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  padding: 5px;
-  min-width: 180px;
-  z-index: 100;
-  display: none;
-  flex-direction: column;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
 
-.mac-popover-menu.open {
-  display: flex;
-}
-
-.mac-popover-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12.5px;
-  color: var(--apple-label);
-  cursor: pointer;
-  user-select: none;
-}
-
-.mac-popover-item:hover {
-  background-color: var(--apple-accent);
-  color: #FFFFFF;
-}
-
-.mac-popover-item.selected::before {
-  content: "✓";
-  font-weight: 700;
-  margin-right: 8px;
-}
 
 /* Modal Alert Sheet Overlay */
 .mac-modal-overlay {

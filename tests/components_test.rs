@@ -323,3 +323,17 @@ fn test_material_surface_construction() {
         .corner_radius(12.0);
     let _ = surface;
 }
+
+#[test]
+fn test_popup_and_pulldown_button_construction() {
+    let popup = MacPopupButton::new("profile-popup")
+        .item(MacMenuItem::new("p3", "Display P3"))
+        .item(MacMenuItem::new("srgb", "sRGB"))
+        .selected_index(1)
+        .disabled(false);
+    let _ = popup;
+
+    let pulldown = MacPullDownButton::new("export-pulldown", "Export Actions")
+        .disabled(false);
+    let _ = pulldown;
+}
