@@ -19,8 +19,20 @@ Built in accordance with [Apple HIG](https://developer.apple.com/design/human-in
 ### Toggle Switches (`MacSwitch`)
 ![MacSwitch Preview](docs/assets/images/mac-switch-preview.svg)
 
+### Checkboxes (`MacCheckbox`)
+![MacCheckbox Preview](docs/assets/images/mac-checkbox-preview.svg)
+
+### Radio Buttons (`MacRadio`)
+![MacRadio Preview](docs/assets/images/mac-radio-preview.svg)
+
 ### Segmented Controls (`MacSegmentedControl`)
 ![MacSegmentedControl Preview](docs/assets/images/mac-segmented-preview.svg)
+
+### Search Fields (`MacSearchField`)
+![MacSearchField Preview](docs/assets/images/mac-searchfield-preview.svg)
+
+### Sliders (`MacSlider`)
+![MacSlider Preview](docs/assets/images/mac-slider-preview.svg)
 
 ### Buttons (`MacButton`)
 ![MacButton Preview](docs/assets/images/mac-button-preview.svg)
