@@ -2299,3 +2299,154 @@ pre {
 .mac-chart-bar-rect:hover {
   filter: brightness(1.1);
 }
+
+/* ==========================================================================
+   21. Apple HIG Materials & Vibrancy Playground Styles
+   ========================================================================== */
+
+.material-stage-container {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  transition: background 0.5s ease;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Scenic Desktop Wallpapers */
+.material-stage-container.wp-sonoma {
+  background: linear-gradient(135deg, #FF6B4A 0%, #F04375 28%, #8E2DE2 68%, #4A00E0 100%);
+}
+.material-stage-container.wp-sequoia {
+  background: linear-gradient(135deg, #093028 0%, #237A57 45%, #4CA1AF 85%, #2C5364 100%);
+}
+.material-stage-container.wp-ventura {
+  background: linear-gradient(135deg, #FF9900 0%, #FF5E62 35%, #D6249F 70%, #285AEB 100%);
+}
+.material-stage-container.wp-monterey {
+  background: linear-gradient(135deg, #181924 0%, #2D1B4E 35%, #592070 70%, #15102A 100%);
+}
+
+/* Wallpaper Graphic Accents / Behind-glass orbs for maximum refraction visibility */
+.material-wallpaper-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(2px);
+}
+.material-wallpaper-orb.orb-1 {
+  width: 220px;
+  height: 220px;
+  top: 15%;
+  left: 10%;
+  background: radial-gradient(circle, rgba(255, 235, 59, 0.6) 0%, rgba(255, 152, 0, 0) 70%);
+}
+.material-wallpaper-orb.orb-2 {
+  width: 260px;
+  height: 260px;
+  bottom: 10%;
+  right: 15%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.5) 0%, rgba(41, 121, 255, 0) 70%);
+}
+
+/* Floating Frosted Glass Card */
+.material-glass-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.32);
+  transition: backdrop-filter 0.25s ease, -webkit-backdrop-filter 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.material-glass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  user-select: none;
+}
+
+.material-glass-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.material-glass-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.material-hud-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: fit-content;
+}
+
+.material-sample-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Wallpaper selector thumbnails */
+.wallpaper-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.wallpaper-thumb {
+  width: 40px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.wallpaper-thumb:hover {
+  transform: scale(1.08);
+}
+.wallpaper-thumb.active {
+  border-color: #FFFFFF;
+  box-shadow: 0 0 0 1.5px var(--apple-accent);
+}
+.wallpaper-thumb.thumb-sonoma {
+  background: linear-gradient(135deg, #FF6B4A, #8E2DE2);
+}
+.wallpaper-thumb.thumb-sequoia {
+  background: linear-gradient(135deg, #093028, #4CA1AF);
+}
+.wallpaper-thumb.thumb-ventura {
+  background: linear-gradient(135deg, #FF9900, #285AEB);
+}
+.wallpaper-thumb.thumb-monterey {
+  background: linear-gradient(135deg, #181924, #592070);
+}
+

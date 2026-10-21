@@ -289,6 +289,56 @@ impl Render for ShowcaseApp {
                                     .child("Additional developer configuration options displayed in an expanding section."),
                             ),
                     )
+                    // Materials & Vibrancy Group
+                    .child(
+                        MacSettingsGroup::new("group_materials")
+                            .title("Materials & Vibrancy")
+                            .row(
+                                MacSettingsRow::new("row_materials_spectrum", "Thickness Tiers")
+                                    .subtitle("UltraThin (16px), Thin (24px), Regular (32px), Thick (44px), UltraThick (60px)")
+                                    .control(
+                                        div()
+                                            .flex()
+                                            .items_center()
+                                            .gap_2()
+                                            .child(
+                                                MacMaterialSurface::new("mat_ultra_thin")
+                                                    .thickness(MacMaterialThickness::UltraThin)
+                                                    .is_dark(self.is_dark)
+                                                    .corner_radius(6.0)
+                                                    .child(div().px_2().py_1().text_size(px(10.0)).child("UltraThin")),
+                                            )
+                                            .child(
+                                                MacMaterialSurface::new("mat_thin")
+                                                    .thickness(MacMaterialThickness::Thin)
+                                                    .is_dark(self.is_dark)
+                                                    .corner_radius(6.0)
+                                                    .child(div().px_2().py_1().text_size(px(10.0)).child("Thin")),
+                                            )
+                                            .child(
+                                                MacMaterialSurface::new("mat_regular")
+                                                    .thickness(MacMaterialThickness::Regular)
+                                                    .is_dark(self.is_dark)
+                                                    .corner_radius(6.0)
+                                                    .child(div().px_2().py_1().text_size(px(10.0)).child("Regular")),
+                                            )
+                                            .child(
+                                                MacMaterialSurface::new("mat_thick")
+                                                    .thickness(MacMaterialThickness::Thick)
+                                                    .is_dark(self.is_dark)
+                                                    .corner_radius(6.0)
+                                                    .child(div().px_2().py_1().text_size(px(10.0)).child("Thick")),
+                                            )
+                                            .child(
+                                                MacMaterialSurface::new("mat_ultra_thick")
+                                                    .thickness(MacMaterialThickness::UltraThick)
+                                                    .is_dark(self.is_dark)
+                                                    .corner_radius(6.0)
+                                                    .child(div().px_2().py_1().text_size(px(10.0)).child("UltraThick")),
+                                            ),
+                                    ),
+                            ),
+                    )
                     // Action Buttons
                     .child(
                         MacSettingsGroup::new("group_actions")

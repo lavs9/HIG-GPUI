@@ -274,3 +274,52 @@ fn test_chart_construction() {
         .point("Fri", 0.85);
     let _ = chart;
 }
+
+#[test]
+fn test_material_thickness_and_blur() {
+    assert_eq!(MacMaterialThickness::UltraThin.blur_radius(), 16.0);
+    assert_eq!(MacMaterialThickness::Thin.blur_radius(), 24.0);
+    assert_eq!(MacMaterialThickness::Regular.blur_radius(), 32.0);
+    assert_eq!(MacMaterialThickness::Thick.blur_radius(), 44.0);
+    assert_eq!(MacMaterialThickness::UltraThick.blur_radius(), 60.0);
+
+    assert_eq!(MacMaterialThickness::UltraThin.light_opacity(), 0.35);
+    assert_eq!(MacMaterialThickness::UltraThick.light_opacity(), 0.95);
+}
+
+#[test]
+fn test_material_roles_mapping() {
+    assert_eq!(MacMaterialRole::Sidebar.default_thickness(), MacMaterialThickness::Thin);
+    assert_eq!(MacMaterialRole::Titlebar.default_thickness(), MacMaterialThickness::Regular);
+    assert_eq!(MacMaterialRole::Sheet.default_thickness(), MacMaterialThickness::Thick);
+    assert_eq!(MacMaterialRole::WindowBackground.default_thickness(), MacMaterialThickness::UltraThick);
+    assert_eq!(MacMaterialRole::Sidebar.default_blending_mode(), MacBlendingMode::BehindWindow);
+    assert_eq!(MacMaterialRole::Titlebar.default_blending_mode(), MacBlendingMode::WithinWindow);
+}
+
+#[test]
+fn test_material_properties_and_accessibility() {
+    let mat = MacMaterial::thin().is_dark(false);
+    assert_eq!(mat.blur_radius(), 24.0);
+    let bg_color = mat.background_color();
+    assert_eq!(bg_color.a, 0.50);
+
+    // Reduce transparency accessibility mode disables blur
+    let accessible = mat.reduce_transparency(true);
+    assert_eq!(accessible.blur_radius(), 0.0);
+    assert_eq!(accessible.css_backdrop_filter(), "none");
+
+    // Dark mode
+    let dark_mat = MacMaterial::regular().is_dark(true);
+    assert_eq!(dark_mat.blur_radius(), 32.0);
+    assert!(dark_mat.background_color().a >= 0.70);
+}
+
+#[test]
+fn test_material_surface_construction() {
+    let surface = MacMaterialSurface::new("surface1")
+        .thickness(MacMaterialThickness::Thick)
+        .is_dark(true)
+        .corner_radius(12.0);
+    let _ = surface;
+}

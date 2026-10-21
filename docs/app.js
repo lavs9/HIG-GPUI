@@ -328,6 +328,8 @@ function initCliBadges() {
    ========================================================================== */
 
 function initInteractivePlaygrounds() {
+  initMaterialsPlayground();
+
   // ----------------------------------------------------
   // A. MacSwitch Playground
   // ----------------------------------------------------
@@ -1215,4 +1217,215 @@ function initKeyboardShortcuts() {
       }
     }
   });
+}
+
+/* ==========================================================================
+   8. Apple HIG Materials & Vibrancy Interactive Playground
+   ========================================================================== */
+
+function initMaterialsPlayground() {
+  const matStageContainer = document.getElementById('mat-stage-container');
+  const matCard = document.getElementById('knob-target-mat-card');
+  const matCardTitle = document.getElementById('mat-card-title');
+  const matHudText = document.getElementById('mat-hud-text');
+  const matCode = document.getElementById('dynamic-code-materials');
+
+  const knobMatThickness = document.getElementById('knob-mat-thickness');
+  const knobMatRole = document.getElementById('knob-mat-role');
+  const knobMatBlend = document.getElementById('knob-mat-blend');
+  const knobMatState = document.getElementById('knob-mat-state');
+  const knobMatReduceTransparency = document.getElementById('knob-mat-reduce-transparency');
+  const knobMatRim = document.getElementById('knob-mat-rim');
+
+  const matSwitch = document.getElementById('mat-sample-switch');
+  const matSegmentedBtns = document.querySelectorAll('#mat-sample-segmented .mac-segment-btn');
+  const matDensitySlider = document.getElementById('mat-density-slider');
+  const matDensityLabel = document.getElementById('mat-density-label');
+  const wallpaperThumbs = document.querySelectorAll('.wallpaper-thumb');
+
+  if (!matCard) return;
+
+  const THICKNESS_DATA = {
+    'ultra-thin': { blur: 16, lightOpacity: 0.35, darkOpacity: 0.40, name: 'UltraThin' },
+    'thin':       { blur: 24, lightOpacity: 0.50, darkOpacity: 0.55, name: 'Thin' },
+    'regular':    { blur: 32, lightOpacity: 0.70, darkOpacity: 0.70, name: 'Regular' },
+    'thick':      { blur: 44, lightOpacity: 0.85, darkOpacity: 0.82, name: 'Thick' },
+    'ultra-thick':{ blur: 60, lightOpacity: 0.95, darkOpacity: 0.92, name: 'UltraThick' },
+  };
+
+  const ROLE_DATA = {
+    'titlebar': { thickness: 'regular', blend: 'within-window', title: 'Titlebar Surface' },
+    'selection': { thickness: 'regular', blend: 'within-window', title: 'Selection Highlight' },
+    'menu': { thickness: 'regular', blend: 'within-window', title: 'Menu Surface' },
+    'popover': { thickness: 'thick', blend: 'within-window', title: 'Popover Surface' },
+    'sidebar': { thickness: 'thin', blend: 'behind-window', title: 'Sidebar Source List' },
+    'header': { thickness: 'regular', blend: 'within-window', title: 'Header View' },
+    'sheet': { thickness: 'thick', blend: 'within-window', title: 'Modal Sheet' },
+    'window-bg': { thickness: 'ultra-thick', blend: 'behind-window', title: 'Window Background Chrome' },
+    'hud': { thickness: 'thick', blend: 'within-window', title: 'Heads-Up Display (HUD)' },
+    'fullscreen': { thickness: 'ultra-thick', blend: 'within-window', title: 'Full Screen Backdrop' },
+    'tooltip': { thickness: 'regular', blend: 'within-window', title: 'Tool Tip Bubble' },
+  };
+
+  function updateMaterials() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const role = knobMatRole?.value || 'custom';
+    const isRolePreset = role !== 'custom' && ROLE_DATA[role];
+
+    if (isRolePreset) {
+      if (knobMatThickness) knobMatThickness.value = ROLE_DATA[role].thickness;
+      if (knobMatBlend) knobMatBlend.value = ROLE_DATA[role].blend;
+      if (matCardTitle) {
+        matCardTitle.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>${ROLE_DATA[role].title}</span>
+        `;
+      }
+    } else {
+      if (matCardTitle) {
+        matCardTitle.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>Inspector & Materials Surface</span>
+        `;
+      }
+    }
+
+    const thicknessKey = knobMatThickness?.value || 'regular';
+    const thickness = THICKNESS_DATA[thicknessKey] || THICKNESS_DATA.regular;
+    const blendMode = knobMatBlend?.value || 'within-window';
+    const isActive = knobMatState?.value !== 'inactive';
+    const reduceTransparency = knobMatReduceTransparency?.checked || false;
+    const rimHighlight = knobMatRim?.checked !== false;
+
+    let bg = '';
+    let filter = '';
+    let borderColor = '';
+    let sat = isActive ? '180%' : '100%';
+
+    if (reduceTransparency) {
+      filter = 'none';
+      bg = isDark ? '#242426' : '#F2F2F7';
+      borderColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)';
+    } else if (role === 'hud') {
+      filter = `blur(36px) saturate(${sat})`;
+      bg = 'rgba(28, 28, 32, 0.88)';
+      borderColor = rimHighlight ? 'rgba(255, 255, 255, 0.22)' : 'transparent';
+    } else if (role === 'selection') {
+      filter = `blur(${thickness.blur}px) saturate(${sat})`;
+      bg = isDark ? 'rgba(10, 132, 255, 0.25)' : 'rgba(0, 122, 255, 0.18)';
+      borderColor = rimHighlight ? (isDark ? 'rgba(10, 132, 255, 0.45)' : 'rgba(0, 122, 255, 0.35)') : 'transparent';
+    } else {
+      filter = `blur(${thickness.blur}px) saturate(${sat})`;
+      const baseAlpha = isDark ? thickness.darkOpacity : thickness.lightOpacity;
+      const alpha = isActive ? baseAlpha : Math.min(1.0, baseAlpha + 0.08);
+      bg = isDark ? `rgba(34, 34, 38, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
+      borderColor = rimHighlight ? (isDark ? 'rgba(255, 255, 255, 0.20)' : 'rgba(0, 0, 0, 0.10)') : 'transparent';
+    }
+
+    matCard.style.backdropFilter = filter;
+    matCard.style.webkitBackdropFilter = filter;
+    matCard.style.backgroundColor = bg;
+    matCard.style.border = rimHighlight ? `1px solid ${borderColor}` : '1px solid transparent';
+
+    if (matHudText) {
+      const curOpacity = Math.round((isDark ? thickness.darkOpacity : thickness.lightOpacity) * 100);
+      matHudText.textContent = `Tier: ${thickness.name} | Blur: ${reduceTransparency ? 0 : thickness.blur}px | Opacity: ${curOpacity}% | Sat: ${sat}`;
+    }
+
+    if (matCode) {
+      let code = `// Apple Human Interface Guidelines - Materials & Vibrancy in GPUI\n`;
+      if (role !== 'custom') {
+        const rolePascal = role === 'window-bg' ? 'WindowBackground' : (role === 'hud' ? 'HudWindow' : (role === 'fullscreen' ? 'FullScreenUI' : (role === 'header' ? 'HeaderView' : (role === 'tooltip' ? 'ToolTip' : role.charAt(0).toUpperCase() + role.slice(1)))));
+        code += `let material = MacMaterial::from_role(MacMaterialRole::${rolePascal})\n`;
+      } else {
+        code += `let material = MacMaterial::new(MacMaterialThickness::${thickness.name})\n`;
+      }
+      code += `    .is_dark(${isDark})\n`;
+      code += `    .is_active(${isActive})\n`;
+      if (reduceTransparency) {
+        code += `    .reduce_transparency(true)\n`;
+      }
+      if (!rimHighlight) {
+        code += `    .rim_highlight(false)\n`;
+      }
+      if (blendMode === 'behind-window') {
+        code += `    .blending_mode(MacBlendingMode::BehindWindow)\n`;
+      }
+      code += `;\n\n`;
+      code += `// 1. Container Surface View\n`;
+      code += `MacMaterialSurface::new("glass_surface")\n`;
+      code += `    .material(material)\n`;
+      code += `    .corner_radius(12.0)\n`;
+      code += `    .child(\n`;
+      code += `        div()\n`;
+      code += `            .p_4()\n`;
+      code += `            .flex()\n`;
+      code += `            .flex_col()\n`;
+      code += `            .gap_3()\n`;
+      code += `            .child(div().text_color(apple_colors.label).child("Liquid Glass Material"))\n`;
+      code += `            .child(div().text_color(apple_colors.secondary_label).child("Translucent frosted blur"))\n`;
+      code += `    )\n\n`;
+      code += `// 2. Or apply directly to any GPUI Div via extension trait:\n`;
+      code += `div()\n`;
+      code += `    .mac_material(MacMaterialThickness::${thickness.name}, ${isDark})\n`;
+      code += `    .rounded_lg()\n`;
+      code += `    .p_4();`;
+      matCode.textContent = code;
+    }
+  }
+
+  knobMatThickness?.addEventListener('change', () => {
+    if (knobMatRole) knobMatRole.value = 'custom';
+    updateMaterials();
+  });
+  knobMatRole?.addEventListener('change', updateMaterials);
+  knobMatBlend?.addEventListener('change', updateMaterials);
+  knobMatState?.addEventListener('change', updateMaterials);
+  knobMatReduceTransparency?.addEventListener('change', updateMaterials);
+  knobMatRim?.addEventListener('change', updateMaterials);
+
+  if (matSwitch) {
+    matSwitch.addEventListener('click', () => {
+      matSwitch.classList.toggle('on');
+    });
+  }
+
+  matSegmentedBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      matSegmentedBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  if (matDensitySlider && matDensityLabel) {
+    matDensitySlider.addEventListener('input', (e) => {
+      matDensityLabel.textContent = `${e.target.value}%`;
+    });
+  }
+
+  wallpaperThumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      wallpaperThumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      const wp = thumb.getAttribute('data-wp') || 'sonoma';
+      if (matStageContainer) {
+        matStageContainer.className = `material-stage-container wp-${wp}`;
+      }
+    });
+  });
+
+  const themeObserver = new MutationObserver(() => {
+    updateMaterials();
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  updateMaterials();
 }

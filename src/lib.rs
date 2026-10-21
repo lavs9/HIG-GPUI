@@ -37,6 +37,7 @@ pub mod gauge;
 pub mod image_view;
 pub mod image_well;
 pub mod kbd;
+pub mod material;
 pub mod menu_bar;
 pub mod outline_view;
 pub mod page_control;
@@ -83,6 +84,10 @@ pub use gauge::{MacGauge, MacGaugeStyle};
 pub use image_view::{MacImageContentMode, MacImageView};
 pub use image_well::MacImageWell;
 pub use kbd::{format_mac_shortcut, MacKbd};
+pub use material::{
+    MacBlendingMode, MacMaterial, MacMaterialExt, MacMaterialRole, MacMaterialSurface,
+    MacMaterialThickness,
+};
 pub use menu_bar::{MacMenuBar, MacMenuBarMenu};
 pub use outline_view::{MacOutlineItem, MacOutlineView};
 pub use page_control::MacPageControl;

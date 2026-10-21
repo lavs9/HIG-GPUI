@@ -34,16 +34,16 @@
       </div>
 
       <nav class="nav-sections">
-        <!-- Getting Started -->
+        <!-- Getting Started & Foundations -->
         <div class="nav-section">
-          <div class="nav-section-title">Getting Started</div>
+          <div class="nav-section-title">Getting Started & Foundations</div>
           <a href="#overview" class="nav-item active">
             <span>Overview & Setup</span>
             <span class="nav-badge">Core</span>
           </a>
-          <a href="#tokens" class="nav-item">
-            <span>Design Tokens & Theme</span>
-            <span class="nav-badge">Tokens</span>
+          <a href="#materials" class="nav-item">
+            <span>MacMaterial & Vibrancy</span>
+            <span class="nav-badge">Liquid Glass</span>
           </a>
           <a href="#typography" class="nav-item">
             <span>System Typography</span>
@@ -336,6 +336,342 @@
             <pre><code>[dependencies]
 gpui-apple-hig = { git = "https://github.com/lavs9/HIG-GPUI", branch = "main" }
 gpui-kit = "0.1"</code></pre>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- DESIGN FOUNDATIONS: MATERIALS & VIBRANCY                          -->
+        <!-- ================================================================= -->
+
+        <section id="materials" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Design Foundations / Materials & Translucency</div>
+            <h2 class="component-title">
+              <span>MacMaterial & MacMaterialSurface</span>
+              <span class="mac-badge accent">Apple HIG Materials</span>
+            </h2>
+            <p class="component-desc">
+              Apple Human Interface Guidelines specify materials that mimic real-world translucent glass. Background elements filter through while being blurred to maintain text contrast, convey depth, and establish spatial hierarchy. Supports 5 thickness tiers, 11 semantic roles, behind/within-window blending, active/inactive window states, specular rim highlights, and Apple Accessibility "Reduce Transparency" fallback.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Interactive Playground</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust GPUI Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase materials</div>
+            </div>
+
+            <div class="playground-body">
+              <!-- Live Stage with Scenic Wallpaper & Frosted Glass -->
+              <div class="playground-stage" style="padding: 16px;">
+                <div id="mat-stage-container" class="material-stage-container wp-sonoma">
+                  <!-- Decorative Orbs to show refraction -->
+                  <div class="material-wallpaper-orb orb-1"></div>
+                  <div class="material-wallpaper-orb orb-2"></div>
+
+                  <!-- Floating Frosted Glass Card -->
+                  <div id="knob-target-mat-card" class="material-glass-card">
+                    <div class="material-glass-header">
+                      <div class="traffic-lights">
+                        <span class="traffic-light close"></span>
+                        <span class="traffic-light min"></span>
+                        <span class="traffic-light max"></span>
+                      </div>
+                      <div class="material-glass-title" id="mat-card-title">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                          <polyline points="2 17 12 22 22 17"></polyline>
+                          <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        <span>Inspector & Materials Surface</span>
+                      </div>
+                      <div style="width: 52px;"></div>
+                    </div>
+
+                    <div class="material-glass-body">
+                      <!-- Live HUD Telemetry Badge -->
+                      <div class="material-hud-pill" id="mat-hud-stats">
+                        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #34C759;"></span>
+                        <span id="mat-hud-text">Tier: Regular | Blur: 32px | Opacity: 70% | Sat: 180%</span>
+                      </div>
+
+                      <!-- Vibrancy Typography Hierarchy -->
+                      <div>
+                        <div style="font-size: 15px; font-weight: 600; color: var(--apple-label); margin-bottom: 2px;">Liquid Glass Material</div>
+                        <div style="font-size: 12px; color: var(--apple-secondary-label); line-height: 1.4;">
+                          Content beneath this surface blurs dynamically while maintaining WCAG AA contrast.
+                        </div>
+                      </div>
+
+                      <!-- Interactive Controls Inside Glass -->
+                      <div class="material-sample-row">
+                        <div style="font-size: 12.5px; font-weight: 500; color: var(--apple-label);">Desktop Tinting</div>
+                        <div class="mac-switch on" id="mat-sample-switch">
+                          <div class="mac-switch-thumb"></div>
+                        </div>
+                      </div>
+
+                      <div class="material-sample-row">
+                        <div style="font-size: 12.5px; font-weight: 500; color: var(--apple-label);">View Mode</div>
+                        <div class="mac-segmented" id="mat-sample-segmented">
+                          <button class="mac-segment-btn active" data-mat="grid">Grid</button>
+                          <button class="mac-segment-btn" data-mat="list">List</button>
+                          <button class="mac-segment-btn" data-mat="layers">Layers</button>
+                        </div>
+                      </div>
+
+                      <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--apple-secondary-label);">
+                          <span>Transmission Density</span>
+                          <span id="mat-density-label">65%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="65" id="mat-density-slider" style="width: 100%; accent-color: var(--apple-accent); cursor: pointer;">
+                      </div>
+
+                      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+                        <button class="mac-btn mac-btn-push" style="height: 24px; font-size: 11.5px; padding: 0 10px;">Dismiss</button>
+                        <button class="mac-btn mac-btn-prominent" style="height: 24px; font-size: 11.5px; padding: 0 12px;">Apply Effect</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Controls Sidebar -->
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Material Properties</div>
+
+                <div class="knob-row">
+                  <span class="knob-label">Thickness Tier</span>
+                  <select id="knob-mat-thickness" class="knob-select">
+                    <option value="ultra-thin">UltraThin (16px blur, 35% opacity)</option>
+                    <option value="thin">Thin (24px blur, 50% opacity - Sidebars)</option>
+                    <option value="regular" selected>Regular (32px blur, 70% opacity - Baseline)</option>
+                    <option value="thick">Thick (44px blur, 85% opacity - Sheets / Popovers)</option>
+                    <option value="ultra-thick">UltraThick (60px blur, 95% opacity - Window Chrome)</option>
+                  </select>
+                </div>
+
+                <div class="knob-row">
+                  <span class="knob-label">Semantic HIG Role</span>
+                  <select id="knob-mat-role" class="knob-select">
+                    <option value="custom" selected>Custom / Manual</option>
+                    <option value="titlebar">Titlebar (Regular, WithinWindow)</option>
+                    <option value="selection">Selection (Regular + Accent Tint)</option>
+                    <option value="menu">Menu (Regular, Popover Shadow)</option>
+                    <option value="popover">Popover (Thick, Callout)</option>
+                    <option value="sidebar">Sidebar (Thin, BehindWindow)</option>
+                    <option value="header">HeaderView (Regular)</option>
+                    <option value="sheet">Sheet (Thick, Modal Sheet)</option>
+                    <option value="window-bg">WindowBackground (UltraThick)</option>
+                    <option value="hud">HudWindow (Dark HUD Palette)</option>
+                    <option value="fullscreen">FullScreenUI (UltraThick Backdrop)</option>
+                    <option value="tooltip">ToolTip (Regular)</option>
+                  </select>
+                </div>
+
+                <div class="knob-row">
+                  <span class="knob-label">Blending Mode</span>
+                  <select id="knob-mat-blend" class="knob-select">
+                    <option value="within-window" selected>WithinWindow (In-App Content Blur)</option>
+                    <option value="behind-window">BehindWindow (Desktop Wallpaper Bleed)</option>
+                  </select>
+                </div>
+
+                <div class="knob-row">
+                  <span class="knob-label">Window State</span>
+                  <select id="knob-mat-state" class="knob-select">
+                    <option value="active" selected>Active Window (180% Saturation)</option>
+                    <option value="inactive">Inactive Window (100% Desaturated)</option>
+                  </select>
+                </div>
+
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Reduce Transparency</span>
+                  <input type="checkbox" id="knob-mat-reduce-transparency" style="cursor: pointer;" title="Apple Accessibility feature to replace blur with solid opaque surface">
+                </div>
+
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Rim Highlight (1px)</span>
+                  <input type="checkbox" id="knob-mat-rim" checked style="cursor: pointer;" title="Specular physical glass edge highlight">
+                </div>
+
+                <div class="knob-row" style="margin-top: 10px;">
+                  <span class="knob-label">Desktop Wallpaper</span>
+                  <div class="wallpaper-picker-container">
+                    <div class="wallpaper-thumb thumb-sonoma active" data-wp="sonoma" title="Sonoma Sunset"></div>
+                    <div class="wallpaper-thumb thumb-sequoia" data-wp="sequoia" title="Sequoia Forest"></div>
+                    <div class="wallpaper-thumb thumb-ventura" data-wp="ventura" title="Ventura Bloom"></div>
+                    <div class="wallpaper-thumb thumb-monterey" data-wp="monterey" title="Monterey Dark"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rust GPUI Code Snippet View -->
+              <div class="playground-code-view" style="display: none;">
+                <div class="code-box">
+                  <div class="code-header">
+                    <span class="code-tab">Rust (GPUI)</span>
+                    <button class="copy-btn">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre><code id="dynamic-code-materials">// Dynamically generated code</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HIG Reference Tables & Best Practices -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-top: 24px;">
+            <!-- Thickness Spectrum Reference Card -->
+            <div class="hig-table-card">
+              <div class="hig-table-header">
+                <span class="hig-table-title">Thickness Spectrum Reference</span>
+                <span class="mac-badge accent">5 HIG Tiers</span>
+              </div>
+              <table class="hig-table">
+                <thead>
+                  <tr>
+                    <th>Tier</th>
+                    <th>Nominal Blur</th>
+                    <th>Opacity (L / D)</th>
+                    <th>Primary HIG Context</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Ultra-Thin</strong></td>
+                    <td><code>16 px</code></td>
+                    <td><code>0.35 / 0.40</code></td>
+                    <td>Subtle overlays, floating HUD badges, light previews</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Thin</strong></td>
+                    <td><code>24 px</code></td>
+                    <td><code>0.50 / 0.55</code></td>
+                    <td>Source list sidebars, secondary navigation panels</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Regular</strong></td>
+                    <td><code>32 px</code></td>
+                    <td><code>0.70 / 0.70</code></td>
+                    <td>Default baseline: menus, context menus, toolbars</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Thick</strong></td>
+                    <td><code>44 px</code></td>
+                    <td><code>0.85 / 0.82</code></td>
+                    <td>Document sheets, floating inspectors, popovers</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ultra-Thick</strong></td>
+                    <td><code>60 px</code></td>
+                    <td><code>0.95 / 0.92</code></td>
+                    <td>Base window chrome, dialog backdrops, full-screen UI</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Semantic Roles Reference Card -->
+            <div class="hig-table-card">
+              <div class="hig-table-header">
+                <span class="hig-table-title">Semantic Context Roles</span>
+                <span class="mac-badge success">11 AppKit / SwiftUI Roles</span>
+              </div>
+              <table class="hig-table">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Default Tier</th>
+                    <th>Blending Mode</th>
+                    <th>Vibrancy Effect</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Titlebar</code></td>
+                    <td>Regular</td>
+                    <td>WithinWindow</td>
+                    <td>In-window scrolling blur</td>
+                  </tr>
+                  <tr>
+                    <td><code>Selection</code></td>
+                    <td>Regular</td>
+                    <td>WithinWindow</td>
+                    <td>Accent tint vibrancy</td>
+                  </tr>
+                  <tr>
+                    <td><code>Menu</code></td>
+                    <td>Regular</td>
+                    <td>WithinWindow</td>
+                    <td>Menu drop shadow</td>
+                  </tr>
+                  <tr>
+                    <td><code>Popover</code></td>
+                    <td>Thick</td>
+                    <td>WithinWindow</td>
+                    <td>Anchored callout bubble</td>
+                  </tr>
+                  <tr>
+                    <td><code>Sidebar</code></td>
+                    <td>Thin</td>
+                    <td>BehindWindow</td>
+                    <td>Desktop wallpaper bleed</td>
+                  </tr>
+                  <tr>
+                    <td><code>Sheet</code></td>
+                    <td>Thick</td>
+                    <td>WithinWindow</td>
+                    <td>Modal document sheet</td>
+                  </tr>
+                  <tr>
+                    <td><code>WindowBackground</code></td>
+                    <td>UltraThick</td>
+                    <td>BehindWindow</td>
+                    <td>Full window base chrome</td>
+                  </tr>
+                  <tr>
+                    <td><code>HudWindow</code></td>
+                    <td>Regular / Thick</td>
+                    <td>WithinWindow</td>
+                    <td>Dark translucent palette</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Best Practices & Accessibility Notes -->
+          <div class="hig-table-card" style="margin-top: 16px;">
+            <div class="hig-table-header">
+              <span class="hig-table-title">Apple HIG Materials Guidelines & Accessibility</span>
+              <span class="mac-badge warning">Best Practices</span>
+            </div>
+            <div style="padding: 16px; font-size: 13px; line-height: 1.6; color: var(--apple-label);">
+              <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                <li><strong>Establish Visual Hierarchy:</strong> Use thicker materials (like <code>Thick</code> or <code>UltraThick</code>) for floating cards, dialogs, and sheets so they visually detach from underlying busy content. Reserve <code>Thin</code> for sidebars to maintain an open workspace feel.</li>
+                <li><strong>Vibrancy Pairing:</strong> Always render text using Apple semantic tokens (<code>apple_colors.label</code>, <code>apple_colors.secondary_label</code>) which dynamically blend into the material. Never use quaternary or low-contrast text on <code>Ultra-Thin</code> materials.</li>
+                <li><strong>Avoid Material Stacking:</strong> Do not stack multiple translucent materials directly on top of each other; the compounded blurs create visual mud and unpredictable color shifts.</li>
+                <li><strong>Accessibility (Reduce Transparency):</strong> Respect the macOS system setting in <em>System Settings > Accessibility > Display > Reduce Transparency</em>. When enabled, <code>MacMaterial::reduce_transparency(true)</code> automatically switches to high-contrast opaque surfaces (<code>#F2F2F7</code> light, <code>#242426</code> dark).</li>
+                <li><strong>Inactive Window State:</strong> When a window loses focus, macOS automatically decreases vibrancy saturation and increases opacity so the active window commands the user's attention.</li>
+              </ul>
+            </div>
           </div>
         </section>
 
