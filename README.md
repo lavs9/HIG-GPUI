@@ -12,65 +12,70 @@
 ---
 
 A comprehensive, production-grade implementation of Apple Human Interface Guidelines for desktop applications written in Rust with GPUI. 
-Built in accordance with [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/) and [platform-design-skills](https://github.com/ehmo/platform-design-skills).
+Built according to the official [Apple HIG Component Taxonomy](https://developer.apple.com/design/human-interface-guidelines/components) across all 7 categories:
 
-## Visual Showcase
+## Official Apple HIG Component Taxonomy
 
-### Toggle Switches (`MacSwitch`)
-![MacSwitch Preview](docs/assets/images/mac-switch-preview.svg)
+### 1. Selection and Input
+- **[`MacSwitch`](https://lavs9.github.io/HIG-GPUI/#switch)**: Binary toggle switch with smooth spring physics (Regular 38×22pt, Mini 28×16pt, `#34C759` Green).
+- **[`MacCheckbox`](https://lavs9.github.io/HIG-GPUI/#checkbox)**: Tri-state checkbox (Unchecked, Checked, Mixed indeterminate dash).
+- **[`MacRadio`](https://lavs9.github.io/HIG-GPUI/#radio)**: 14pt mutually exclusive circular radio buttons with concentric selection dots.
+- **[`MacColorWell`](https://lavs9.github.io/HIG-GPUI/#color-well)**: Native inset color swatch trigger with system palette integration.
+- **[`MacComboBox`](https://lavs9.github.io/HIG-GPUI/#combo-box)**: Text field paired with drop-down picker for custom or preset input.
+- **[`MacDigitEntry`](https://lavs9.github.io/HIG-GPUI/#digit-entry)**: PIN / 2FA verification boxes with active focus rings and secure bullet concealing.
+- **[`MacImageWell`](https://lavs9.github.io/HIG-GPUI/#image-well)**: Inset image well drop target for files with thumbnail and caption preview.
+- **[`MacDatePicker`](https://lavs9.github.io/HIG-GPUI/#date-picker)**: Segmented date & time controls with calendar popover and stepper buttons.
+- **[`MacSegmentedControl`](https://lavs9.github.io/HIG-GPUI/#segmented)**: Elevated white card pill tabs with hairline divider management.
+- **[`MacSlider`](https://lavs9.github.io/HIG-GPUI/#slider)**: Continuous and stepped range sliders with 18pt drop-shadow thumbs.
+- **[`MacStepper`](https://lavs9.github.io/HIG-GPUI/#stepper)**: Stacked dual chevron increment/decrement control.
+- **[`MacTextField` & `MacSecureField`](https://lavs9.github.io/HIG-GPUI/#text-field)**: Single-line text inputs and secure password fields.
 
-### Checkboxes (`MacCheckbox`)
-![MacCheckbox Preview](docs/assets/images/mac-checkbox-preview.svg)
+### 2. Menus and Actions
+- **[`MacButton`](https://lavs9.github.io/HIG-GPUI/#button)**: Push, Prominent Accent, Destructive, and Borderless buttons (20pt, 24pt, 28pt).
+- **[`MacPopupButton`](https://lavs9.github.io/HIG-GPUI/#popup-button)**: Double chevron (`⇕`) pop-up menu button for mutually exclusive selection.
+- **[`MacPullDownButton`](https://lavs9.github.io/HIG-GPUI/#popup-button)**: Down chevron (`▾`) pull-down action button for context commands.
+- **[`MacContextMenu`](https://lavs9.github.io/HIG-GPUI/#context-menu)**: Floating contextual menu with keyboard shortcuts, checkmarks, and destructive rows.
+- **[`MacMenuBar`](https://lavs9.github.io/HIG-GPUI/#menu-bar)**: Full 24pt frosted macOS menu bar with Apple logo, bold app title, and menus.
+- **[`MacToolbar`](https://lavs9.github.io/HIG-GPUI/#chrome)**: Unified toolbar with 78pt traffic light clearance.
 
-### Radio Buttons (`MacRadio`)
-![MacRadio Preview](docs/assets/images/mac-radio-preview.svg)
+### 3. Navigation and Search
+- **[`MacSearchField`](https://lavs9.github.io/HIG-GPUI/#search-field)**: 14pt capsule search field with magnifying glass and keyboard shortcut badge.
+- **[`MacSidebar`](https://lavs9.github.io/HIG-GPUI/#sidebar-comp)**: Source list sidebar with uppercase section headers, selection pills, and badges.
+- **[`MacTabBar` & `MacTabView`](https://lavs9.github.io/HIG-GPUI/#tab-bar)**: Segmented/pill tab bar with count badges and view switching.
+- **[`MacPathControl`](https://lavs9.github.io/HIG-GPUI/#path-control)**: Finder-style breadcrumbs trail with icons, folder names, and chevrons.
+- **[`MacTokenField`](https://lavs9.github.io/HIG-GPUI/#token-field)**: Tokenized chip input container with remove buttons for tags and recipients.
 
-### Segmented Controls (`MacSegmentedControl`)
-![MacSegmentedControl Preview](docs/assets/images/mac-segmented-preview.svg)
+### 4. Presentation
+- **[`MacDialog`](https://lavs9.github.io/HIG-GPUI/#dialog)**: Sheet alerts dropping down from window chrome with primary, cancel, and destructive actions.
+- **[`MacPopover`](https://lavs9.github.io/HIG-GPUI/#popover)**: Floating callout card with top/bottom pointer arrow and shadow.
+- **[`MacPanel`](https://lavs9.github.io/HIG-GPUI/#panel)**: Floating utility tool palettes and dark semi-translucent HUD inspectors.
+- **[`MacPageControl`](https://lavs9.github.io/HIG-GPUI/#page-control)**: Horizontal dot indicator sequence for flat collection navigation.
+- **[`MacWindow`](https://lavs9.github.io/HIG-GPUI/#window-comp)**: Complete macOS window chrome with red/yellow/green traffic lights, titlebar, and subtitle.
 
-### Search Fields (`MacSearchField`)
-![MacSearchField Preview](docs/assets/images/mac-searchfield-preview.svg)
+### 5. Status & Telemetry
+- **[`MacProgress` & `MacSpinner`](https://lavs9.github.io/HIG-GPUI/#progress)**: Determinate and indeterminate shimmer progress bars and circular activity spinners.
+- **[`MacGauge`](https://lavs9.github.io/HIG-GPUI/#gauge)**: Linear capacity meter with warning (orange) and critical (red) thresholds.
+- **[`MacRatingIndicator`](https://lavs9.github.io/HIG-GPUI/#rating)**: 5-star rating control with interactive selection and filled/empty glyphs.
+- **[`MacActivityRings`](https://lavs9.github.io/HIG-GPUI/#activity-rings)**: Concentric multi-ring circular telemetry indicators.
+- **[`MacBadge`](https://lavs9.github.io/HIG-GPUI/#badge)**: Semantic pill badges (Neutral, Accent, Success, Warning, Danger).
+- **[`MacStatusBar`](https://lavs9.github.io/HIG-GPUI/#status-bar)**: 28pt window bottom status bar with hairline divider.
 
-### Sliders (`MacSlider`)
-![MacSlider Preview](docs/assets/images/mac-slider-preview.svg)
+### 6. Layout and Organization
+- **[`MacSettingsGroup` & `MacSettingsRow`](https://lavs9.github.io/HIG-GPUI/#settings)**: Grouped settings cards with 10pt radius and 52pt inset dividers.
+- **[`MacTableView`](https://lavs9.github.io/HIG-GPUI/#table-view)**: Multi-column data grid with headers, sort arrows, and zebra striping.
+- **[`MacSplitView`](https://lavs9.github.io/HIG-GPUI/#split-view)**: Resizable dual-pane container with draggable 1px splitter divider.
+- **[`MacOutlineView`](https://lavs9.github.io/HIG-GPUI/#outline-view)**: Expandable hierarchical tree navigator with rotating disclosure triangles.
+- **[`MacColumnView`](https://lavs9.github.io/HIG-GPUI/#column-view)**: Finder Miller columns browser for cascading hierarchical navigation.
+- **[`MacDisclosure`](https://lavs9.github.io/HIG-GPUI/#disclosure)**: Collapsible accordion disclosure section with animated triangle.
 
-### Buttons (`MacButton`)
-![MacButton Preview](docs/assets/images/mac-button-preview.svg)
+### 7. Content
+- **[`MacTextView`](https://lavs9.github.io/HIG-GPUI/#text-view)**: Multiline text editor with optional line numbers gutter and word counting.
+- **[`MacImageView`](https://lavs9.github.io/HIG-GPUI/#image-view)**: Framed image container with corner radius and aspect fit/fill options.
+- **[`MacChart`](https://lavs9.github.io/HIG-GPUI/#chart)**: Swift Charts-style clean bar and line data visualizations.
 
-### System Settings Card Group (`MacSettingsGroup` & `MacSettingsRow`)
-![MacSettingsGroup Preview](docs/assets/images/mac-settings-preview.svg)
-
-### Alert Dialogs & Sheets (`MacDialog`)
-![MacDialog Preview](docs/assets/images/mac-dialog-preview.svg)
-
----
-
-## Component Catalog
-
-| Component | Description | HIG Metric / Spec |
-|:---|:---|:---|
-| **[`MacSwitch`](https://lavs9.github.io/HIG-GPUI/#switch)** | Binary toggle switch with smooth spring physics | Regular (38×22pt), Mini (28×16pt), `#34C759` Green |
-| **[`MacCheckbox`](https://lavs9.github.io/HIG-GPUI/#checkbox)** | Checkbox with unchecked, checked, and mixed states | 14×14pt, 3.5pt radius, `#007AFF` Accent |
-| **[`MacRadio`](https://lavs9.github.io/HIG-GPUI/#radio)** | Mutually exclusive circular radio option | 14×14pt circle with concentric dot |
-| **[`MacSegmentedControl`](https://lavs9.github.io/HIG-GPUI/#segmented)** | Recessed container with elevated active pill | 28pt height, smart hairline dividers |
-| **[`MacButton`](https://lavs9.github.io/HIG-GPUI/#button)** | Push, Prominent, Destructive, and Borderless | 6pt radius; 20pt (S), 24pt (M), 28pt (L) |
-| **[`MacSearchField`](https://lavs9.github.io/HIG-GPUI/#search-field)** | Capsule search field with clear button | 28pt height, 14pt radius, focus ring |
-| **[`MacTextField`](https://lavs9.github.io/HIG-GPUI/#text-field)** | Single-line text input & secure password field | 6pt radius, leading/trailing icons |
-| **[`MacSlider`](https://lavs9.github.io/HIG-GPUI/#slider)** | Continuous and stepped range slider | 4pt track, 16pt drop-shadow thumb |
-| **[`MacProgress`](https://lavs9.github.io/HIG-GPUI/#progress)** | Determinate & indeterminate shimmer bar | 6pt height, accent color fill |
-| **[`MacSpinner`](https://lavs9.github.io/HIG-GPUI/#progress)** | Circular activity spinner indicator | Small (16pt), Regular (24pt), Large (32pt) |
-| **[`MacStepper`](https://lavs9.github.io/HIG-GPUI/#stepper)** | Dual vertical increment/decrement chevrons | 18×24pt rounded container |
-| **[`MacColorWell`](https://lavs9.github.io/HIG-GPUI/#color-well)** | Native color well with inset swatch preview | 44×24pt, 5pt radius |
-| **[`MacPopupButton`](https://lavs9.github.io/HIG-GPUI/#popup-button)** | Double chevron (⇕) pop-up selection button | 24pt height, selection semantics |
-| **[`MacPullDownButton`](https://lavs9.github.io/HIG-GPUI/#popup-button)** | Downward chevron (▾) action pull-down menu | 24pt height, action semantics |
-| **[`MacSettingsGroup`](https://lavs9.github.io/HIG-GPUI/#settings)** | macOS System Settings rounded form card | 10pt card radius, 52pt inset dividers |
-| **[`MacSidebar`](https://lavs9.github.io/HIG-GPUI/#sidebar-comp)** | Source list sidebar with selection pills & badges | 28pt row height, accent active pill |
-| **[`MacDisclosure`](https://lavs9.github.io/HIG-GPUI/#disclosure)** | Collapsible progressive disclosure control | Smooth rotating triangle (▶ / ▼) |
-| **[`MacDialog`](https://lavs9.github.io/HIG-GPUI/#dialog)** | Native alert dialog card with standard actions | App icon, situation title, action buttons |
-| **[`MacToolbar`](https://lavs9.github.io/HIG-GPUI/#chrome)** | Unified toolbar with traffic light clearance | 52pt height, 78pt traffic clearance |
-| **[`MacStatusBar`](https://lavs9.github.io/HIG-GPUI/#chrome)** | Window bottom status bar with hairline divider | 28pt height |
-| **[`MacKbd`](https://lavs9.github.io/HIG-GPUI/#kbd)** | Apple keyboard shortcut glyph caps | Formats to ⌘, ⇧, ⌥, ⌃, ⎋, ↵ |
-| **[`MacBadge`](https://lavs9.github.io/HIG-GPUI/#kbd)** | Semantic status indicators | Neutral, Accent, Success, Warning, Danger |
+### 8. Typography and Keys
+- **[`MacTypography`](https://lavs9.github.io/HIG-GPUI/#typography)**: SF Pro font hierarchy (`.mac_large_title()`, `.mac_title1()`, `.mac_body()`, `.mac_caption()`).
+- **[`MacKbd`](https://lavs9.github.io/HIG-GPUI/#kbd)**: Formats shortcut strings into native glyphs (⌘, ⇧, ⌥, ⌃, ↵).
 
 ---
 
@@ -84,22 +89,15 @@ gpui-apple-hig = { git = "https://github.com/lavs9/HIG-GPUI", branch = "main" }
 gpui-kit = "0.1"
 ```
 
-## Quickstart
+## Running the Native Desktop Showcase
 
-```rust
-use gpui_apple_hig::{apply_apple_theme, AppleAppearance, MacAccentColor, MacSwitch, MacButton};
-use gpui::*;
-
-fn main() {
-    App::new().run(|cx: &mut AppContext| {
-        // Apply native Apple palette and typography
-        apply_apple_theme(cx, AppleAppearance::System, MacAccentColor::Blue);
-        
-        // Open window with Apple HIG controls
-    });
-}
+```bash
+cargo run --example showcase
 ```
 
-## Documentation
-
-Visit the interactive documentation site at **[https://lavs9.github.io/HIG-GPUI/](https://lavs9.github.io/HIG-GPUI/)** to inspect all components in both Light and Dark modes.
+To filter for a specific component:
+```bash
+cargo run --example showcase switch
+cargo run --example showcase button
+cargo run --example showcase table
+```

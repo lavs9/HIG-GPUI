@@ -184,6 +184,46 @@ impl AppleColors {
             system_blue: rgb(0x0A84FF).into(),
         }
     }
+
+    pub fn disabled(&self) -> Hsla {
+        self.quaternary_label
+    }
+
+    pub fn placeholder(&self) -> Hsla {
+        self.tertiary_label
+    }
+
+    pub fn red(&self) -> Hsla {
+        self.system_red
+    }
+
+    pub fn orange(&self) -> Hsla {
+        self.system_orange
+    }
+
+    pub fn yellow(&self) -> Hsla {
+        self.system_yellow
+    }
+
+    pub fn green(&self) -> Hsla {
+        self.system_green
+    }
+
+    pub fn blue(&self) -> Hsla {
+        self.system_blue
+    }
+
+    pub fn traffic_light_close(&self) -> Hsla {
+        rgb(0xFF5F56).into()
+    }
+
+    pub fn traffic_light_minimize(&self) -> Hsla {
+        rgb(0xFFBD2E).into()
+    }
+
+    pub fn traffic_light_zoom(&self) -> Hsla {
+        rgb(0x27C93F).into()
+    }
 }
 
 /// Applies the Apple HIG theme (Light or Dark) into GPUI's Theme system.

@@ -1686,3 +1686,616 @@ pre {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ==========================================================================
+   Additional macOS HIG Components
+   ========================================================================== */
+
+/* 1. MacComboBox */
+.mac-combobox {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  width: 240px;
+}
+.mac-combobox-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  padding: 0 8px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mac-combobox-field:hover {
+  border-color: var(--apple-accent);
+}
+.mac-combobox.disabled .mac-combobox-field {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mac-combobox-dropdown {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 6px;
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+  z-index: 100;
+  display: none;
+}
+.mac-combobox-dropdown.open {
+  display: block;
+}
+.mac-combobox-option {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.mac-combobox-option:hover {
+  background-color: var(--apple-accent-translucent);
+}
+.mac-combobox-option.selected {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+/* 2. MacDigitEntry */
+.mac-digit-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mac-digit-cell {
+  width: 36px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--apple-label);
+  transition: all 0.15s ease;
+}
+.mac-digit-cell.active {
+  border: 2px solid var(--apple-accent);
+  box-shadow: 0 0 0 3px var(--apple-focus-ring);
+}
+
+/* 3. MacImageWell */
+.mac-image-well {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.mac-image-well-box {
+  width: 140px;
+  height: 140px;
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 8px;
+  background-color: var(--apple-surface-hover);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  overflow: hidden;
+  position: relative;
+}
+.mac-image-well-box:hover {
+  border-color: var(--apple-accent);
+}
+.mac-image-well-box.has-img {
+  background-size: cover;
+  background-position: center;
+}
+
+/* 4. MacDatePicker */
+.mac-datepicker-demo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mac-datepicker-segment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 5px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+}
+.mac-datepicker-segment:hover {
+  border-color: var(--apple-accent);
+}
+
+/* 5. MacContextMenu & Menu Bar */
+.mac-context-menu-card {
+  width: 220px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 7px;
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+  backdrop-filter: blur(20px);
+}
+.mac-context-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+}
+.mac-context-row:hover {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+.mac-context-row.destructive {
+  color: var(--apple-system-red);
+}
+.mac-context-row.destructive:hover {
+  background-color: var(--apple-system-red);
+  color: #FFFFFF;
+}
+.mac-context-sep {
+  height: 1px;
+  background-color: var(--apple-separator);
+  margin: 4px 6px;
+}
+.mac-context-hdr {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--apple-secondary-label);
+  padding: 3px 8px 1px 8px;
+}
+
+.mac-menubar-demo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  padding: 0 10px;
+  background-color: var(--apple-surface);
+  border-bottom: 1px solid var(--apple-separator);
+  border-radius: 6px 6px 0 0;
+  font-size: 13px;
+}
+.mac-menubar-left {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.mac-menubar-item {
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--apple-label);
+}
+.mac-menubar-item:hover {
+  background-color: var(--apple-surface-hover);
+}
+.mac-menubar-item.active {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+/* 6. MacPathControl */
+.mac-path-demo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  background-color: var(--apple-surface-hover);
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 5px;
+  font-size: 12px;
+}
+.mac-path-crumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--apple-secondary-label);
+}
+.mac-path-crumb:hover {
+  background-color: var(--apple-surface);
+  color: var(--apple-label);
+}
+.mac-path-crumb.current {
+  font-weight: 600;
+  color: var(--apple-label);
+}
+
+/* 7. MacTabBar */
+.mac-tab-demo {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 2px;
+  background-color: var(--apple-surface-hover);
+  border-radius: 6px;
+  gap: 2px;
+}
+.mac-tab-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 0 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--apple-secondary-label);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mac-tab-item:hover {
+  color: var(--apple-label);
+}
+.mac-tab-item.active {
+  background-color: var(--apple-surface);
+  color: var(--apple-label);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+/* 8. MacTokenField */
+.mac-token-demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 3px 8px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 6px;
+  width: 100%;
+}
+.mac-token-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 500;
+}
+.mac-token-chip .close-btn {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rgba(0,0,0,0.2);
+}
+
+/* 9. MacPopover */
+.mac-popover-card {
+  position: relative;
+  width: 240px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  padding: 12px;
+}
+.mac-popover-card::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 24px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--apple-surface);
+  border-left: 1px solid var(--apple-separator);
+  border-top: 1px solid var(--apple-separator);
+  transform: rotate(45deg);
+}
+
+/* 10. MacPanel */
+.mac-panel-card {
+  width: 260px;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.mac-panel-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  padding: 0 10px;
+  background-color: var(--apple-surface-hover);
+  border-bottom: 1px solid var(--apple-separator);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--apple-label);
+}
+
+/* 11. MacPageControl */
+.mac-page-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+}
+.mac-page-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--apple-secondary-label);
+  opacity: 0.35;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.mac-page-dot.active {
+  width: 8px;
+  height: 8px;
+  background-color: var(--apple-label);
+  opacity: 1;
+}
+
+/* 12. MacGauge */
+.mac-gauge-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 220px;
+}
+.mac-gauge-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--apple-surface-hover);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.mac-gauge-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 13. MacRatingIndicator */
+.mac-rating-demo {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.mac-rating-star {
+  font-size: 16px;
+  color: var(--apple-secondary-label);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mac-rating-star.filled {
+  color: var(--apple-system-yellow);
+  opacity: 1;
+}
+
+/* 14. MacActivityRings */
+.mac-rings-demo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.mac-rings-svg {
+  width: 80px;
+  height: 80px;
+}
+
+/* 15. MacTableView */
+.mac-table-card {
+  width: 100%;
+  border: 1px solid var(--apple-separator);
+  border-radius: 6px;
+  background-color: var(--apple-surface);
+  overflow: hidden;
+}
+.mac-table-hdr {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  background-color: var(--apple-surface-hover);
+  border-bottom: 1px solid var(--apple-separator);
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--apple-secondary-label);
+}
+.mac-table-row {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+  border-bottom: 1px solid var(--apple-surface-hover);
+}
+.mac-table-row:nth-child(even) {
+  background-color: rgba(128, 128, 128, 0.03);
+}
+.mac-table-row:hover:not(.selected) {
+  background-color: var(--apple-surface-hover);
+}
+.mac-table-row.selected {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+/* 16. MacSplitView */
+.mac-split-demo {
+  display: flex;
+  width: 100%;
+  height: 160px;
+  border: 1px solid var(--apple-separator);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--apple-surface);
+}
+.mac-split-divider {
+  width: 1px;
+  background-color: var(--apple-separator);
+  cursor: col-resize;
+  transition: background-color 0.15s ease;
+}
+.mac-split-divider:hover {
+  background-color: var(--apple-accent);
+}
+
+/* 17. MacOutlineView */
+.mac-outline-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 220px;
+  padding: 6px;
+  border: 1px solid var(--apple-separator);
+  border-radius: 6px;
+  background-color: var(--apple-surface);
+}
+.mac-outline-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+}
+.mac-outline-row:hover:not(.selected) {
+  background-color: var(--apple-surface-hover);
+}
+.mac-outline-row.selected {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+/* 18. MacColumnView */
+.mac-column-demo {
+  display: flex;
+  height: 140px;
+  border: 1px solid var(--apple-separator);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--apple-surface);
+}
+.mac-column-pane {
+  width: 140px;
+  border-right: 1px solid var(--apple-separator);
+  padding: 4px;
+  overflow-y: auto;
+}
+.mac-column-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--apple-label);
+  cursor: pointer;
+}
+.mac-column-row.selected {
+  background-color: var(--apple-accent);
+  color: #FFFFFF;
+}
+
+/* 19. MacTextView */
+.mac-textview-card {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  border: 1px solid var(--apple-subtle-border);
+  border-radius: 6px;
+  background-color: var(--apple-surface);
+  overflow: hidden;
+}
+.mac-textview-gutter {
+  width: 32px;
+  background-color: var(--apple-surface-hover);
+  border-right: 1px solid var(--apple-separator);
+  padding: 8px 4px;
+  font-size: 11px;
+  color: var(--apple-tertiary-label);
+  text-align: right;
+  line-height: 18px;
+}
+.mac-textview-content {
+  flex: 1;
+  padding: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--apple-label);
+  outline: none;
+  overflow-y: auto;
+}
+
+/* 20. MacChart */
+.mac-chart-card {
+  width: 100%;
+  background-color: var(--apple-surface);
+  border: 1px solid var(--apple-separator);
+  border-radius: 8px;
+  padding: 12px;
+}
+.mac-chart-plot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100px;
+  border-bottom: 1px solid var(--apple-separator);
+  padding-bottom: 4px;
+}
+.mac-chart-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.mac-chart-bar-rect {
+  width: 22px;
+  background-color: var(--apple-accent);
+  border-radius: 3px 3px 0 0;
+  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mac-chart-bar-rect:hover {
+  filter: brightness(1.1);
+}

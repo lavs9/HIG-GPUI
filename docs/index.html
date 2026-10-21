@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple HIG for GPUI | Interactive Component Library</title>
-  <meta name="description" content="Production-ready Apple Human Interface Guidelines (macOS HIG) component library for GPUI applications in Rust. Interactive playgrounds, live prop knobs, specifications, and code.">
+  <title>Apple HIG for GPUI — Component Library & Showcase</title>
+  <meta name="description" content="Production-ready Apple Human Interface Guidelines component library for GPUI applications. Pixel-perfect macOS controls, typography, and interactive playgrounds.">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="app-layout">
-    <!-- Left Navigation Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="brand">
-          <div class="brand-logo"></div>
-          <div class="brand-text">
-            <span class="brand-title">HIG-GPUI</span>
-            <span class="brand-version">v0.1.0</span>
+          <div class="brand-badge">HIG</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--apple-label); line-height: 1.2;">Apple HIG</div>
+            <div style="font-size: 11px; color: var(--apple-secondary-label);">macOS GPUI Library</div>
           </div>
         </div>
         <div class="search-box">
@@ -26,7 +28,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="sidebar-search-input" class="search-input" placeholder="Search components... (⌘K)">
+            <input type="text" id="nav-filter-input" class="search-input" placeholder="Search HIG components... (⌘K)">
           </div>
         </div>
       </div>
@@ -49,9 +51,9 @@
           </a>
         </div>
 
-        <!-- Controls & Inputs -->
+        <!-- 1. Selection & Input -->
         <div class="nav-section">
-          <div class="nav-section-title">Controls & Inputs</div>
+          <div class="nav-section-title">1. Selection & Input</div>
           <a href="#switch" class="nav-item">
             <span>MacSwitch</span>
             <span class="nav-badge">Toggle</span>
@@ -64,13 +66,29 @@
             <span>MacRadio</span>
             <span class="nav-badge">Choice</span>
           </a>
+          <a href="#color-well" class="nav-item">
+            <span>MacColorWell</span>
+            <span class="nav-badge">Color</span>
+          </a>
+          <a href="#combo-box" class="nav-item">
+            <span>MacComboBox</span>
+            <span class="nav-badge">Combo</span>
+          </a>
+          <a href="#digit-entry" class="nav-item">
+            <span>MacDigitEntry</span>
+            <span class="nav-badge">PIN / 2FA</span>
+          </a>
+          <a href="#image-well" class="nav-item">
+            <span>MacImageWell</span>
+            <span class="nav-badge">Dropzone</span>
+          </a>
+          <a href="#date-picker" class="nav-item">
+            <span>MacDatePicker</span>
+            <span class="nav-badge">Calendar</span>
+          </a>
           <a href="#segmented" class="nav-item">
             <span>MacSegmentedControl</span>
             <span class="nav-badge">Tabs</span>
-          </a>
-          <a href="#button" class="nav-item">
-            <span>MacButton</span>
-            <span class="nav-badge">Action</span>
           </a>
           <a href="#slider" class="nav-item">
             <span>MacSlider</span>
@@ -80,73 +98,172 @@
             <span>MacStepper</span>
             <span class="nav-badge">Counter</span>
           </a>
-          <a href="#color-well" class="nav-item">
-            <span>MacColorWell</span>
-            <span class="nav-badge">Color</span>
-          </a>
-        </div>
-
-        <!-- Text & Search -->
-        <div class="nav-section">
-          <div class="nav-section-title">Text & Search</div>
           <a href="#text-field" class="nav-item">
             <span>MacTextField & Secure</span>
             <span class="nav-badge">Input</span>
           </a>
+        </div>
+
+        <!-- 2. Menus & Actions -->
+        <div class="nav-section">
+          <div class="nav-section-title">2. Menus & Actions</div>
+          <a href="#button" class="nav-item">
+            <span>MacButton</span>
+            <span class="nav-badge">Action</span>
+          </a>
+          <a href="#popup-button" class="nav-item">
+            <span>MacPopupButton</span>
+            <span class="nav-badge">Menu</span>
+          </a>
+          <a href="#context-menu" class="nav-item">
+            <span>MacContextMenu</span>
+            <span class="nav-badge">Context</span>
+          </a>
+          <a href="#menu-bar" class="nav-item">
+            <span>MacMenuBar</span>
+            <span class="nav-badge">System</span>
+          </a>
+          <a href="#chrome" class="nav-item">
+            <span>MacToolbar</span>
+            <span class="nav-badge">Toolbar</span>
+          </a>
+        </div>
+
+        <!-- 3. Navigation & Search -->
+        <div class="nav-section">
+          <div class="nav-section-title">3. Navigation & Search</div>
           <a href="#search-field" class="nav-item">
             <span>MacSearchField</span>
             <span class="nav-badge">Search</span>
           </a>
-        </div>
-
-        <!-- Menus & Pickers -->
-        <div class="nav-section">
-          <div class="nav-section-title">Menus & Pickers</div>
-          <a href="#popup-button" class="nav-item">
-            <span>MacPopupButton & PullDown</span>
-            <span class="nav-badge">Menu</span>
+          <a href="#sidebar-comp" class="nav-item">
+            <span>MacSidebar</span>
+            <span class="nav-badge">Source List</span>
+          </a>
+          <a href="#tab-bar" class="nav-item">
+            <span>MacTabBar</span>
+            <span class="nav-badge">Tabs</span>
+          </a>
+          <a href="#path-control" class="nav-item">
+            <span>MacPathControl</span>
+            <span class="nav-badge">Finder</span>
+          </a>
+          <a href="#token-field" class="nav-item">
+            <span>MacTokenField</span>
+            <span class="nav-badge">Tags</span>
           </a>
         </div>
 
-        <!-- Feedback & Status -->
+        <!-- 4. Presentation -->
         <div class="nav-section">
-          <div class="nav-section-title">Feedback & Indicators</div>
+          <div class="nav-section-title">4. Presentation</div>
+          <a href="#dialog" class="nav-item">
+            <span>MacDialog & Sheets</span>
+            <span class="nav-badge">Alert</span>
+          </a>
+          <a href="#popover" class="nav-item">
+            <span>MacPopover</span>
+            <span class="nav-badge">Callout</span>
+          </a>
+          <a href="#panel" class="nav-item">
+            <span>MacPanel</span>
+            <span class="nav-badge">HUD / Palette</span>
+          </a>
+          <a href="#page-control" class="nav-item">
+            <span>MacPageControl</span>
+            <span class="nav-badge">Dots</span>
+          </a>
+          <a href="#window-comp" class="nav-item">
+            <span>MacWindow</span>
+            <span class="nav-badge">Window</span>
+          </a>
+        </div>
+
+        <!-- 5. Status -->
+        <div class="nav-section">
+          <div class="nav-section-title">5. Status & Telemetry</div>
           <a href="#progress" class="nav-item">
             <span>MacProgress & Spinner</span>
             <span class="nav-badge">Progress</span>
           </a>
+          <a href="#gauge" class="nav-item">
+            <span>MacGauge</span>
+            <span class="nav-badge">Meter</span>
+          </a>
+          <a href="#rating" class="nav-item">
+            <span>MacRatingIndicator</span>
+            <span class="nav-badge">Stars</span>
+          </a>
+          <a href="#activity-rings" class="nav-item">
+            <span>MacActivityRings</span>
+            <span class="nav-badge">Rings</span>
+          </a>
           <a href="#badge" class="nav-item">
             <span>MacBadge</span>
-            <span class="nav-badge">Status</span>
+            <span class="nav-badge">Badge</span>
           </a>
-          <a href="#kbd" class="nav-item">
-            <span>MacKbd</span>
-            <span class="nav-badge">Keys</span>
+          <a href="#status-bar" class="nav-item">
+            <span>MacStatusBar</span>
+            <span class="nav-badge">Bottom</span>
           </a>
         </div>
 
-        <!-- Layout & Structure -->
+        <!-- 6. Layout & Organization -->
         <div class="nav-section">
-          <div class="nav-section-title">Layout & Structure</div>
+          <div class="nav-section-title">6. Layout & Organization</div>
           <a href="#settings" class="nav-item">
-            <span>MacSettingsGroup & Row</span>
+            <span>MacSettingsGroup</span>
             <span class="nav-badge">Settings</span>
           </a>
-          <a href="#sidebar-comp" class="nav-item">
-            <span>MacSidebar</span>
-            <span class="nav-badge">Sidebar</span>
+          <a href="#table-view" class="nav-item">
+            <span>MacTableView</span>
+            <span class="nav-badge">Table</span>
+          </a>
+          <a href="#split-view" class="nav-item">
+            <span>MacSplitView</span>
+            <span class="nav-badge">Splitter</span>
+          </a>
+          <a href="#outline-view" class="nav-item">
+            <span>MacOutlineView</span>
+            <span class="nav-badge">Tree</span>
+          </a>
+          <a href="#column-view" class="nav-item">
+            <span>MacColumnView</span>
+            <span class="nav-badge">Columns</span>
           </a>
           <a href="#disclosure" class="nav-item">
             <span>MacDisclosure</span>
             <span class="nav-badge">Accordion</span>
           </a>
-          <a href="#dialog" class="nav-item">
-            <span>MacDialog</span>
-            <span class="nav-badge">Sheet</span>
+        </div>
+
+        <!-- 7. Content -->
+        <div class="nav-section">
+          <div class="nav-section-title">7. Content</div>
+          <a href="#text-view" class="nav-item">
+            <span>MacTextView</span>
+            <span class="nav-badge">Editor</span>
           </a>
-          <a href="#chrome" class="nav-item">
-            <span>MacToolbar & StatusBar</span>
-            <span class="nav-badge">Chrome</span>
+          <a href="#image-view" class="nav-item">
+            <span>MacImageView</span>
+            <span class="nav-badge">Media</span>
+          </a>
+          <a href="#chart" class="nav-item">
+            <span>MacChart</span>
+            <span class="nav-badge">Charts</span>
+          </a>
+        </div>
+
+        <!-- 8. Typography & Keys -->
+        <div class="nav-section">
+          <div class="nav-section-title">8. Typography & Keys</div>
+          <a href="#typography" class="nav-item">
+            <span>MacTypography</span>
+            <span class="nav-badge">SF Pro</span>
+          </a>
+          <a href="#kbd" class="nav-item">
+            <span>MacKbd</span>
+            <span class="nav-badge">Shortcuts</span>
           </a>
         </div>
       </nav>
@@ -158,60 +275,50 @@
       <header class="top-toolbar">
         <div class="toolbar-title">
           <span>HIG-GPUI Documentation</span>
-          <span style="font-size: 11px; color: var(--apple-tertiary-label); font-weight: 400;">/</span>
-          <span style="font-size: 11px; color: var(--apple-secondary-label); font-weight: 500;">Interactive Component Playground</span>
+          <span style="font-size: 11px; padding: 2px 7px; border-radius: 10px; background: rgba(52, 199, 89, 0.15); color: var(--apple-system-green); font-weight: 600;">v0.1.0 • 100% Apple HIG Coverage</span>
         </div>
-
         <div class="toolbar-actions">
-          <!-- System Accent Selector -->
-          <div class="accent-picker-wrapper">
-            <span style="font-size: 11px; color: var(--apple-secondary-label); font-weight: 500;">Accent:</span>
-            <div class="accent-picker">
-              <button class="accent-dot active" data-accent="blue" style="background-color: #007AFF;" title="Blue Accent"></button>
-              <button class="accent-dot" data-accent="purple" style="background-color: #AF52DE;" title="Purple Accent"></button>
-              <button class="accent-dot" data-accent="pink" style="background-color: #FF2D55;" title="Pink Accent"></button>
-              <button class="accent-dot" data-accent="red" style="background-color: #FF3B30;" title="Red Accent"></button>
-              <button class="accent-dot" data-accent="orange" style="background-color: #FF9500;" title="Orange Accent"></button>
-              <button class="accent-dot" data-accent="yellow" style="background-color: #FFCC00;" title="Yellow Accent"></button>
-              <button class="accent-dot" data-accent="green" style="background-color: #34C759;" title="Green Accent"></button>
-              <button class="accent-dot" data-accent="graphite" style="background-color: #8E8E93;" title="Graphite Accent"></button>
-            </div>
+          <div class="accent-picker" title="Switch macOS System Accent Color">
+            <div class="accent-dot active" data-accent="blue" style="background-color: #007AFF;" title="Blue Accent"></div>
+            <div class="accent-dot" data-accent="purple" style="background-color: #AF52DE;" title="Purple Accent"></div>
+            <div class="accent-dot" data-accent="pink" style="background-color: #FF2D55;" title="Pink Accent"></div>
+            <div class="accent-dot" data-accent="red" style="background-color: #FF3B30;" title="Red Accent"></div>
+            <div class="accent-dot" data-accent="orange" style="background-color: #FF9500;" title="Orange Accent"></div>
+            <div class="accent-dot" data-accent="yellow" style="background-color: #FFCC00;" title="Yellow Accent"></div>
+            <div class="accent-dot" data-accent="green" style="background-color: #34C759;" title="Green Accent"></div>
+            <div class="accent-dot" data-accent="graphite" style="background-color: #8E8E93;" title="Graphite Accent"></div>
           </div>
-
-          <!-- Theme Toggle -->
-          <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle Light / Dark Mode">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle Light/Dark Appearance">
             <span id="theme-icon"></span>
-            <span id="theme-label" style="font-size: 12px; font-weight: 500;">Light</span>
+            <span id="theme-label" style="font-size: 12px; font-weight: 500;">Appearance</span>
           </button>
-
-          <!-- GitHub Repo Link -->
-          <a href="https://github.com/lavs9/HIG-GPUI" target="_blank" rel="noopener noreferrer" class="mac-button" style="text-decoration: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          <a href="https://github.com/lavs9/HIG-GPUI" target="_blank" class="theme-toggle-btn" style="text-decoration: none;" title="GitHub Repository">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            <span>GitHub</span>
+            <span style="font-size: 12px; font-weight: 500;">GitHub</span>
           </a>
         </div>
       </header>
 
       <!-- Content Container -->
       <div class="content-wrapper">
-        
-        <!-- SECTION 1: OVERVIEW -->
+
+        <!-- OVERVIEW -->
         <section id="overview" class="component-section">
           <div class="component-header">
             <h1 class="component-title">
               <span>Apple HIG for GPUI</span>
-              <span class="mac-badge accent">macOS Sonoma & Sequoia</span>
+              <span class="mac-badge accent">Complete macOS Taxonomy</span>
             </h1>
             <p class="component-desc">
-              Production-ready implementation of Apple Human Interface Guidelines for desktop applications written in Rust with GPUI. 
-              Explore live interactive playgrounds with prop controls, visual state galleries, and copyable Rust GPUI code.
+              A comprehensive, production-grade implementation of Apple Human Interface Guidelines for desktop applications written in Rust with GPUI. 
+              Built to the exact specifications of macOS Sonoma and Sequoia across all 7 official Apple HIG component categories.
             </p>
           </div>
 
           <div class="hig-banner">
-            <strong>Native GPUI Showcase:</strong> You can also run the full interactive desktop application natively via GPU: 
+            <strong>Native GPU Desktop Showcase:</strong> Every component compiles into native GPU-rendered macOS views. Run locally with: 
             <code class="code-tag" style="margin-left: 6px; cursor: pointer;" onclick="navigator.clipboard.writeText('cargo run --example showcase'); showToast('Copied: cargo run --example showcase');">cargo run --example showcase</code>
           </div>
 
@@ -232,20 +339,23 @@ gpui-kit = "0.1"</code></pre>
           </div>
         </section>
 
-        <!-- SECTION 2: MACSWITCH -->
+        <!-- ================================================================= -->
+        <!-- CATEGORY 1: SELECTION & INPUT                                      -->
+        <!-- ================================================================= -->
+
+        <!-- 1.1 MACSWITCH -->
         <section id="switch" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Controls</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Toggles</div>
             <h2 class="component-title">
               <span>MacSwitch</span>
               <span class="mac-badge success">Apple HIG Toggles</span>
             </h2>
             <p class="component-desc">
-              A binary on/off switch with smooth spring mechanics, standard macOS green (#34C759) active fill, circular drop-shadow thumb, and keyboard spacebar activation.
+              Binary on/off toggle switch with smooth spring mechanics, standard macOS green (#34C759) active fill, circular drop-shadow thumb, and keyboard spacebar activation.
             </p>
           </div>
 
-          <!-- Interactive Playground with Prop Knobs -->
           <div class="playground-wrapper">
             <div class="playground-top-bar">
               <div class="playground-meta-left">
@@ -259,7 +369,7 @@ gpui-kit = "0.1"</code></pre>
                   <button class="playground-tab-btn" data-tab="code">Rust Code</button>
                 </div>
               </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase switch</div>
+              <div class="playground-cli-badge">> cargo run --example showcase switch</div>
             </div>
 
             <div class="playground-body">
@@ -272,10 +382,8 @@ gpui-kit = "0.1"</code></pre>
                 </div>
               </div>
 
-              <!-- Interactive Controls (Knobs) -->
               <div class="playground-sidebar">
                 <div class="playground-sidebar-title">Component Props</div>
-                
                 <div class="knob-row">
                   <span class="knob-label">Size Variant</span>
                   <select id="knob-switch-size" class="knob-select">
@@ -283,17 +391,14 @@ gpui-kit = "0.1"</code></pre>
                     <option value="mini">Mini (28×16 pt)</option>
                   </select>
                 </div>
-
                 <div class="knob-row-horizontal">
                   <span class="knob-label">Checked State</span>
                   <input type="checkbox" id="knob-switch-state" checked style="cursor: pointer;">
                 </div>
-
                 <div class="knob-row-horizontal">
                   <span class="knob-label">Disabled</span>
                   <input type="checkbox" id="knob-switch-disabled" style="cursor: pointer;">
                 </div>
-
                 <div class="knob-row">
                   <span class="knob-label">Label Text</span>
                   <input type="text" id="knob-switch-text" class="knob-input" value="Background Indexing">
@@ -301,7 +406,6 @@ gpui-kit = "0.1"</code></pre>
               </div>
             </div>
 
-            <!-- Dynamic Code Snippet View -->
             <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
@@ -315,47 +419,18 @@ gpui-kit = "0.1"</code></pre>
     }))</code></pre>
             </div>
           </div>
-
-          <!-- Visual State Gallery -->
-          <div class="state-gallery">
-            <div class="state-item">
-              <div class="state-label">Regular On</div>
-              <div class="mac-switch on"><div class="mac-switch-thumb"></div></div>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">#34C759 Green</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Regular Off</div>
-              <div class="mac-switch"><div class="mac-switch-thumb"></div></div>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">Recessed subtle track</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Mini On</div>
-              <div class="mac-switch mini on"><div class="mac-switch-thumb"></div></div>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">28×16 Compact</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Disabled State</div>
-              <div class="mac-switch on disabled"><div class="mac-switch-thumb"></div></div>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">40% Opacity</span>
-            </div>
-            <div class="state-item dark-mode-card">
-              <div class="state-label">Dark Appearance</div>
-              <div class="mac-switch on"><div class="mac-switch-thumb"></div></div>
-              <span style="font-size: 11px; color: #8E8E93;">Dynamic contrast</span>
-            </div>
-          </div>
         </section>
 
-        <!-- SECTION 3: MACBUTTON -->
-        <section id="button" class="component-section" style="margin-top: 60px;">
+        <!-- 1.2 MACCHECKBOX -->
+        <section id="checkbox" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Controls</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Checkboxes</div>
             <h2 class="component-title">
-              <span>MacButton</span>
-              <span class="mac-badge accent">Action Controls</span>
+              <span>MacCheckbox</span>
+              <span class="mac-badge accent">Tri-State Support</span>
             </h2>
             <p class="component-desc">
-              macOS buttons in Push, Prominent, Destructive, and Borderless variants, with 6pt corner radius and standard heights (20pt, 24pt, 28pt).
+              Square checkbox with 3.5pt corner radius supporting Unchecked, Checked (accent checkmark), and Mixed (horizontal dash for partial group selection) states.
             </p>
           </div>
 
@@ -372,7 +447,814 @@ gpui-kit = "0.1"</code></pre>
                   <button class="playground-tab-btn" data-tab="code">Rust Code</button>
                 </div>
               </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase button</div>
+              <div class="playground-cli-badge">> cargo run --example showcase checkbox</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-checkbox-row" id="knob-target-checkbox-row">
+                  <div class="mac-checkbox-box checked" id="knob-target-checkbox-box">
+                    <svg class="check-icon" width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="dash-icon" width="8" height="2" viewBox="0 0 8 2" fill="none">
+                      <path d="M1 1H7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <span id="knob-target-checkbox-label" style="font-size: 13px; color: var(--apple-label);">Generate Smart Previews</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">State</span>
+                  <select id="knob-check-state" class="knob-select">
+                    <option value="checked" selected>Checked</option>
+                    <option value="unchecked">Unchecked</option>
+                    <option value="mixed">Mixed (Indeterminate)</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-check-disabled" style="cursor: pointer;">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Label Text</span>
+                  <input type="text" id="knob-check-text" class="knob-input" value="Generate Smart Previews">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-checkbox">MacCheckbox::new("preview-check", "Generate Smart Previews")
+    .state(MacCheckboxState::Checked)
+    .on_click(cx.listener(|this, _event, cx| {
+        this.toggle();
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.3 MACRADIO -->
+        <section id="radio" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Radio Buttons</div>
+            <h2 class="component-title">
+              <span>MacRadio</span>
+              <span class="mac-badge accent">Mutual Exclusion</span>
+            </h2>
+            <p class="component-desc">
+              14pt circular radio buttons with 5pt centered inner dot, aligned horizontally or vertically for mutually exclusive option sets.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase radio</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-radio-group" id="knob-target-radio-group">
+                  <div class="mac-radio-row selected" data-value="lossless">
+                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                    <span class="mac-radio-text">Lossless RAW (Max Quality)</span>
+                  </div>
+                  <div class="mac-radio-row" data-value="high">
+                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                    <span class="mac-radio-text">High Efficiency DNG (12-bit)</span>
+                  </div>
+                  <div class="mac-radio-row" data-value="compressed">
+                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
+                    <span class="mac-radio-text">Compressed Proxy JPEG</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Selected Option</span>
+                  <select id="knob-radio-selected" class="knob-select">
+                    <option value="lossless" selected>Lossless RAW</option>
+                    <option value="high">High Efficiency DNG</option>
+                    <option value="compressed">Compressed Proxy JPEG</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled Group</span>
+                  <input type="checkbox" id="knob-radio-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-radio">MacRadio::new("radio-opt", "Lossless RAW (Max Quality)")
+    .selected(true)
+    .on_click(cx.listener(|this, _event, cx| {
+        this.format = Format::LosslessRaw;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.4 MACCOMBOBOX (NEW) -->
+        <section id="combo-box" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Combo Boxes</div>
+            <h2 class="component-title">
+              <span>MacComboBox</span>
+              <span class="mac-badge accent">Editable & Dropdown</span>
+            </h2>
+            <p class="component-desc">
+              Combines a text field with a drop-down list to let users either enter a custom value or select from a list of predefined choices.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase combo</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-combobox" id="knob-target-combobox">
+                  <div class="mac-combobox-field" id="knob-combobox-trigger">
+                    <span id="knob-combobox-value" style="font-size: 12.5px; color: var(--apple-label);">Apple ProRAW (14-bit)</span>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </div>
+                  <div class="mac-combobox-dropdown" id="knob-combobox-dropdown">
+                    <div class="mac-combobox-option selected" data-value="Apple ProRAW (14-bit)">Apple ProRAW (14-bit)</div>
+                    <div class="mac-combobox-option" data-value="Sony ARW Uncompressed">Sony ARW Uncompressed</div>
+                    <div class="mac-combobox-option" data-value="Canon CR3 Lossless">Canon CR3 Lossless</div>
+                    <div class="mac-combobox-option" data-value="Fujifilm RAF Compressed">Fujifilm RAF Compressed</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Selected Preset</span>
+                  <select id="knob-combobox-select" class="knob-select">
+                    <option value="Apple ProRAW (14-bit)" selected>Apple ProRAW</option>
+                    <option value="Sony ARW Uncompressed">Sony ARW</option>
+                    <option value="Canon CR3 Lossless">Canon CR3</option>
+                    <option value="Fujifilm RAF Compressed">Fujifilm RAF</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-combobox-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-combobox">MacComboBox::new("raw-codec")
+    .placeholder("Select RAW Preset...")
+    .option("Apple ProRAW (14-bit)")
+    .option("Sony ARW Uncompressed")
+    .selected_index(Some(0))
+    .on_select(cx.listener(|this, idx, text, cx| {
+        this.active_profile = text.to_string();
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.5 MACDIGITENTRY (NEW) -->
+        <section id="digit-entry" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Digit Entry Views</div>
+            <h2 class="component-title">
+              <span>MacDigitEntry</span>
+              <span class="mac-badge accent">PIN & 2FA</span>
+            </h2>
+            <p class="component-desc">
+              Designed for PINs, 2FA security codes, or one-time verification tokens with individually boxed character cells, focus rings, and secure concealing dots.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase pin</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-digit-entry" id="knob-target-digit-entry">
+                  <div class="mac-digit-cell">4</div>
+                  <div class="mac-digit-cell">8</div>
+                  <div class="mac-digit-cell">2</div>
+                  <div class="mac-digit-cell active">|</div>
+                  <div class="mac-digit-cell"></div>
+                  <div class="mac-digit-cell"></div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Digit Count</span>
+                  <select id="knob-digit-count" class="knob-select">
+                    <option value="4">4 Digits (PIN)</option>
+                    <option value="6" selected>6 Digits (2FA Code)</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Concealed (Secure Dots)</span>
+                  <input type="checkbox" id="knob-digit-secure" style="cursor: pointer;">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Sample Value</span>
+                  <input type="text" id="knob-digit-val" class="knob-input" value="482">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-digit">MacDigitEntry::new("2fa-code", 6)
+    .value("482")
+    .secure(false)
+    .on_complete(cx.listener(|this, code, cx| {
+        this.verify_token(code);
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.6 MACIMAGEWELL (NEW) -->
+        <section id="image-well" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Image Wells</div>
+            <h2 class="component-title">
+              <span>MacImageWell</span>
+              <span class="mac-badge accent">Drop Target</span>
+            </h2>
+            <p class="component-desc">
+              An inset, rounded frame designed for displaying an image or accepting dropped image files, supporting thumbnail previews and file captions.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase well</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-image-well" id="knob-target-imagewell">
+                  <div class="mac-image-well-box" id="knob-imagewell-box">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--apple-accent)" stroke-width="1.8">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span id="knob-imagewell-hint" style="font-size: 10px; color: var(--apple-secondary-label); margin-top: 6px;">Drop RAW Photo Here</span>
+                  </div>
+                  <span id="knob-imagewell-cap" style="font-size: 11px; color: var(--apple-secondary-label);">DSC04921.ARW (34.2 MB)</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Has Loaded Image</span>
+                  <input type="checkbox" id="knob-well-loaded" checked style="cursor: pointer;">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Caption</span>
+                  <input type="text" id="knob-well-caption" class="knob-input" value="DSC04921.ARW (34.2 MB)">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-well">MacImageWell::new("photo-well")
+    .size(140.0, 140.0)
+    .has_image(true)
+    .caption("DSC04921.ARW (34.2 MB)")
+    .on_click(cx.listener(|this, _event, cx| {
+        this.open_finder_dialog();
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.7 MACDATEPICKER (NEW) -->
+        <section id="date-picker" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Pickers</div>
+            <h2 class="component-title">
+              <span>MacDatePicker</span>
+              <span class="mac-badge accent">Date & Time</span>
+            </h2>
+            <p class="component-desc">
+              A compact segmented date control adhering strictly to macOS HIG, displaying localized date strings, calendar icons, and optional time stepper capsules.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase date</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-datepicker-demo">
+                  <div class="mac-datepicker-segment">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span id="knob-date-val">Oct 21, 2026</span>
+                  </div>
+                  <div class="mac-datepicker-segment" id="knob-time-segment">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span id="knob-time-val">12:30 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Include Time Segment</span>
+                  <input type="checkbox" id="knob-date-showtime" checked style="cursor: pointer;">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Sample Date</span>
+                  <input type="text" id="knob-date-input" class="knob-input" value="Oct 21, 2026">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-date">MacDatePicker::new("date-input")
+    .date(2026, 10, 21)
+    .time(12, 30)
+    .show_time(true)
+    .on_change(cx.listener(|this, y, m, d, cx| {
+        this.update_timestamp(y, m, d);
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.8 MACSEGMENTED -->
+        <section id="segmented" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Segmented Controls</div>
+            <h2 class="component-title">
+              <span>MacSegmentedControl</span>
+              <span class="mac-badge accent">Compact Pill Tabs</span>
+            </h2>
+            <p class="component-desc">
+              Segmented control with elevated white active card, subtle drop shadow, divider line hiding between adjacent selected states, and view switching.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase segmented</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 16px;">
+                <div class="mac-segmented" id="knob-target-segmented">
+                  <button class="mac-segment active" data-index="0">Grid View</button>
+                  <button class="mac-segment" data-index="1">List Details</button>
+                  <button class="mac-segment" data-index="2">Map Geo</button>
+                </div>
+                <div id="segmented-live-display" style="font-size: 11.5px; color: var(--apple-secondary-label);">
+                  Active Mode: <strong>Grid View (0)</strong>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Active Segment</span>
+                  <select id="knob-segment-active" class="knob-select">
+                    <option value="0" selected>0 - Grid View</option>
+                    <option value="1">1 - List Details</option>
+                    <option value="2">2 - Map Geo</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-segment-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-segmented">MacSegmentedControl::new("view-mode")
+    .segment(MacSegment::new("Grid View"))
+    .segment(MacSegment::new("List Details"))
+    .segment(MacSegment::new("Map Geo"))
+    .selected_index(0)
+    .on_change(cx.listener(|this, idx, cx| {
+        this.current_view = idx;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.9 MACSLIDER -->
+        <section id="slider" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Sliders</div>
+            <h2 class="component-title">
+              <span>MacSlider</span>
+              <span class="mac-badge accent">Continuous Range</span>
+            </h2>
+            <p class="component-desc">
+              Recessed 4pt track with accent fill, 18pt circular thumb with subtle drop shadow, optional tick marks, and real-time live value updates.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase slider</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 14px; width: 100%;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 280px;">
+                  <span style="font-size: 12.5px; font-weight: 500; color: var(--apple-label);">Exposure Compensation</span>
+                  <span id="knob-slider-val-badge" class="mac-badge accent">+0.65 EV</span>
+                </div>
+                <div class="mac-slider-container" style="width: 280px;">
+                  <input type="range" min="0" max="100" value="65" class="mac-slider" id="knob-target-slider">
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Slider Value</span>
+                  <input type="number" id="knob-slider-num" class="knob-input" value="65" min="0" max="100">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-slider-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-slider">MacSlider::new("exposure-slider", 0.65)
+    .min(-2.0)
+    .max(2.0)
+    .step(0.1)
+    .on_change(cx.listener(|this, val, cx| {
+        this.exposure = val;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.10 MACSTEPPER -->
+        <section id="stepper" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Steppers</div>
+            <h2 class="component-title">
+              <span>MacStepper</span>
+              <span class="mac-badge accent">Increment & Decrement</span>
+            </h2>
+            <p class="component-desc">
+              Two-button stacked chevron stepper with auto-repeat for incrementing and decrementing numeric values with min/max clamping.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase stepper</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div style="font-size: 14px; font-weight: 600; min-width: 50px; text-align: right;" id="knob-stepper-val-display">42</div>
+                  <div class="mac-stepper" id="knob-target-stepper">
+                    <button class="mac-stepper-btn" id="knob-stepper-up">
+                      <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 4L4 1L7 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <button class="mac-stepper-btn" id="knob-stepper-down">
+                      <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Current Value</span>
+                  <input type="number" id="knob-stepper-val-input" class="knob-input" value="42">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Step Increment</span>
+                  <input type="number" id="knob-stepper-step" class="knob-input" value="1" min="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-stepper">MacStepper::new("zoom-stepper", 42)
+    .min(0)
+    .max(100)
+    .on_increment(cx.listener(|this, _, cx| { this.val += 1; }))
+    .on_decrement(cx.listener(|this, _, cx| { this.val -= 1; }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.11 MACCOLORWELL -->
+        <section id="color-well" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Color Wells</div>
+            <h2 class="component-title">
+              <span>MacColorWell</span>
+              <span class="mac-badge accent">Palette Picker</span>
+            </h2>
+            <p class="component-desc">
+              macOS Color Well with inset color swatch, border bevel, and native macOS color palette trigger.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase color</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="mac-color-well">
+                    <input type="color" id="knob-target-color-input" value="#007AFF" style="cursor: pointer;">
+                  </div>
+                  <span id="knob-color-hex" style="font-size: 12.5px; font-family: monospace; color: var(--apple-label);">#007AFF</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Color Swatch</span>
+                  <input type="color" id="knob-color-picker-side" value="#007AFF" style="width: 100%; height: 32px; border-radius: 5px; cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-color">MacColorWell::new("canvas-color", rgb(0x007AFF))
+    .on_change(cx.listener(|this, color, cx| {
+        this.tint = color;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1.12 MACTEXTFIELD -->
+        <section id="text-field" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Selection & Input / Text Fields</div>
+            <h2 class="component-title">
+              <span>MacTextField & MacSecureField</span>
+              <span class="mac-badge accent">Text Entry</span>
+            </h2>
+            <p class="component-desc">
+              Single-line text inputs and password secure fields with standard 20pt/24pt/28pt heights, subtle border, placeholder, and accent focus ring.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase text</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-text-field" id="knob-target-text-field" style="width: 260px;">
+                  <input type="text" id="knob-target-text-input" placeholder="Enter collection title..." value="Yosemite 2026">
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Field Size</span>
+                  <select id="knob-text-size" class="knob-select">
+                    <option value="small">Small (20 pt)</option>
+                    <option value="regular" selected>Regular (24 pt)</option>
+                    <option value="large">Large (28 pt)</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Secure / Password</span>
+                  <input type="checkbox" id="knob-text-secure" style="cursor: pointer;">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-text-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-text">MacTextField::new("title-field", &self.state)
+    .placeholder("Enter collection title...")
+    .size(MacFieldSize::Regular)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 2: MENUS & ACTIONS                                        -->
+        <!-- ================================================================= -->
+
+        <!-- 2.1 MACBUTTON -->
+        <section id="button" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Menus & Actions / Buttons</div>
+            <h2 class="component-title">
+              <span>MacButton</span>
+              <span class="mac-badge accent">Push & Prominent</span>
+            </h2>
+            <p class="component-desc">
+              macOS standard Push, Prominent Accent, Destructive, and Borderless buttons with exact height metrics (20pt Small, 24pt Regular, 28pt Large).
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase button</div>
             </div>
 
             <div class="playground-body">
@@ -380,41 +1262,31 @@ gpui-kit = "0.1"</code></pre>
                 <button class="mac-button prominent" id="knob-target-button">Save Changes</button>
               </div>
 
-              <!-- Interactive Controls (Knobs) -->
               <div class="playground-sidebar">
                 <div class="playground-sidebar-title">Component Props</div>
-                
                 <div class="knob-row">
                   <span class="knob-label">Variant</span>
                   <select id="knob-btn-variant" class="knob-select">
-                    <option value="prominent" selected>Prominent Accent</option>
-                    <option value="push">Push (Standard)</option>
-                    <option value="destructive">Destructive Red</option>
-                    <option value="borderless">Borderless Toolbar</option>
+                    <option value="prominent" selected>Prominent (Accent)</option>
+                    <option value="push">Push (Standard Gray)</option>
+                    <option value="destructive">Destructive (Red)</option>
+                    <option value="borderless">Borderless</option>
                   </select>
                 </div>
-
                 <div class="knob-row">
                   <span class="knob-label">Size</span>
                   <select id="knob-btn-size" class="knob-select">
-                    <option value="regular" selected>Regular (24pt)</option>
-                    <option value="small">Small (20pt)</option>
-                    <option value="large">Large (28pt)</option>
+                    <option value="small">Small (20 pt)</option>
+                    <option value="regular" selected>Regular (24 pt)</option>
+                    <option value="large">Large (28 pt)</option>
                   </select>
                 </div>
-
                 <div class="knob-row-horizontal">
                   <span class="knob-label">Disabled</span>
                   <input type="checkbox" id="knob-btn-disabled" style="cursor: pointer;">
                 </div>
-
-                <div class="knob-row-horizontal">
-                  <span class="knob-label">Loading Spinner</span>
-                  <input type="checkbox" id="knob-btn-loading" style="cursor: pointer;">
-                </div>
-
                 <div class="knob-row">
-                  <span class="knob-label">Label Text</span>
+                  <span class="knob-label">Button Text</span>
                   <input type="text" id="knob-btn-text" class="knob-input" value="Save Changes">
                 </div>
               </div>
@@ -425,360 +1297,26 @@ gpui-kit = "0.1"</code></pre>
                 <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
                 <button class="copy-btn">Copy</button>
               </div>
-              <pre><code id="dynamic-code-button">MacButton::new("action-btn", "Save Changes")
+              <pre><code id="dynamic-code-button">MacButton::new("save-btn")
     .prominent()
+    .label("Save Changes")
     .on_click(cx.listener(|this, _event, cx| {
-        this.save_changes();
-    }))</code></pre>
-            </div>
-          </div>
-
-          <!-- Button Gallery -->
-          <div class="state-gallery">
-            <div class="state-item">
-              <div class="state-label">Prominent</div>
-              <button class="mac-button prominent">Accent Button</button>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">Primary Action</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Push Standard</div>
-              <button class="mac-button">Standard Push</button>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">Secondary Action</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Destructive</div>
-              <button class="mac-button destructive">Delete Photo</button>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">Warning Alert</span>
-            </div>
-            <div class="state-item">
-              <div class="state-label">Borderless</div>
-              <button class="mac-button borderless">Toolbar Action</button>
-              <span style="font-size: 11px; color: var(--apple-secondary-label);">Subtle Inset</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION 4: MACCHECKBOX -->
-        <section id="checkbox" class="component-section" style="margin-top: 60px;">
-          <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Selection</div>
-            <h2 class="component-title">
-              <span>MacCheckbox</span>
-              <span class="mac-badge accent">Selection Control</span>
-            </h2>
-            <p class="component-desc">
-              Square checkbox with 3.5pt corner radius, checked blue accent fill with crisp white checkmark SVG, and mixed/indeterminate dash state.
-            </p>
-          </div>
-
-          <div class="playground-wrapper">
-            <div class="playground-top-bar">
-              <div class="playground-meta-left">
-                <div class="traffic-lights">
-                  <span class="traffic-light close"></span>
-                  <span class="traffic-light min"></span>
-                  <span class="traffic-light max"></span>
-                </div>
-                <div class="playground-tabs">
-                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
-                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
-                </div>
-              </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase checkbox</div>
-            </div>
-
-            <div class="playground-body">
-              <div class="playground-stage">
-                <div class="mac-checkbox-row" id="knob-target-checkbox-row">
-                  <div class="mac-checkbox-box checked" id="knob-target-checkbox-box">
-                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <div class="dash-icon"></div>
-                  </div>
-                  <span id="knob-target-checkbox-label">Preserve GPS location data</span>
-                </div>
-              </div>
-
-              <!-- Interactive Controls (Knobs) -->
-              <div class="playground-sidebar">
-                <div class="playground-sidebar-title">Component Props</div>
-                
-                <div class="knob-row">
-                  <span class="knob-label">State</span>
-                  <select id="knob-check-state" class="knob-select">
-                    <option value="checked" selected>Checked</option>
-                    <option value="mixed">Mixed (Dash)</option>
-                    <option value="unchecked">Unchecked</option>
-                  </select>
-                </div>
-
-                <div class="knob-row-horizontal">
-                  <span class="knob-label">Disabled</span>
-                  <input type="checkbox" id="knob-check-disabled" style="cursor: pointer;">
-                </div>
-
-                <div class="knob-row">
-                  <span class="knob-label">Label Text</span>
-                  <input type="text" id="knob-check-text" class="knob-input" value="Preserve GPS location data">
-                </div>
-              </div>
-            </div>
-
-            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
-                <button class="copy-btn">Copy</button>
-              </div>
-              <pre><code id="dynamic-code-checkbox">MacCheckbox::new("meta-check", MacCheckboxState::Checked)
-    .label("Preserve GPS location data")
-    .on_click(cx.listener(|this, state, cx| {
-        this.preserve_gps = state.is_checked();
+        this.save();
     }))</code></pre>
             </div>
           </div>
         </section>
 
-        <!-- SECTION 5: MACRADIO -->
-        <section id="radio" class="component-section" style="margin-top: 60px;">
-          <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Selection</div>
-            <h2 class="component-title">
-              <span>MacRadio</span>
-              <span class="mac-badge neutral">Single Choice</span>
-            </h2>
-            <p class="component-desc">
-              14pt circular radio button with inset concentric selection dot for mutually exclusive options in a group.
-            </p>
-          </div>
-
-          <div class="playground-wrapper">
-            <div class="playground-top-bar">
-              <div class="playground-meta-left">
-                <div class="traffic-lights">
-                  <span class="traffic-light close"></span>
-                  <span class="traffic-light min"></span>
-                  <span class="traffic-light max"></span>
-                </div>
-                <div class="playground-tabs">
-                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
-                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
-                </div>
-              </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase radio</div>
-            </div>
-
-            <div class="playground-body">
-              <div class="playground-stage">
-                <div class="mac-radio-group" id="knob-target-radio-group">
-                  <div class="mac-radio-row selected">
-                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                    <span class="mac-radio-text">Match All Keywords (AND condition)</span>
-                  </div>
-                  <div class="mac-radio-row">
-                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                    <span class="mac-radio-text">Match Any Keyword (OR condition)</span>
-                  </div>
-                  <div class="mac-radio-row">
-                    <div class="mac-radio-circle"><div class="mac-radio-dot"></div></div>
-                    <span class="mac-radio-text">Natural Language Neural Semantic Search</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
-              <pre><code id="dynamic-code-radio">MacRadio::new("search-mode", true)
-    .label("Match All Keywords (AND condition)")
-    .on_click(cx.listener(|this, _event, cx| {
-        this.search_mode = SearchMode::And;
-    }))</code></pre>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION 6: MACSEGMENTEDCONTROL -->
-        <section id="segmented" class="component-section" style="margin-top: 60px;">
-          <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Navigation</div>
-            <h2 class="component-title">
-              <span>MacSegmentedControl</span>
-              <span class="mac-badge accent">View Switcher</span>
-            </h2>
-            <p class="component-desc">
-              Recessed capsule container with elevated active selection card, drop shadow, and smart divider hiding adjacent to the active segment.
-            </p>
-          </div>
-
-          <div class="playground-wrapper">
-            <div class="playground-top-bar">
-              <div class="playground-meta-left">
-                <div class="traffic-lights">
-                  <span class="traffic-light close"></span>
-                  <span class="traffic-light min"></span>
-                  <span class="traffic-light max"></span>
-                </div>
-                <div class="playground-tabs">
-                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
-                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
-                </div>
-              </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase segmented</div>
-            </div>
-
-            <div class="playground-body" style="flex-direction: column;">
-              <div class="playground-stage" style="flex-direction: column; gap: 20px;">
-                <div class="mac-segmented" id="demo-segmented-control">
-                  <div class="mac-segment active" data-view="grid">Grid View</div>
-                  <div class="mac-segment" data-view="list">List View</div>
-                  <div class="mac-segment" data-view="map">Map View</div>
-                </div>
-
-                <!-- Dynamic View Render Target -->
-                <div id="segmented-view-content" style="width: 100%; display: flex; justify-content: center;">
-                  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 480px;">
-                    <div style="height: 70px; background: rgba(0,122,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌄</div>
-                    <div style="height: 70px; background: rgba(52,199,89,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏖️</div>
-                    <div style="height: 70px; background: rgba(255,149,0,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🗼</div>
-                    <div style="height: 70px; background: rgba(175,82,222,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌸</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
-              <pre><code id="dynamic-code-segmented">MacSegmentedControl::new("view-switcher", 0)
-    .segment(MacSegment::new("grid", "Grid View"))
-    .segment(MacSegment::new("list", "List View"))
-    .segment(MacSegment::new("map", "Map View"))
-    .on_change(cx.listener(|this, idx, cx| {
-        this.view_idx = idx;
-    }))</code></pre>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION 7: MACSEARCHFIELD -->
-        <section id="search-field" class="component-section" style="margin-top: 60px;">
-          <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Inputs</div>
-            <h2 class="component-title">
-              <span>MacSearchField</span>
-              <span class="mac-badge accent">Live Filter</span>
-            </h2>
-            <p class="component-desc">
-              Native macOS 28pt capsule search field with inset magnifying glass icon, focus ring glow, and dynamic clear button (✕).
-            </p>
-          </div>
-
-          <div class="playground-wrapper">
-            <div class="playground-top-bar">
-              <div class="playground-meta-left">
-                <div class="traffic-lights">
-                  <span class="traffic-light close"></span>
-                  <span class="traffic-light min"></span>
-                  <span class="traffic-light max"></span>
-                </div>
-                <div class="playground-tabs">
-                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
-                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
-                </div>
-              </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase search</div>
-            </div>
-
-            <div class="playground-body" style="flex-direction: column;">
-              <div class="playground-stage" style="flex-direction: column; gap: 16px;">
-                <div class="mac-search-field">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 10px; color: var(--apple-secondary-label);">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="demo-search-input" class="mac-search-field-input" placeholder="Type to filter sample photos (e.g. Tokyo)...">
-                  <button id="demo-search-clear" style="position: absolute; right: 8px; width: 14px; height: 14px; border-radius: 50%; background: var(--apple-tertiary-label); border: none; color: white; display: none; align-items: center; justify-content: center; font-size: 9px; cursor: pointer;">✕</button>
-                </div>
-
-                <!-- Live Filtered Results -->
-                <div id="demo-search-results" style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 6px;">
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
-                    <span style="font-weight: 500;">Tokyo Skyline Night</span>
-                    <span style="font-size: 11px; color: var(--apple-secondary-label);">Landscape · Japan</span>
-                  </div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
-                    <span style="font-weight: 500;">Kyoto Bamboo Forest</span>
-                    <span style="font-size: 11px; color: var(--apple-secondary-label);">Nature · Japan</span>
-                  </div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
-                    <span style="font-weight: 500;">Sunset at Golden Gate</span>
-                    <span style="font-size: 11px; color: var(--apple-secondary-label);">Golden Hour · SF</span>
-                  </div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
-                    <span style="font-weight: 500;">Mount Fuji Sunrise</span>
-                    <span style="font-size: 11px; color: var(--apple-secondary-label);">Winter · Japan</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION 8: MACSLIDER -->
-        <section id="slider" class="component-section" style="margin-top: 60px;">
-          <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Range</div>
-            <h2 class="component-title">
-              <span>MacSlider</span>
-              <span class="mac-badge accent">Continuous & Stepped</span>
-            </h2>
-            <p class="component-desc">
-              4pt track slider with 16pt circular thumb, drop shadow, and real-time exposure simulation.
-            </p>
-          </div>
-
-          <div class="playground-wrapper">
-            <div class="playground-top-bar">
-              <div class="playground-meta-left">
-                <div class="traffic-lights">
-                  <span class="traffic-light close"></span>
-                  <span class="traffic-light min"></span>
-                  <span class="traffic-light max"></span>
-                </div>
-                <div class="playground-tabs">
-                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
-                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
-                </div>
-              </div>
-              <div class="playground-cli-badge" title="Click to copy CLI command">> cargo run --example showcase slider</div>
-            </div>
-
-            <div class="playground-body">
-              <div class="playground-stage" style="flex-direction: column; gap: 18px;">
-                <div id="demo-slider-img-target" style="width: 220px; height: 110px; border-radius: 8px; background: linear-gradient(135deg, #FF9500 0%, #FF2D55 50%, #007AFF 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 13px; transition: filter 0.05s;">
-                  Live Photo Canvas
-                </div>
-
-                <div class="mac-slider-container">
-                  <span style="font-size: 11px; color: var(--apple-secondary-label);">0%</span>
-                  <input type="range" id="demo-interactive-slider" class="mac-slider" min="0" max="100" value="65">
-                  <span style="font-size: 11px; color: var(--apple-secondary-label);">100%</span>
-                </div>
-
-                <div class="mac-badge accent" id="demo-slider-val">Exposure: 65%</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION 9: MACPOPUPBUTTON -->
+        <!-- 2.2 MACPOPUPBUTTON -->
         <section id="popup-button" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Menus</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Menus & Actions / Pop-up Buttons</div>
             <h2 class="component-title">
               <span>MacPopupButton & MacPullDownButton</span>
-              <span class="mac-badge accent">Selection & Action Menus</span>
+              <span class="mac-badge accent">Double Chevrons</span>
             </h2>
             <p class="component-desc">
-              Pop-up buttons show double chevrons (⇕) to choose mutually exclusive options. Pull-down buttons show a single downward chevron (▾) to perform an action.
+              Pop-up buttons show mutually exclusive option lists with stacked up/down chevrons (⇕), while Pull-down buttons trigger context actions (▾).
             </p>
           </div>
 
@@ -799,45 +1337,503 @@ gpui-kit = "0.1"</code></pre>
             </div>
 
             <div class="playground-body">
-              <div class="playground-stage" style="gap: 32px;">
-                <!-- Pop-up button with floating popover -->
-                <div style="position: relative;">
-                  <button class="mac-popup-btn" id="demo-popup-button">
-                    <span id="demo-popup-label">Aspect: 16:9 Landscape</span>
-                    <span class="mac-popup-chevrons">▲▼</span>
-                  </button>
-
-                  <div class="mac-popover-menu" id="demo-popup-menu">
-                    <div class="mac-popover-item selected">16:9 Landscape</div>
-                    <div class="mac-popover-item">4:3 Standard</div>
-                    <div class="mac-popover-item">1:1 Square</div>
-                    <div class="mac-popover-item">9:16 Vertical</div>
-                  </div>
-                </div>
-
-                <button class="mac-popup-btn">
-                  <span>Export Actions</span>
-                  <span style="font-size: 11px; color: var(--apple-secondary-label);">▾</span>
+              <div class="playground-stage" style="position: relative;">
+                <button class="mac-popup-btn" id="knob-target-popup-btn">
+                  <span id="knob-popup-label">Export as sRGB (Web)</span>
+                  <span class="mac-popup-chevrons">
+                    <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 3L3.5 1L6 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    <svg width="7" height="4" viewBox="0 0 7 4" fill="none"><path d="M1 1L3.5 3L6 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                  </span>
                 </button>
+
+                <div class="mac-popover-menu" id="knob-popup-dropdown">
+                  <div class="mac-popover-item selected" data-value="Export as sRGB (Web)">Export as sRGB (Web)</div>
+                  <div class="mac-popover-item" data-value="Export as Display P3 (Wide Color)">Export as Display P3 (Wide Color)</div>
+                  <div class="mac-popover-item" data-value="Export as Adobe RGB (Print)">Export as Adobe RGB (Print)</div>
+                  <div class="mac-popover-item" data-value="Export as ProPhoto RGB (Archival)">Export as ProPhoto RGB (Archival)</div>
+                </div>
               </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Selected Item</span>
+                  <select id="knob-popup-select" class="knob-select">
+                    <option value="Export as sRGB (Web)" selected>sRGB (Web)</option>
+                    <option value="Export as Display P3 (Wide Color)">Display P3</option>
+                    <option value="Export as Adobe RGB (Print)">Adobe RGB</option>
+                    <option value="Export as ProPhoto RGB (Archival)">ProPhoto RGB</option>
+                  </select>
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Disabled</span>
+                  <input type="checkbox" id="knob-popup-disabled" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-popup">MacPopupButton::new("color-space")
+    .item(MacMenuItem::new("srgb", "Export as sRGB (Web)"))
+    .item(MacMenuItem::new("p3", "Export as Display P3 (Wide Color)"))
+    .selected_index(0)
+    .on_select(cx.listener(|this, idx, cx| {
+        this.profile = idx;
+    }))</code></pre>
             </div>
           </div>
         </section>
 
-        <!-- SECTION 10: MACDIALOG -->
-        <section id="dialog" class="component-section" style="margin-top: 60px;">
+        <!-- 2.3 MACCONTEXTMENU (NEW) -->
+        <section id="context-menu" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Sheets</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Menus & Actions / Context Menus</div>
             <h2 class="component-title">
-              <span>MacDialog</span>
-              <span class="mac-badge danger">Alert Sheet</span>
+              <span>MacContextMenu</span>
+              <span class="mac-badge accent">Shortcuts & Checks</span>
             </h2>
             <p class="component-desc">
-              Native macOS modal alert sheets that smoothly drop down with backdrop blur, situation title, and Cancel / Action buttons.
+              Context menu cards with frosted blur backdrop, checkmark indicators, keyboard shortcuts (⌘C, ⌘D), section dividers, and destructive actions.
             </p>
           </div>
 
-          <div class="playground-wrapper" style="position: relative;">
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase menu</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-context-menu-card">
+                  <div class="mac-context-hdr">PHOTO ACTIONS</div>
+                  <div class="mac-context-row">
+                    <span>Open in Loupe</span>
+                    <span style="color: var(--apple-secondary-label); font-size: 11px;">↵</span>
+                  </div>
+                  <div class="mac-context-row">
+                    <span>Export DNG...</span>
+                    <span style="color: var(--apple-secondary-label); font-size: 11px;">⇧⌘E</span>
+                  </div>
+                  <div class="mac-context-sep"></div>
+                  <div class="mac-context-row">
+                    <span>Copy Metadata</span>
+                    <span style="color: var(--apple-secondary-label); font-size: 11px;">⌘C</span>
+                  </div>
+                  <div class="mac-context-row">
+                    <span>Show in Finder</span>
+                    <span style="color: var(--apple-secondary-label); font-size: 11px;">⌘R</span>
+                  </div>
+                  <div class="mac-context-sep"></div>
+                  <div class="mac-context-row destructive">
+                    <span>Delete Photo</span>
+                    <span style="font-size: 11px;">⌘⌫</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Menu Width</span>
+                  <input type="number" id="knob-menu-w" class="knob-input" value="220" min="160" max="320">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Include Shortcuts</span>
+                  <input type="checkbox" id="knob-menu-sc" checked style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-contextmenu">MacContextMenu::new("photo-menu")
+    .header("PHOTO ACTIONS")
+    .item_full("Open in Loupe", None, Some("↵".into()), false, false, false)
+    .item_full("Export DNG...", None, Some("⇧⌘E".into()), false, false, false)
+    .separator()
+    .item_full("Delete Photo", None, Some("⌘⌫".into()), false, false, true)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.4 MACMENUBAR (NEW) -->
+        <section id="menu-bar" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Menus & Actions / The Menu Bar</div>
+            <h2 class="component-title">
+              <span>MacMenuBar</span>
+              <span class="mac-badge accent">macOS Hallmark</span>
+            </h2>
+            <p class="component-desc">
+              The classic macOS menu bar with Apple logo, bold application title, standard menus (File, Edit, View, Window, Help), and trailing status items.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase menubar</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-menubar-demo" style="width: 100%;">
+                  <div class="mac-menubar-left">
+                    <span class="mac-menubar-item" style="font-size: 14px;"></span>
+                    <strong class="mac-menubar-item" id="knob-menubar-appname">Loupe</strong>
+                    <span class="mac-menubar-item active">File</span>
+                    <span class="mac-menubar-item">Edit</span>
+                    <span class="mac-menubar-item">View</span>
+                    <span class="mac-menubar-item">Window</span>
+                    <span class="mac-menubar-item">Help</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--apple-secondary-label);">
+                    <span>🔍</span>
+                    <span>Wed 12:00 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">App Title</span>
+                  <input type="text" id="knob-menubar-title" class="knob-input" value="Loupe">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-menubar">MacMenuBar::new("sys-menubar", "Loupe")
+    .menus(vec!["File", "Edit", "View", "Window", "Help"])
+    .active_menu(Some(0))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 3: NAVIGATION & SEARCH                                    -->
+        <!-- ================================================================= -->
+
+        <!-- 3.1 MACSEARCHFIELD -->
+        <section id="search-field" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Navigation & Search / Search Fields</div>
+            <h2 class="component-title">
+              <span>MacSearchField</span>
+              <span class="mac-badge accent">Capsule Search</span>
+            </h2>
+            <p class="component-desc">
+              macOS full-capsule (14pt radius) search field with magnifying glass icon, keyboard shortcut badge (⌘F), and live search filtering.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase search</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 12px; width: 100%;">
+                <div class="mac-search-field" style="width: 280px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" class="mac-search-field-input" id="knob-target-search-input" placeholder="Search photos, tags, metadata..." value="">
+                  <span class="mac-kbd" style="font-size: 9px; padding: 1px 4px;">⌘F</span>
+                </div>
+                <div id="search-results-hint" style="font-size: 11.5px; color: var(--apple-secondary-label);">
+                  Type above to see live filter response
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Placeholder</span>
+                  <input type="text" id="knob-search-placeholder" class="knob-input" value="Search photos, tags, metadata...">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-search">MacSearchField::new("global-search", &self.search_state)
+    .shortcut_hint("⌘F")</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.2 MACTABBAR (NEW) -->
+        <section id="tab-bar" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Navigation & Search / Tab Bars</div>
+            <h2 class="component-title">
+              <span>MacTabBar & MacTabView</span>
+              <span class="mac-badge accent">Segmented Tabs</span>
+            </h2>
+            <p class="component-desc">
+              Pill and segmented tab bars with active elevation, badges, icons, and instant view switching.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase tabs</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-tab-demo" id="knob-target-tabbar">
+                  <div class="mac-tab-item active" data-tab="general">
+                    <span>General</span>
+                    <span class="mac-badge" style="font-size: 9px; padding: 1px 4px;">2</span>
+                  </div>
+                  <div class="mac-tab-item" data-tab="rendering">
+                    <span>Rendering</span>
+                  </div>
+                  <div class="mac-tab-item" data-tab="shortcuts">
+                    <span>Shortcuts</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Active Tab</span>
+                  <select id="knob-tab-active-select" class="knob-select">
+                    <option value="general" selected>General</option>
+                    <option value="rendering">Rendering</option>
+                    <option value="shortcuts">Shortcuts</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-tabs">MacTabBar::new("prefs-tabs")
+    .tab_item(MacTabItem::new("General").badge(2))
+    .tab_item(MacTabItem::new("Rendering"))
+    .tab_item(MacTabItem::new("Shortcuts"))
+    .selected_index(0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.3 MACPATHCONTROL (NEW) -->
+        <section id="path-control" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Navigation & Search / Path Controls</div>
+            <h2 class="component-title">
+              <span>MacPathControl</span>
+              <span class="mac-badge accent">Finder Breadcrumbs</span>
+            </h2>
+            <p class="component-desc">
+              macOS Finder-style breadcrumbs showing file system and document hierarchy with folder icons, chevron dividers, and clickable path segments.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase path</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-path-demo" id="knob-target-path">
+                  <span class="mac-path-crumb">💻 Macintosh HD</span>
+                  <span style="color: var(--apple-tertiary-label);">›</span>
+                  <span class="mac-path-crumb">📁 Users</span>
+                  <span style="color: var(--apple-tertiary-label);">›</span>
+                  <span class="mac-path-crumb">👤 mayank</span>
+                  <span style="color: var(--apple-tertiary-label);">›</span>
+                  <span class="mac-path-crumb current">📷 photo-engine</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Leaf Name</span>
+                  <input type="text" id="knob-path-leaf" class="knob-input" value="photo-engine">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-path">MacPathControl::new("finder-path")
+    .item("Macintosh HD")
+    .item("Users")
+    .item("mayank")
+    .item("photo-engine")</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.4 MACTOKENFIELD (NEW) -->
+        <section id="token-field" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Navigation & Search / Token Fields</div>
+            <h2 class="component-title">
+              <span>MacTokenField</span>
+              <span class="mac-badge accent">Tags & Chips</span>
+            </h2>
+            <p class="component-desc">
+              Tokenized input field that transforms text entries into chips with remove buttons, as seen in Mail recipients, Finder tags, and metadata editors.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase token</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-token-demo" id="knob-target-tokenfield">
+                  <div class="mac-token-chip">
+                    <span>RAW</span>
+                    <span class="close-btn">×</span>
+                  </div>
+                  <div class="mac-token-chip" style="background-color: var(--apple-system-green);">
+                    <span>Landscape</span>
+                    <span class="close-btn">×</span>
+                  </div>
+                  <div class="mac-token-chip" style="background-color: var(--apple-system-orange);">
+                    <span>Sony A7IV</span>
+                    <span class="close-btn">×</span>
+                  </div>
+                  <span style="font-size: 12px; color: var(--apple-tertiary-label);">Add tag...</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Add Token</span>
+                  <input type="text" id="knob-token-add-input" class="knob-input" placeholder="Type & press Enter">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-token">MacTokenField::new("photo-tags")
+    .token("RAW")
+    .token("Landscape")
+    .token("Sony A7IV")
+    .placeholder("Add tag...")</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 4: PRESENTATION                                          -->
+        <!-- ================================================================= -->
+
+        <!-- 4.1 MACDIALOG -->
+        <section id="dialog" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Presentation / Alerts & Sheets</div>
+            <h2 class="component-title">
+              <span>MacDialog & Sheets</span>
+              <span class="mac-badge accent">Modal Actions</span>
+            </h2>
+            <p class="component-desc">
+              macOS alert sheets dropping down from window title bars with primary, cancel, and destructive actions adhering to Apple HIG hierarchy.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
             <div class="playground-top-bar">
               <div class="playground-meta-left">
                 <div class="traffic-lights">
@@ -855,37 +1851,681 @@ gpui-kit = "0.1"</code></pre>
 
             <div class="playground-body">
               <div class="playground-stage">
-                <button class="mac-button prominent" id="trigger-modal-sheet-btn">Trigger Native Alert Sheet</button>
+                <div class="mac-dialog-card">
+                  <div class="mac-dialog-icon">⚠️</div>
+                  <div class="mac-dialog-title" id="knob-dialog-title-display">Remove Photo Index?</div>
+                  <div class="mac-dialog-msg" id="knob-dialog-msg-display">This removes the local embedding index from disk. You can recreate it at any time.</div>
+                  <div class="mac-dialog-actions">
+                    <button class="mac-button" id="knob-dialog-cancel-btn">Cancel</button>
+                    <button class="mac-button destructive" id="knob-dialog-action-btn">Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Dialog Title</span>
+                  <input type="text" id="knob-dialog-title-input" class="knob-input" value="Remove Photo Index?">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Destructive Primary</span>
+                  <input type="checkbox" id="knob-dialog-destructive" checked style="cursor: pointer;">
+                </div>
               </div>
             </div>
 
-            <!-- Modal Sheet Overlay -->
-            <div class="mac-modal-overlay" id="demo-modal-sheet-overlay">
-              <div class="mac-dialog-card" style="box-shadow: 0 16px 36px rgba(0,0,0,0.3);">
-                <div class="mac-dialog-icon"></div>
-                <div class="mac-dialog-title">Do you want to export 1,248 photos?</div>
-                <div class="mac-dialog-msg">
-                  Selected images will be saved to your local library with embedded ColorSync display profiles.
-                </div>
-                <div class="mac-dialog-actions">
-                  <button class="mac-button" id="modal-sheet-cancel">Cancel</button>
-                  <button class="mac-button prominent" id="modal-sheet-confirm">Export Photos</button>
-                </div>
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
               </div>
+              <pre><code id="dynamic-code-dialog">MacDialog::new("confirm-delete", "Remove Photo Index?")
+    .critical()
+    .message("This removes the local embedding index from disk.")
+    .primary_label("Remove")
+    .destructive(true)</code></pre>
             </div>
           </div>
         </section>
 
-        <!-- SECTION 11: MACSETTINGSGROUP -->
-        <section id="settings" class="component-section" style="margin-top: 60px;">
+        <!-- 4.2 MACPOPOVER (NEW) -->
+        <section id="popover" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Layout</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Presentation / Popovers</div>
             <h2 class="component-title">
-              <span>MacSettingsGroup & MacSettingsRow</span>
-              <span class="mac-badge success">macOS Settings</span>
+              <span>MacPopover</span>
+              <span class="mac-badge accent">Callout Arrow</span>
             </h2>
             <p class="component-desc">
-              Replicates the macOS System Settings interface: rounded cards (10pt radius) with inset hairline dividers, colored glyph icons, titles, subtitles, and interactive accessories.
+              Floating callout card with pointer arrow pointing to the anchor button, rounded corners, subtle drop shadow, and embedded controls.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase popover</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-popover-card">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--apple-label); margin-bottom: 8px; border-bottom: 1px solid var(--apple-separator); padding-bottom: 4px;">Histogram Inspector</div>
+                  <div style="height: 48px; background: var(--apple-surface-hover); border-radius: 4px; display: flex; align-items: flex-end; gap: 2px; padding: 4px;">
+                    <div style="flex: 1; height: 30%; background: var(--apple-accent); border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 70%; background: var(--apple-accent); border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 100%; background: var(--apple-accent); border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 45%; background: var(--apple-accent); border-radius: 2px;"></div>
+                  </div>
+                  <div style="font-size: 11px; color: var(--apple-secondary-label); margin-top: 6px;">ISO 100 • 35mm • ƒ/2.8 • 1/500s</div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Card Width</span>
+                  <input type="number" id="knob-popover-w" class="knob-input" value="240" min="180" max="360">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-popover">MacPopover::new("histogram-popover")
+    .title("Histogram Inspector")
+    .arrow_position(MacPopoverArrowPosition::Top)
+    .width(240.0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.3 MACPANEL (NEW) -->
+        <section id="panel" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Presentation / Panels</div>
+            <h2 class="component-title">
+              <span>MacPanel</span>
+              <span class="mac-badge accent">HUD & Utility</span>
+            </h2>
+            <p class="component-desc">
+              Floating utility windows and dark semi-translucent HUD palettes with slim title bars and embedded inspector controls.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase panel</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-panel-card" id="knob-target-panel">
+                  <div class="mac-panel-hdr">
+                    <span id="knob-panel-title-disp">Adjustments Inspector</span>
+                    <span style="cursor: pointer; opacity: 0.6;">✕</span>
+                  </div>
+                  <div style="padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+                      <span>Vibrance</span>
+                      <strong style="color: var(--apple-accent);">+24</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+                      <span>Highlights</span>
+                      <strong style="color: var(--apple-accent);">-12</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Panel Title</span>
+                  <input type="text" id="knob-panel-title-input" class="knob-input" value="Adjustments Inspector">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">HUD Dark Mode</span>
+                  <input type="checkbox" id="knob-panel-hud" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-panel">MacPanel::new("adjust-panel", "Adjustments Inspector")
+    .hud()
+    .width(260.0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.4 MACPAGECONTROL (NEW) -->
+        <section id="page-control" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Presentation / Page Controls</div>
+            <h2 class="component-title">
+              <span>MacPageControl</span>
+              <span class="mac-badge accent">Dot Pager</span>
+            </h2>
+            <p class="component-desc">
+              Horizontal row of indicator dots showing current page in a collection or preview list, with animated dot sizing.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase pagecontrol</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 10px;">
+                <div class="mac-page-control" id="knob-target-pagecontrol">
+                  <div class="mac-page-dot" data-page="0"></div>
+                  <div class="mac-page-dot active" data-page="1"></div>
+                  <div class="mac-page-dot" data-page="2"></div>
+                  <div class="mac-page-dot" data-page="3"></div>
+                  <div class="mac-page-dot" data-page="4"></div>
+                </div>
+                <span id="knob-page-status" style="font-size: 11.5px; color: var(--apple-secondary-label);">Page 2 of 5</span>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Total Pages</span>
+                  <input type="number" id="knob-page-total" class="knob-input" value="5" min="2" max="10">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Current Page</span>
+                  <input type="number" id="knob-page-curr" class="knob-input" value="2" min="1" max="10">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-pagecontrol">MacPageControl::new("gallery-pager", 5)
+    .current_page(1)
+    .on_change(cx.listener(|this, page, cx| {
+        this.active_slide = page;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.5 MACWINDOW (NEW) -->
+        <section id="window-comp" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Presentation / Windows</div>
+            <h2 class="component-title">
+              <span>MacWindow</span>
+              <span class="mac-badge accent">Traffic Lights & Chrome</span>
+            </h2>
+            <p class="component-desc">
+              macOS native window chrome with red, yellow, and green traffic lights, unified title bar, subtitle, and vibrant background.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase window</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div style="width: 380px; border: 1px solid var(--apple-separator); border-radius: 10px; overflow: hidden; background: var(--apple-surface); box-shadow: var(--shadow-lg);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 12px; background: var(--apple-surface-hover); border-bottom: 1px solid var(--apple-separator);">
+                    <div class="traffic-lights">
+                      <span class="traffic-light close"></span>
+                      <span class="traffic-light min"></span>
+                      <span class="traffic-light max"></span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                      <span id="knob-win-title-disp" style="font-size: 12.5px; font-weight: 600; color: var(--apple-label);">Loupe — RAW Canvas</span>
+                      <span id="knob-win-sub-disp" style="font-size: 10px; color: var(--apple-secondary-label);">Edited — DSC04921.ARW</span>
+                    </div>
+                    <div style="width: 48px;"></div>
+                  </div>
+                  <div style="padding: 20px; font-size: 12px; color: var(--apple-secondary-label); text-align: center;">
+                    Window Content Canvas
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Window Title</span>
+                  <input type="text" id="knob-win-title-input" class="knob-input" value="Loupe — RAW Canvas">
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Subtitle</span>
+                  <input type="text" id="knob-win-sub-input" class="knob-input" value="Edited — DSC04921.ARW">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-win">MacWindow::new("main-win", "Loupe — RAW Canvas")
+    .subtitle("Edited — DSC04921.ARW")
+    .size(640.0, 480.0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 5: STATUS & TELEMETRY                                    -->
+        <!-- ================================================================= -->
+
+        <!-- 5.1 MACPROGRESS -->
+        <section id="progress" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Status & Telemetry / Progress Indicators</div>
+            <h2 class="component-title">
+              <span>MacProgress & MacSpinner</span>
+              <span class="mac-badge accent">Determinate & Indeterminate</span>
+            </h2>
+            <p class="component-desc">
+              macOS progress indicators (accent-filled tracks, smooth indeterminate barber-pole sweep) and circular gear spinners (16pt, 24pt, 32pt).
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase progress</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 16px; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 14px; width: 280px;">
+                  <div class="mac-spinner" id="knob-target-spinner"></div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                      <span>Exporting JPEG Proxies...</span>
+                      <strong id="knob-prog-pct">60%</strong>
+                    </div>
+                    <div class="mac-progress-bar-container" id="knob-target-prog-bar">
+                      <div class="mac-progress-bar-fill" id="knob-target-prog-fill" style="width: 60%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Progress Value</span>
+                  <input type="range" id="knob-prog-slider" min="0" max="100" value="60" style="width: 100%;">
+                </div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Indeterminate Sweep</span>
+                  <input type="checkbox" id="knob-prog-indet" style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-prog">MacProgress::new("export-prog")
+    .value(0.60)
+    .width(280.0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.2 MACGAUGE (NEW) -->
+        <section id="gauge" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Status & Telemetry / Gauges</div>
+            <h2 class="component-title">
+              <span>MacGauge</span>
+              <span class="mac-badge accent">Capacity & Levels</span>
+            </h2>
+            <p class="component-desc">
+              Linear level gauges with color-coded warning (orange) and critical (red) thresholds for disk usage, battery level, or audio signal strength.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase gauge</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-gauge-demo">
+                  <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+                    <span style="color: var(--apple-secondary-label);">Scratch Disk Cache</span>
+                    <strong id="knob-gauge-val-disp" style="color: var(--apple-label);">82%</strong>
+                  </div>
+                  <div class="mac-gauge-bar">
+                    <div class="mac-gauge-fill" id="knob-target-gauge-fill" style="width: 82%; background-color: var(--apple-system-orange);"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Gauge Value</span>
+                  <input type="range" id="knob-gauge-slider" min="0" max="100" value="82" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-gauge">MacGauge::new("disk-gauge", 0.82)
+    .label("Scratch Disk Cache")
+    .thresholds(0.70, 0.90)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.3 MACRATINGINDICATOR (NEW) -->
+        <section id="rating" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Status & Telemetry / Rating Indicators</div>
+            <h2 class="component-title">
+              <span>MacRatingIndicator</span>
+              <span class="mac-badge accent">5-Star Ratings</span>
+            </h2>
+            <p class="component-desc">
+              Apple HIG 5-star rating control with interactive hover selection, filled and unfilled stars, and read-only display modes.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase rating</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="flex-direction: column; gap: 8px;">
+                <div class="mac-rating-demo" id="knob-target-rating">
+                  <span class="mac-rating-star filled" data-star="1">★</span>
+                  <span class="mac-rating-star filled" data-star="2">★</span>
+                  <span class="mac-rating-star filled" data-star="3">★</span>
+                  <span class="mac-rating-star filled" data-star="4">★</span>
+                  <span class="mac-rating-star" data-star="5">★</span>
+                </div>
+                <span id="knob-rating-label" style="font-size: 11px; color: var(--apple-secondary-label);">4 of 5 Stars</span>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Rating Value</span>
+                  <select id="knob-rating-select" class="knob-select">
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4" selected>4 Stars</option>
+                    <option value="5">5 Stars</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-rating">MacRatingIndicator::new("photo-rating", 4)
+    .max_rating(5)
+    .on_rate(cx.listener(|this, stars, cx| {
+        this.photo_stars = stars;
+    }))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.4 MACACTIVITYRINGS (NEW) -->
+        <section id="activity-rings" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Status & Telemetry / Activity Rings</div>
+            <h2 class="component-title">
+              <span>MacActivityRings</span>
+              <span class="mac-badge accent">Concentric Telemetry</span>
+            </h2>
+            <p class="component-desc">
+              Concentric multi-metric circular rings as seen in watchOS and macOS system telemetry (CPU, GPU, RAM utilization).
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase rings</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-rings-demo">
+                  <svg class="mac-rings-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" stroke="rgba(255, 59, 48, 0.2)" stroke-width="8" fill="none"/>
+                    <circle cx="50" cy="50" r="40" stroke="#FF3B30" stroke-width="8" stroke-dasharray="251" stroke-dashoffset="80" stroke-linecap="round" fill="none"/>
+                    <circle cx="50" cy="50" r="28" stroke="rgba(52, 199, 89, 0.2)" stroke-width="8" fill="none"/>
+                    <circle cx="50" cy="50" r="28" stroke="#34C759" stroke-width="8" stroke-dasharray="175" stroke-dashoffset="60" stroke-linecap="round" fill="none"/>
+                    <circle cx="50" cy="50" r="16" stroke="rgba(0, 122, 255, 0.2)" stroke-width="8" fill="none"/>
+                    <circle cx="50" cy="50" r="16" stroke="#007AFF" stroke-width="8" stroke-dasharray="100" stroke-dashoffset="20" stroke-linecap="round" fill="none"/>
+                  </svg>
+                  <div style="display: flex; flex-direction: column; gap: 4px; font-size: 11.5px;">
+                    <div><span style="color: #FF3B30; font-weight: 600;">● CPU</span>: 68%</div>
+                    <div><span style="color: #34C759; font-weight: 600;">● GPU</span>: 65%</div>
+                    <div><span style="color: #007AFF; font-weight: 600;">● RAM</span>: 80%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Rings Diameter</span>
+                  <input type="number" id="knob-rings-size" class="knob-input" value="80" min="60" max="120">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-rings">MacActivityRings::new("system-rings")
+    .ring("CPU", 0.68, MacAccentColor::Red)
+    .ring("GPU", 0.65, MacAccentColor::Green)
+    .ring("RAM", 0.80, MacAccentColor::Blue)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.5 MACBADGE -->
+        <section id="badge" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Status & Telemetry / Badges</div>
+            <h2 class="component-title">
+              <span>MacBadge</span>
+              <span class="mac-badge accent">Pill Badges</span>
+            </h2>
+            <p class="component-desc">
+              Pill badges with rounded-full geometry for tags, status indicators, and notification counters.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase badge</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="gap: 10px;">
+                <span class="mac-badge accent" id="knob-target-badge">4,281 items indexed</span>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Variant</span>
+                  <select id="knob-badge-variant" class="knob-select">
+                    <option value="accent" selected>Accent</option>
+                    <option value="success">Success (Green)</option>
+                    <option value="warning">Warning (Orange)</option>
+                    <option value="danger">Danger (Red)</option>
+                    <option value="neutral">Neutral</option>
+                  </select>
+                </div>
+                <div class="knob-row">
+                  <span class="knob-label">Text</span>
+                  <input type="text" id="knob-badge-text" class="knob-input" value="4,281 items indexed">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-badge">MacBadge::new("items-count", "4,281 items indexed")
+    .accent()</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 6: LAYOUT & ORGANIZATION                                 -->
+        <!-- ================================================================= -->
+
+        <!-- 6.1 MACSETTINGSGROUP -->
+        <section id="settings" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Layout & Organization / Grouped Settings</div>
+            <h2 class="component-title">
+              <span>MacSettingsGroup & MacSettingsRow</span>
+              <span class="mac-badge accent">macOS System Settings</span>
+            </h2>
+            <p class="component-desc">
+              Grouped settings forms with rounded 10pt cards, inset dividers, colored glyph icons, titles, subtitles, and trailing controls.
             </p>
           </div>
 
@@ -901,46 +2541,29 @@ gpui-kit = "0.1"</code></pre>
               <div class="playground-cli-badge">> cargo run --example showcase settings</div>
             </div>
 
-            <div class="playground-body">
-              <div class="playground-stage">
-                <div class="mac-settings-group">
-                  <div class="mac-settings-header">SYNC & STORAGE PREFERENCES</div>
-                  <div class="mac-settings-card">
-                    <!-- Row 1: Master switch -->
-                    <div class="mac-settings-row">
-                      <div class="mac-row-left">
-                        <div class="mac-row-icon" style="background-color: var(--apple-accent);">⚡</div>
-                        <div>
-                          <div class="mac-row-title">Automatic Cloud Sync</div>
-                          <div class="mac-row-sub">Toggle to pause/resume all background sync</div>
-                        </div>
+            <div class="playground-body" style="padding: 16px;">
+              <div class="mac-settings-group" style="width: 100%;">
+                <div class="mac-settings-header">PERFORMANCE & MEMORY</div>
+                <div class="mac-settings-card">
+                  <div class="mac-settings-row">
+                    <div class="mac-row-left">
+                      <div class="mac-row-icon" style="background-color: var(--apple-accent);">⚡</div>
+                      <div>
+                        <div class="mac-row-title">GPU Metal Acceleration</div>
+                        <div class="mac-row-sub">Use Apple Silicon GPU shaders for demosaicing</div>
                       </div>
-                      <div class="mac-switch on" id="settings-sync-master"><div class="mac-switch-thumb"></div></div>
                     </div>
-
-                    <!-- Row 2: Sub row 1 -->
-                    <div class="mac-settings-row" id="settings-subrow-1">
-                      <div class="mac-row-left">
-                        <div class="mac-row-icon" style="background-color: var(--apple-system-green);">🔍</div>
-                        <div>
-                          <div class="mac-row-title">Neural Semantic Search</div>
-                          <div class="mac-row-sub">Generate local vector embeddings on Apple Silicon</div>
-                        </div>
+                    <div class="mac-switch on"><div class="mac-switch-thumb"></div></div>
+                  </div>
+                  <div class="mac-settings-row">
+                    <div class="mac-row-left">
+                      <div class="mac-row-icon" style="background-color: var(--apple-system-orange);">💾</div>
+                      <div>
+                        <div class="mac-row-title">Maximum Cache Quota</div>
+                        <div class="mac-row-sub">Limit RAM allocated to thumbnail decoders</div>
                       </div>
-                      <div class="mac-switch on"><div class="mac-switch-thumb"></div></div>
                     </div>
-
-                    <!-- Row 3: Sub row 2 -->
-                    <div class="mac-settings-row" id="settings-subrow-2">
-                      <div class="mac-row-left">
-                        <div class="mac-row-icon" style="background-color: var(--apple-system-orange);">💾</div>
-                        <div>
-                          <div class="mac-row-title">Maximum Cache Quota</div>
-                          <div class="mac-row-sub">Limit RAM allocated to thumbnail decoders</div>
-                        </div>
-                      </div>
-                      <span style="font-size: 12px; font-weight: 500; color: var(--apple-secondary-label);">4.0 GB ⇕</span>
-                    </div>
+                    <span style="font-size: 12px; font-weight: 500; color: var(--apple-secondary-label);">4.0 GB ⇕</span>
                   </div>
                 </div>
               </div>
@@ -948,16 +2571,16 @@ gpui-kit = "0.1"</code></pre>
           </div>
         </section>
 
-        <!-- SECTION 12: MACSIDEBAR -->
-        <section id="sidebar-comp" class="component-section" style="margin-top: 60px;">
+        <!-- 6.2 MACTABLEVIEW (NEW) -->
+        <section id="table-view" class="component-section" style="margin-top: 60px;">
           <div class="component-header">
-            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Components / Navigation</div>
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Layout & Organization / Lists & Tables</div>
             <h2 class="component-title">
-              <span>MacSidebar</span>
-              <span class="mac-badge accent">Source List</span>
+              <span>MacTableView</span>
+              <span class="mac-badge accent">Data Table</span>
             </h2>
             <p class="component-desc">
-              macOS source list sidebar with uppercase category headers, 28pt rows, accent selection pills, and live gallery detail updates.
+              macOS table view with sortable column headers, alternating row striping, selectable rows, and clean cell truncation.
             </p>
           </div>
 
@@ -969,58 +2592,561 @@ gpui-kit = "0.1"</code></pre>
                   <span class="traffic-light min"></span>
                   <span class="traffic-light max"></span>
                 </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
               </div>
-              <div class="playground-cli-badge">> cargo run --example showcase sidebar</div>
+              <div class="playground-cli-badge">> cargo run --example showcase table</div>
             </div>
 
-            <div class="playground-body" style="padding: 16px; gap: 20px;">
-              <!-- Sidebar List -->
-              <div class="mac-sidebar-preview">
-                <div class="mac-sidebar-header">PHOTOS</div>
-                <div class="mac-sidebar-row active">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span>🖼️</span>
-                    <span class="sidebar-row-title">All Photos</span>
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-table-card">
+                  <div class="mac-table-hdr">
+                    <span style="width: 140px;">Name ▾</span>
+                    <span style="width: 80px;">Size</span>
+                    <span style="width: 100px;">Format</span>
                   </div>
-                  <span class="mac-badge">1,248</span>
-                </div>
-                <div class="mac-sidebar-row">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span>❤️</span>
-                    <span class="sidebar-row-title">Favorites</span>
+                  <div class="mac-table-row selected">
+                    <span style="width: 140px;">DSC04921.ARW</span>
+                    <span style="width: 80px;">34.2 MB</span>
+                    <span style="width: 100px;">Sony RAW</span>
                   </div>
-                  <span class="mac-badge">84</span>
-                </div>
-                <div class="mac-sidebar-row">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span>🕒</span>
-                    <span class="sidebar-row-title">Recents</span>
+                  <div class="mac-table-row">
+                    <span style="width: 140px;">DSC04922.ARW</span>
+                    <span style="width: 80px;">32.8 MB</span>
+                    <span style="width: 100px;">Sony RAW</span>
                   </div>
-                  <span class="mac-badge">12</span>
+                  <div class="mac-table-row">
+                    <span style="width: 140px;">IMG_0084.CR3</span>
+                    <span style="width: 80px;">41.0 MB</span>
+                    <span style="width: 100px;">Canon RAW</span>
+                  </div>
                 </div>
+              </div>
 
-                <div class="mac-sidebar-header" style="margin-top: 10px;">ALBUMS</div>
-                <div class="mac-sidebar-row">
-                  <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Zebra Striping</span>
+                  <input type="checkbox" id="knob-table-zebra" checked style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-table">MacTableView::new("photos-table")
+    .column("Name", 140.0)
+    .column("Size", 80.0)
+    .column("Format", 100.0)
+    .row(vec!["DSC04921.ARW", "34.2 MB", "Sony RAW"])
+    .selected_row(Some(0))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6.3 MACSPLITVIEW (NEW) -->
+        <section id="split-view" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Layout & Organization / Split Views</div>
+            <h2 class="component-title">
+              <span>MacSplitView</span>
+              <span class="mac-badge accent">Draggable Divider</span>
+            </h2>
+            <p class="component-desc">
+              Dual-pane split view managing two adjacent panes with a draggable 1px divider bar and subtle resize handle.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase split</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-split-demo">
+                  <div style="width: 140px; padding: 12px; background: var(--apple-surface-hover); font-size: 11.5px;">
+                    <strong>Sidebar Pane</strong>
+                    <div style="margin-top: 6px; color: var(--apple-secondary-label);">Albums & Folders</div>
+                  </div>
+                  <div class="mac-split-divider"></div>
+                  <div style="flex: 1; padding: 12px; font-size: 11.5px;">
+                    <strong>Detail Canvas Pane</strong>
+                    <div style="margin-top: 6px; color: var(--apple-secondary-label);">Photo Viewer & Metadata</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Sidebar Width (px)</span>
+                  <input type="range" id="knob-split-width" min="100" max="220" value="140" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-split">MacSplitView::new("main-split")
+    .leading_width(220.0)
+    .leading(MacSidebar::new("sidebar"))
+    .trailing(photo_canvas)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6.4 MACOUTLINEVIEW (NEW) -->
+        <section id="outline-view" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Layout & Organization / Outline Views</div>
+            <h2 class="component-title">
+              <span>MacOutlineView</span>
+              <span class="mac-badge accent">Hierarchical Tree</span>
+            </h2>
+            <p class="component-desc">
+              Hierarchical tree view with rotating disclosure chevrons, folder icons, and multi-level indentation.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase outline</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div class="mac-outline-demo" id="knob-target-outline">
+                  <div class="mac-outline-row">
+                    <span style="font-size: 8px;">▼</span>
                     <span>📁</span>
-                    <span class="sidebar-row-title">Tokyo Trip</span>
+                    <span>All Photos</span>
                   </div>
-                  <span class="mac-badge">34</span>
+                  <div class="mac-outline-row" style="padding-left: 18px;">
+                    <span style="font-size: 8px;">▼</span>
+                    <span>📁</span>
+                    <span>2026</span>
+                  </div>
+                  <div class="mac-outline-row selected" style="padding-left: 32px;">
+                    <span style="font-size: 8px; opacity: 0;">•</span>
+                    <span>🖼️</span>
+                    <span>October (42)</span>
+                  </div>
+                  <div class="mac-outline-row" style="padding-left: 18px;">
+                    <span style="font-size: 8px;">▶</span>
+                    <span>📁</span>
+                    <span>2025</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Gallery Detail Target -->
-              <div style="flex: 1; border: 1px solid var(--apple-border); border-radius: 8px; background: var(--apple-surface); padding: 18px; display: flex; flex-direction: column; gap: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--apple-separator); padding-bottom: 10px;">
-                  <h3 id="sidebar-gallery-title" style="font-size: 16px; font-weight: 600; margin: 0;">All Photos</h3>
-                  <span id="sidebar-gallery-count" class="mac-badge accent">1,248 photos</span>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                  <div style="height: 60px; background: var(--apple-surface-hover); border-radius: 6px; display: flex; align-items: center; justify-content: center;">📷</div>
-                  <div style="height: 60px; background: var(--apple-surface-hover); border-radius: 6px; display: flex; align-items: center; justify-content: center;">🌄</div>
-                  <div style="height: 60px; background: var(--apple-surface-hover); border-radius: 6px; display: flex; align-items: center; justify-content: center;">🏝️</div>
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Tree Items</span>
+                  <div style="font-size: 11.5px; color: var(--apple-secondary-label);">Click items to expand/collapse</div>
                 </div>
               </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-outline">MacOutlineView::new("photos-outline")
+    .item(MacOutlineItem::new("all", "All Photos", 0).has_children(true).expanded(true))
+    .item(MacOutlineItem::new("2026", "2026", 1).has_children(true).expanded(true))
+    .item(MacOutlineItem::new("oct", "October", 2))</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6.5 MACCOLUMNVIEW (NEW) -->
+        <section id="column-view" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Layout & Organization / Column Views</div>
+            <h2 class="component-title">
+              <span>MacColumnView</span>
+              <span class="mac-badge accent">Miller Columns</span>
+            </h2>
+            <p class="component-desc">
+              Finder Miller Columns browser where selecting a folder in one column populates child items in the adjacent column.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase columns</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-column-demo">
+                  <div class="mac-column-pane">
+                    <div class="mac-column-row selected">
+                      <span>📁 Pictures</span>
+                      <span>›</span>
+                    </div>
+                    <div class="mac-column-row">
+                      <span>📁 Documents</span>
+                      <span>›</span>
+                    </div>
+                  </div>
+                  <div class="mac-column-pane">
+                    <div class="mac-column-row selected">
+                      <span>📁 2026</span>
+                      <span>›</span>
+                    </div>
+                    <div class="mac-column-row">
+                      <span>📁 2025</span>
+                      <span>›</span>
+                    </div>
+                  </div>
+                  <div class="mac-column-pane" style="border-right: none;">
+                    <div class="mac-column-row selected">
+                      <span>📄 DSC04921.ARW</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Column Width</span>
+                  <input type="number" id="knob-col-w" class="knob-input" value="140" min="100" max="220">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-column">MacColumnView::new("miller-browser")
+    .column(pictures_col)
+    .column(year_col)
+    .column(files_col)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 7: CONTENT                                               -->
+        <!-- ================================================================= -->
+
+        <!-- 7.1 MACTEXTVIEW (NEW) -->
+        <section id="text-view" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Content / Text Views</div>
+            <h2 class="component-title">
+              <span>MacTextView</span>
+              <span class="mac-badge accent">Multiline Editor</span>
+            </h2>
+            <p class="component-desc">
+              Multiline text editor area supporting line numbers gutter, custom placeholder text, character count, and scrolling.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase textview</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-textview-card">
+                  <div class="mac-textview-gutter">1<br>2<br>3</div>
+                  <div class="mac-textview-content" contenteditable="true">Yosemite Valley at sunrise.<br>Captured on Sony A7IV with 35mm GM lens.<br>RAW exposure balanced for morning highlights.</div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row-horizontal">
+                  <span class="knob-label">Line Numbers</span>
+                  <input type="checkbox" id="knob-tv-lines" checked style="cursor: pointer;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-textview">MacTextView::new("photo-notes")
+    .text("Yosemite Valley at sunrise.")
+    .show_line_numbers(true)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7.2 MACIMAGEVIEW (NEW) -->
+        <section id="image-view" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Content / Image Views</div>
+            <h2 class="component-title">
+              <span>MacImageView</span>
+              <span class="mac-badge accent">Framed Media</span>
+            </h2>
+            <p class="component-desc">
+              Image view surface with rounded corners, aspect fit/fill options, border shadow, and caption tags.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase imageview</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                  <div style="width: 200px; height: 130px; border-radius: 8px; border: 1px solid var(--apple-separator); background: var(--apple-surface-hover); display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 32px;">🌄</span>
+                  </div>
+                  <span style="font-size: 11px; color: var(--apple-secondary-label);">Yosemite Sunrise • Half Dome</span>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Corner Radius</span>
+                  <input type="number" id="knob-img-radius" class="knob-input" value="8" min="0" max="24">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-imageview">MacImageView::new("hero-image")
+    .size(200.0, 130.0)
+    .caption("Yosemite Sunrise • Half Dome")
+    .corner_radius(8.0)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7.3 MACCHART (NEW) -->
+        <section id="chart" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Content / Charts</div>
+            <h2 class="component-title">
+              <span>MacChart</span>
+              <span class="mac-badge accent">Swift Charts Style</span>
+            </h2>
+            <p class="component-desc">
+              Apple Charts-style clean, accessible bar data visualizer with semantic accent colors and responsive layout.
+            </p>
+          </div>
+
+          <div class="playground-wrapper">
+            <div class="playground-top-bar">
+              <div class="playground-meta-left">
+                <div class="traffic-lights">
+                  <span class="traffic-light close"></span>
+                  <span class="traffic-light min"></span>
+                  <span class="traffic-light max"></span>
+                </div>
+                <div class="playground-tabs">
+                  <button class="playground-tab-btn active" data-tab="preview">Preview</button>
+                  <button class="playground-tab-btn" data-tab="code">Rust Code</button>
+                </div>
+              </div>
+              <div class="playground-cli-badge">> cargo run --example showcase chart</div>
+            </div>
+
+            <div class="playground-body">
+              <div class="playground-stage" style="width: 100%;">
+                <div class="mac-chart-card">
+                  <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--apple-label);">Weekly Photo Ingest Volume</div>
+                  <div class="mac-chart-plot" id="knob-target-chart">
+                    <div class="mac-chart-bar-item">
+                      <div class="mac-chart-bar-rect" style="height: 40px;"></div>
+                      <span style="font-size: 10px; color: var(--apple-secondary-label);">Mon</span>
+                    </div>
+                    <div class="mac-chart-bar-item">
+                      <div class="mac-chart-bar-rect" style="height: 70px;"></div>
+                      <span style="font-size: 10px; color: var(--apple-secondary-label);">Tue</span>
+                    </div>
+                    <div class="mac-chart-bar-item">
+                      <div class="mac-chart-bar-rect" style="height: 90px; background-color: var(--apple-system-green);"></div>
+                      <span style="font-size: 10px; color: var(--apple-secondary-label);">Wed</span>
+                    </div>
+                    <div class="mac-chart-bar-item">
+                      <div class="mac-chart-bar-rect" style="height: 50px;"></div>
+                      <span style="font-size: 10px; color: var(--apple-secondary-label);">Thu</span>
+                    </div>
+                    <div class="mac-chart-bar-item">
+                      <div class="mac-chart-bar-rect" style="height: 85px;"></div>
+                      <span style="font-size: 10px; color: var(--apple-secondary-label);">Fri</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="playground-sidebar">
+                <div class="playground-sidebar-title">Component Props</div>
+                <div class="knob-row">
+                  <span class="knob-label">Peak Value</span>
+                  <input type="range" id="knob-chart-peak" min="30" max="95" value="90" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+
+            <div class="playground-code-view" style="display: none; padding: 16px 20px; background: var(--apple-window-bg); border-top: 1px solid var(--apple-separator);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 600; color: var(--apple-secondary-label);">DYNAMIC GPUI CODE</span>
+                <button class="copy-btn">Copy</button>
+              </div>
+              <pre><code id="dynamic-code-chart">MacChart::new("ingest-chart")
+    .title("Weekly Photo Ingest Volume")
+    .point("Mon", 0.40)
+    .point("Tue", 0.70)
+    .point_colored("Wed", 0.90, MacAccentColor::Green)
+    .point("Thu", 0.50)
+    .point("Fri", 0.85)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- CATEGORY 8: TYPOGRAPHY & KEYS                                     -->
+        <!-- ================================================================= -->
+
+        <!-- 8.1 TYPOGRAPHY -->
+        <section id="typography" class="component-section" style="margin-top: 60px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Typography & Keys / System Typography</div>
+            <h2 class="component-title">
+              <span>System Typography</span>
+              <span class="mac-badge accent">SF Pro Font Scale</span>
+            </h2>
+            <p class="component-desc">
+              macOS SF Pro typographic hierarchy mapped directly to GPUI text refinement methods.
+            </p>
+          </div>
+
+          <div style="border: 1px solid var(--apple-separator); border-radius: 8px; background: var(--apple-surface); padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--apple-separator); padding-bottom: 8px;">
+              <span style="font-size: 24px; font-weight: 700; color: var(--apple-label);">Large Title (26pt Bold)</span>
+              <code class="code-tag">.mac_large_title()</code>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--apple-separator); padding-bottom: 8px;">
+              <span style="font-size: 19px; font-weight: 600; color: var(--apple-label);">Title 1 (19pt Semibold)</span>
+              <code class="code-tag">.mac_title1()</code>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--apple-separator); padding-bottom: 8px;">
+              <span style="font-size: 13px; font-weight: 400; color: var(--apple-label);">Body Text (13pt Regular)</span>
+              <code class="code-tag">.mac_body()</code>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-size: 10px; font-weight: 400; color: var(--apple-tertiary-label);">Caption 2 (10pt Regular)</span>
+              <code class="code-tag">.mac_caption2()</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8.2 MACKBD -->
+        <section id="kbd" class="component-section" style="margin-top: 60px; margin-bottom: 100px;">
+          <div class="component-header">
+            <div style="font-size: 11.5px; color: var(--apple-secondary-label); margin-bottom: 6px;">Typography & Keys / Keyboard Shortcuts</div>
+            <h2 class="component-title">
+              <span>MacKbd</span>
+              <span class="mac-badge accent">macOS Key Glyphs</span>
+            </h2>
+            <p class="component-desc">
+              Apple keyboard shortcut badges converting string patterns ("cmd+f", "shift+cmd+space", "alt+enter") into native macOS symbols: ⌘, ⇧, ⌥, ⌃, ↵.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: center; padding: 18px; border: 1px solid var(--apple-separator); border-radius: 8px; background: var(--apple-surface);">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="mac-kbd">⌘</span>
+              <span class="mac-kbd">F</span>
+              <span style="font-size: 12px; color: var(--apple-secondary-label); margin-left: 4px;">Find</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-left: 20px;">
+              <span class="mac-kbd">⇧</span>
+              <span class="mac-kbd">⌘</span>
+              <span class="mac-kbd">Space</span>
+              <span style="font-size: 12px; color: var(--apple-secondary-label); margin-left: 4px;">Search Palette</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-left: 20px;">
+              <span class="mac-kbd">⌥</span>
+              <span class="mac-kbd">↵</span>
+              <span style="font-size: 12px; color: var(--apple-secondary-label); margin-left: 4px;">Inspector</span>
             </div>
           </div>
         </section>

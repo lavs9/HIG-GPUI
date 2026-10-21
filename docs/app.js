@@ -752,6 +752,406 @@ function initInteractivePlaygrounds() {
       });
     });
   }
+
+  // ----------------------------------------------------
+  // M. MacComboBox
+  // ----------------------------------------------------
+  const comboTrigger = document.getElementById('knob-combobox-trigger');
+  const comboDropdown = document.getElementById('knob-combobox-dropdown');
+  const comboValue = document.getElementById('knob-combobox-value');
+  const comboSelect = document.getElementById('knob-combobox-select');
+  const comboDisabled = document.getElementById('knob-combobox-disabled');
+  const comboTarget = document.getElementById('knob-target-combobox');
+  const comboCode = document.getElementById('dynamic-code-combobox');
+
+  if (comboTrigger && comboDropdown) {
+    comboTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (comboTarget?.classList.contains('disabled')) return;
+      comboDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!comboTarget?.contains(e.target)) {
+        comboDropdown.classList.remove('open');
+      }
+    });
+
+    comboDropdown.querySelectorAll('.mac-combobox-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const val = opt.getAttribute('data-value') || opt.textContent.trim();
+        comboDropdown.querySelectorAll('.mac-combobox-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        if (comboValue) comboValue.textContent = val;
+        if (comboSelect) comboSelect.value = val;
+        comboDropdown.classList.remove('open');
+        showToast(`Selected: ${val}`);
+        if (comboCode) {
+          comboCode.textContent = `MacComboBox::new("raw-codec")\n    .placeholder("Select RAW Preset...")\n    .option("${val}")\n    .selected_index(Some(0))\n    .on_select(cx.listener(|this, idx, text, cx| {\n        this.active_profile = text.to_string();\n    }))`;
+        }
+      });
+    });
+
+    comboSelect?.addEventListener('change', () => {
+      const val = comboSelect.value;
+      if (comboValue) comboValue.textContent = val;
+      comboDropdown.querySelectorAll('.mac-combobox-option').forEach(o => {
+        if (o.getAttribute('data-value') === val) o.classList.add('selected');
+        else o.classList.remove('selected');
+      });
+    });
+
+    comboDisabled?.addEventListener('change', () => {
+      if (comboDisabled.checked) {
+        comboTarget?.classList.add('disabled');
+        comboDropdown.classList.remove('open');
+      } else {
+        comboTarget?.classList.remove('disabled');
+      }
+    });
+  }
+
+  // ----------------------------------------------------
+  // N. MacDigitEntry
+  // ----------------------------------------------------
+  const digitValInput = document.getElementById('knob-digit-val');
+  const digitSecureCheck = document.getElementById('knob-digit-secure');
+  const digitCountSelect = document.getElementById('knob-digit-count');
+  const digitContainer = document.getElementById('knob-target-digit-entry');
+  const digitCode = document.getElementById('dynamic-code-digit');
+
+  function updateDigitEntry() {
+    if (!digitContainer) return;
+    const count = parseInt(digitCountSelect?.value || '6', 10);
+    const val = digitValInput?.value || '';
+    const isSecure = digitSecureCheck?.checked || false;
+
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      const char = val[i] || '';
+      const displayChar = isSecure && char ? '●' : char;
+      const isActive = i === val.length && i < count;
+      html += `<div class="mac-digit-cell ${isActive ? 'active' : ''}">${isActive ? '|' : displayChar}</div>`;
+    }
+    digitContainer.innerHTML = html;
+
+    if (digitCode) {
+      digitCode.textContent = `MacDigitEntry::new("2fa-code", ${count})\n    .value("${val}")\n    .secure(${isSecure})\n    .on_complete(cx.listener(|this, code, cx| {\n        this.verify_token(code);\n    }))`;
+    }
+  }
+
+  digitValInput?.addEventListener('input', updateDigitEntry);
+  digitSecureCheck?.addEventListener('change', updateDigitEntry);
+  digitCountSelect?.addEventListener('change', updateDigitEntry);
+
+  // ----------------------------------------------------
+  // O. MacImageWell
+  // ----------------------------------------------------
+  const wellLoadedCheck = document.getElementById('knob-well-loaded');
+  const wellCaptionInput = document.getElementById('knob-well-caption');
+  const wellBox = document.getElementById('knob-imagewell-box');
+  const wellCap = document.getElementById('knob-imagewell-cap');
+  const wellCode = document.getElementById('dynamic-code-well');
+
+  function updateImageWell() {
+    if (!wellBox) return;
+    const isLoaded = wellLoadedCheck?.checked || false;
+    const caption = wellCaptionInput?.value || 'DSC04921.ARW (34.2 MB)';
+
+    if (isLoaded) {
+      wellBox.innerHTML = `
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--apple-accent)" stroke-width="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span style="font-size: 10px; color: var(--apple-secondary-label); margin-top: 6px;">RAW Preview Loaded</span>
+      `;
+    } else {
+      wellBox.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--apple-secondary-label)" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span style="font-size: 10px; color: var(--apple-secondary-label); margin-top: 6px;">Drop RAW Photo Here</span>
+      `;
+    }
+    if (wellCap) wellCap.textContent = isLoaded ? caption : 'No file selected';
+
+    if (wellCode) {
+      wellCode.textContent = `MacImageWell::new("photo-well")\n    .size(140.0, 140.0)\n    .has_image(${isLoaded})\n    .caption("${caption}")\n    .on_click(cx.listener(|this, _event, cx| {\n        this.open_finder_dialog();\n    }))`;
+    }
+  }
+
+  wellLoadedCheck?.addEventListener('change', updateImageWell);
+  wellCaptionInput?.addEventListener('input', updateImageWell);
+  wellBox?.addEventListener('click', () => {
+    if (wellLoadedCheck) {
+      wellLoadedCheck.checked = !wellLoadedCheck.checked;
+      updateImageWell();
+      showToast(wellLoadedCheck.checked ? 'Image loaded' : 'Image cleared');
+    }
+  });
+
+  // ----------------------------------------------------
+  // P. MacDatePicker
+  // ----------------------------------------------------
+  const dateInput = document.getElementById('knob-date-input');
+  const dateShowTime = document.getElementById('knob-date-showtime');
+  const dateDisp = document.getElementById('knob-date-val');
+  const timeSeg = document.getElementById('knob-time-segment');
+  const dateCode = document.getElementById('dynamic-code-date');
+
+  function updateDatePicker() {
+    const val = dateInput?.value || 'Oct 21, 2026';
+    const showTime = dateShowTime?.checked || false;
+    if (dateDisp) dateDisp.textContent = val;
+    if (timeSeg) timeSeg.style.display = showTime ? 'flex' : 'none';
+
+    if (dateCode) {
+      dateCode.textContent = `MacDatePicker::new("date-input")\n    .date(2026, 10, 21)\n    .time(12, 30)\n    .show_time(${showTime})\n    .on_change(cx.listener(|this, y, m, d, cx| {\n        this.update_timestamp(y, m, d);\n    }))`;
+    }
+  }
+
+  dateInput?.addEventListener('input', updateDatePicker);
+  dateShowTime?.addEventListener('change', updateDatePicker);
+
+  // ----------------------------------------------------
+  // Q. MacContextMenu & Menu Bar
+  // ----------------------------------------------------
+  const menuBarTitleInput = document.getElementById('knob-menubar-title');
+  const menuBarAppDisp = document.getElementById('knob-menubar-appname');
+  const menuBarCode = document.getElementById('dynamic-code-menubar');
+
+  menuBarTitleInput?.addEventListener('input', () => {
+    const title = menuBarTitleInput.value || 'Loupe';
+    if (menuBarAppDisp) menuBarAppDisp.textContent = title;
+    if (menuBarCode) {
+      menuBarCode.textContent = `MacMenuBar::new("sys-menubar", "${title}")\n    .menus(vec!["File", "Edit", "View", "Window", "Help"])\n    .active_menu(Some(0))`;
+    }
+  });
+
+  document.querySelectorAll('.mac-menubar-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.mac-menubar-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      showToast(`Menu: ${item.textContent.trim()}`);
+    });
+  });
+
+  // ----------------------------------------------------
+  // R. MacPathControl
+  // ----------------------------------------------------
+  const pathLeafInput = document.getElementById('knob-path-leaf');
+  const pathCurrentCrumb = document.querySelector('.mac-path-crumb.current');
+  const pathCode = document.getElementById('dynamic-code-path');
+
+  pathLeafInput?.addEventListener('input', () => {
+    const leaf = pathLeafInput.value || 'photo-engine';
+    if (pathCurrentCrumb) pathCurrentCrumb.textContent = `📷 ${leaf}`;
+    if (pathCode) {
+      pathCode.textContent = `MacPathControl::new("finder-path")\n    .item("Macintosh HD")\n    .item("Users")\n    .item("mayank")\n    .item("${leaf}")`;
+    }
+  });
+
+  document.querySelectorAll('.mac-path-crumb').forEach(crumb => {
+    crumb.addEventListener('click', () => {
+      showToast(`Navigated to: ${crumb.textContent.trim()}`);
+    });
+  });
+
+  // ----------------------------------------------------
+  // S. MacTabBar
+  // ----------------------------------------------------
+  const tabSelect = document.getElementById('knob-tab-active-select');
+  const tabItems = document.querySelectorAll('.mac-tab-demo .mac-tab-item');
+  const tabCode = document.getElementById('dynamic-code-tabs');
+
+  tabItems.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabItems.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const tabId = tab.getAttribute('data-tab');
+      if (tabSelect && tabId) tabSelect.value = tabId;
+      showToast(`Switched tab: ${tab.querySelector('span')?.textContent || tabId}`);
+    });
+  });
+
+  tabSelect?.addEventListener('change', () => {
+    const val = tabSelect.value;
+    tabItems.forEach(t => {
+      if (t.getAttribute('data-tab') === val) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+  });
+
+  // ----------------------------------------------------
+  // T. MacTokenField
+  // ----------------------------------------------------
+  const tokenContainer = document.getElementById('knob-target-tokenfield');
+  const tokenAddInput = document.getElementById('knob-token-add-input');
+  const tokenCode = document.getElementById('dynamic-code-token');
+
+  function bindTokenCloseButtons() {
+    tokenContainer?.querySelectorAll('.mac-token-chip .close-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const chip = btn.closest('.mac-token-chip');
+        const chipName = chip?.querySelector('span')?.textContent || 'tag';
+        chip?.remove();
+        showToast(`Removed tag: ${chipName}`);
+      };
+    });
+  }
+  bindTokenCloseButtons();
+
+  tokenAddInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = tokenAddInput.value.trim();
+      if (val && tokenContainer) {
+        const newChip = document.createElement('div');
+        newChip.className = 'mac-token-chip';
+        newChip.innerHTML = `<span>${val}</span><span class="close-btn">×</span>`;
+        tokenContainer.insertBefore(newChip, tokenContainer.lastElementChild);
+        tokenAddInput.value = '';
+        bindTokenCloseButtons();
+        showToast(`Added tag: ${val}`);
+      }
+    }
+  });
+
+  // ----------------------------------------------------
+  // U. MacGauge
+  // ----------------------------------------------------
+  const gaugeSlider = document.getElementById('knob-gauge-slider');
+  const gaugeValDisp = document.getElementById('knob-gauge-val-disp');
+  const gaugeFill = document.getElementById('knob-target-gauge-fill');
+  const gaugeCode = document.getElementById('dynamic-code-gauge');
+
+  gaugeSlider?.addEventListener('input', () => {
+    const val = parseInt(gaugeSlider.value, 10);
+    if (gaugeValDisp) gaugeValDisp.textContent = `${val}%`;
+    if (gaugeFill) {
+      gaugeFill.style.width = `${val}%`;
+      if (val >= 90) {
+        gaugeFill.style.backgroundColor = 'var(--apple-system-red)';
+      } else if (val >= 70) {
+        gaugeFill.style.backgroundColor = 'var(--apple-system-orange)';
+      } else {
+        gaugeFill.style.backgroundColor = 'var(--apple-accent)';
+      }
+    }
+    if (gaugeCode) {
+      gaugeCode.textContent = `MacGauge::new("disk-gauge", ${(val / 100).toFixed(2)})\n    .label("Scratch Disk Cache")\n    .thresholds(0.70, 0.90)`;
+    }
+  });
+
+  // ----------------------------------------------------
+  // V. MacRatingIndicator
+  // ----------------------------------------------------
+  const ratingStars = document.querySelectorAll('.mac-rating-star');
+  const ratingLabel = document.getElementById('knob-rating-label');
+  const ratingSelect = document.getElementById('knob-rating-select');
+  const ratingCode = document.getElementById('dynamic-code-rating');
+
+  function setRating(score) {
+    ratingStars.forEach((star, idx) => {
+      if (idx < score) star.classList.add('filled');
+      else star.classList.remove('filled');
+    });
+    if (ratingLabel) ratingLabel.textContent = `${score} of 5 Stars`;
+    if (ratingSelect) ratingSelect.value = String(score);
+    if (ratingCode) {
+      ratingCode.textContent = `MacRatingIndicator::new("photo-rating", ${score})\n    .max_rating(5)\n    .on_rate(cx.listener(|this, stars, cx| {\n        this.photo_stars = stars;\n    }))`;
+    }
+  }
+
+  ratingStars.forEach((star, idx) => {
+    star.addEventListener('click', () => {
+      const score = idx + 1;
+      setRating(score);
+      showToast(`Rated: ${score} Stars`);
+    });
+  });
+
+  ratingSelect?.addEventListener('change', () => {
+    setRating(parseInt(ratingSelect.value, 10));
+  });
+
+  // ----------------------------------------------------
+  // W. MacSplitView
+  // ----------------------------------------------------
+  const splitWidthSlider = document.getElementById('knob-split-width');
+  const splitFirstPane = document.querySelector('.mac-split-demo > div:first-child');
+  const splitCode = document.getElementById('dynamic-code-split');
+
+  splitWidthSlider?.addEventListener('input', () => {
+    const w = splitWidthSlider.value;
+    if (splitFirstPane) splitFirstPane.style.width = `${w}px`;
+    if (splitCode) {
+      splitCode.textContent = `MacSplitView::new("main-split")\n    .leading_width(${w}.0)\n    .leading(MacSidebar::new("sidebar"))\n    .trailing(photo_canvas)`;
+    }
+  });
+
+  // ----------------------------------------------------
+  // X. MacOutlineView
+  // ----------------------------------------------------
+  const outlineRows = document.querySelectorAll('.mac-outline-row');
+  outlineRows.forEach(row => {
+    row.addEventListener('click', () => {
+      outlineRows.forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      const name = row.querySelector('span:last-child')?.textContent || 'item';
+      showToast(`Selected outline: ${name}`);
+    });
+  });
+
+  // ----------------------------------------------------
+  // Y. MacChart
+  // ----------------------------------------------------
+  const chartPeakSlider = document.getElementById('knob-chart-peak');
+  const chartWedBar = document.querySelector('.mac-chart-bar-item:nth-child(3) .mac-chart-bar-rect');
+  const chartCode = document.getElementById('dynamic-code-chart');
+
+  chartPeakSlider?.addEventListener('input', () => {
+    const h = chartPeakSlider.value;
+    if (chartWedBar) chartWedBar.style.height = `${h}px`;
+    if (chartCode) {
+      chartCode.textContent = `MacChart::new("ingest-chart")\n    .title("Weekly Photo Ingest Volume")\n    .point("Mon", 0.40)\n    .point("Tue", 0.70)\n    .point_colored("Wed", ${(h / 100).toFixed(2)}, MacAccentColor::Green)\n    .point("Thu", 0.50)\n    .point("Fri", 0.85)`;
+    }
+  });
+
+  // ----------------------------------------------------
+  // Z. MacPageControl
+  // ----------------------------------------------------
+  const pageDots = document.querySelectorAll('.mac-page-dot');
+  const pageStatus = document.getElementById('knob-page-status');
+  const pageCurrInput = document.getElementById('knob-page-curr');
+  const pageCode = document.getElementById('dynamic-code-pagecontrol');
+
+  function setPage(page) {
+    pageDots.forEach((dot, idx) => {
+      if (idx === page) dot.classList.add('active');
+      else dot.classList.remove('active');
+    });
+    if (pageStatus) pageStatus.textContent = `Page ${page + 1} of ${pageDots.length}`;
+    if (pageCurrInput) pageCurrInput.value = page + 1;
+    if (pageCode) {
+      pageCode.textContent = `MacPageControl::new("gallery-pager", ${pageDots.length})\n    .current_page(${page})\n    .on_change(cx.listener(|this, page, cx| {\n        this.active_slide = page;\n    }))`;
+    }
+  }
+
+  pageDots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      setPage(idx);
+      showToast(`Page ${idx + 1}`);
+    });
+  });
+
+  pageCurrInput?.addEventListener('input', () => {
+    const p = Math.max(1, Math.min(pageDots.length, parseInt(pageCurrInput.value || '1', 10))) - 1;
+    setPage(p);
+  });
 }
 
 /* ==========================================================================

@@ -26,6 +26,14 @@ impl MacFieldSize {
             Self::Large => 28.0,
         }
     }
+
+    pub fn font_size(&self) -> f32 {
+        match self {
+            Self::Small => 11.0,
+            Self::Regular => 13.0,
+            Self::Large => 14.0,
+        }
+    }
 }
 
 /// A macOS Single-line Text Field adhering to Apple Human Interface Guidelines.
