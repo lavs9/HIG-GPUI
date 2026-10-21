@@ -20,10 +20,11 @@ struct ShowcaseApp {
     show_dialog: bool,
     search_state: Entity<InputState>,
     text_state: Entity<InputState>,
+    filter: Option<String>,
 }
 
 impl ShowcaseApp {
-    fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
+    fn new(window: &mut Window, filter: Option<String>, cx: &mut Context<Self>) -> Self {
         let search_state = cx.new(|cx| InputState::new(window, cx).placeholder("Search photos, clips, songs..."));
         let text_state = cx.new(|cx| InputState::new(window, cx).placeholder("Enter account name…"));
         Self {
@@ -40,6 +41,7 @@ impl ShowcaseApp {
             show_dialog: false,
             search_state,
             text_state,
+            filter,
         }
     }
 }
@@ -47,6 +49,7 @@ impl ShowcaseApp {
 impl Render for ShowcaseApp {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let is_dark = self.is_dark;
+        let _ = &self.filter;
         let apple_colors = if is_dark {
             AppleColors::dark(self.accent)
         } else {
@@ -352,7 +355,8 @@ impl Render for ShowcaseApp {
 }
 
 fn main() {
-    application().with_assets(assets::AllAssets).run(|cx| {
+    let filter = std::env::args().nth(1).map(|s| s.to_lowercase());
+    application().with_assets(assets::AllAssets).run(move |cx| {
         init(cx);
         apply_apple_theme(false, MacAccentColor::Blue, cx);
 
@@ -366,8 +370,9 @@ fn main() {
             ..TitleBar::window_options()
         };
 
-        open_window(options, cx, |window, cx| {
-            cx.new(|cx| ShowcaseApp::new(window, cx))
+        let filter_clone = filter.clone();
+        open_window(options, cx, move |window, cx| {
+            cx.new(|cx| ShowcaseApp::new(window, filter_clone, cx))
         }).expect("failed to open window");
     });
 }

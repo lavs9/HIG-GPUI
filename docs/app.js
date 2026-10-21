@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initAccentPicker();
   initSidebar();
-  initInteractiveComponents();
+  initPlaygroundTabs();
+  initCliBadges();
+  initInteractivePlaygrounds();
   initCopyCodeButtons();
   initKeyboardShortcuts();
 });
@@ -21,7 +23,6 @@ function initTheme() {
   const themeIcon = document.getElementById('theme-icon');
   const themeLabel = document.getElementById('theme-label');
 
-  // Check saved preference or system preference
   const savedTheme = localStorage.getItem('apple_hig_theme');
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
@@ -37,7 +38,6 @@ function initTheme() {
     });
   }
 
-  // Listen to system changes if no preference saved
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('apple_hig_theme')) {
@@ -203,7 +203,6 @@ function initAccentPicker() {
     });
   }
 
-  // Update on theme toggle as well
   const observer = new MutationObserver(() => {
     const currentAccent = localStorage.getItem('apple_hig_accent') || 'blue';
     applyAccent(currentAccent);
@@ -220,11 +219,9 @@ function initSidebar() {
   const navItems = document.querySelectorAll('.nav-item');
   const navSections = document.querySelectorAll('.nav-section');
 
-  // Search filter
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase().trim();
-      
       navItems.forEach(item => {
         const text = item.textContent.toLowerCase();
         if (!q || text.includes(q)) {
@@ -234,7 +231,6 @@ function initSidebar() {
         }
       });
 
-      // Hide section title if all items hidden
       navSections.forEach(sec => {
         const visibleItems = sec.querySelectorAll('.nav-item[style="display: flex;"], .nav-item:not([style*="display: none"])');
         sec.style.display = visibleItems.length === 0 ? 'none' : 'block';
@@ -242,7 +238,6 @@ function initSidebar() {
     });
   }
 
-  // Smooth scroll and active state
   navItems.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
@@ -259,7 +254,6 @@ function initSidebar() {
     });
   });
 
-  // ScrollSpy with IntersectionObserver
   const sections = document.querySelectorAll('section[id]');
   if ('IntersectionObserver' in window && sections.length > 0) {
     const observer = new IntersectionObserver((entries) => {
@@ -282,198 +276,492 @@ function initSidebar() {
 }
 
 /* ==========================================================================
-   4. Interactive Component Playground Simulations
+   4. Playground Tabs (Preview vs Code vs Anatomy)
    ========================================================================== */
 
-function initInteractiveComponents() {
-  // MacSwitch
-  document.querySelectorAll('.mac-switch:not(.disabled)').forEach(el => {
-    el.addEventListener('click', () => {
-      el.classList.toggle('on');
-      const statusLabel = el.closest('.preview-stage')?.querySelector('.switch-status-text');
-      if (statusLabel) {
-        statusLabel.textContent = el.classList.contains('on') ? 'State: On (Enabled)' : 'State: Off (Disabled)';
-      }
-    });
-  });
+function initPlaygroundTabs() {
+  document.querySelectorAll('.playground-tabs').forEach(tabGroup => {
+    const buttons = tabGroup.querySelectorAll('.playground-tab-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-  // MacCheckbox
-  document.querySelectorAll('.mac-checkbox-interactive').forEach(el => {
-    el.addEventListener('click', () => {
-      const box = el.querySelector('.mac-checkbox-box');
-      if (!box || el.classList.contains('disabled')) return;
+        const wrapper = btn.closest('.playground-wrapper');
+        const mode = btn.getAttribute('data-tab');
+        if (wrapper && mode) {
+          const stage = wrapper.querySelector('.playground-stage');
+          const sidebar = wrapper.querySelector('.playground-sidebar');
+          const codeView = wrapper.querySelector('.playground-code-view');
 
-      if (box.classList.contains('checked')) {
-        box.classList.remove('checked');
-        box.classList.add('mixed');
-      } else if (box.classList.contains('mixed')) {
-        box.classList.remove('mixed');
-      } else {
-        box.classList.add('checked');
-      }
-    });
-  });
-
-  // MacRadio
-  document.querySelectorAll('.mac-radio-group').forEach(group => {
-    const radios = group.querySelectorAll('.mac-radio-row:not(.disabled), .mac-radio:not(.disabled)');
-    radios.forEach(radio => {
-      radio.addEventListener('click', () => {
-        radios.forEach(r => r.classList.remove('selected'));
-        radio.classList.add('selected');
+          if (mode === 'code') {
+            if (stage) stage.style.display = 'none';
+            if (sidebar) sidebar.style.display = 'none';
+            if (codeView) codeView.style.display = 'block';
+          } else {
+            if (stage) stage.style.display = 'flex';
+            if (sidebar) sidebar.style.display = 'flex';
+            if (codeView) codeView.style.display = 'none';
+          }
+        }
       });
     });
   });
+}
 
-  // MacSegmentedControl
-  document.querySelectorAll('.mac-segmented').forEach(control => {
-    const segments = control.querySelectorAll('.mac-segment:not(.disabled)');
-    segments.forEach(seg => {
+function initCliBadges() {
+  document.querySelectorAll('.playground-cli-badge').forEach(badge => {
+    badge.addEventListener('click', async () => {
+      const cmd = badge.textContent.trim().replace(/^>\s*/, '');
+      try {
+        await navigator.clipboard.writeText(cmd);
+        showToast(`Copied: ${cmd}`);
+      } catch (err) {
+        showToast('Failed to copy command');
+      }
+    });
+  });
+}
+
+/* ==========================================================================
+   5. Interactive Component Playgrounds with Live Prop Knobs
+   ========================================================================== */
+
+function initInteractivePlaygrounds() {
+  // ----------------------------------------------------
+  // A. MacSwitch Playground
+  // ----------------------------------------------------
+  const switchTarget = document.getElementById('knob-target-switch');
+  const switchLabelTarget = document.getElementById('knob-target-switch-label');
+  const switchCode = document.getElementById('dynamic-code-switch');
+
+  const knobSwitchSize = document.getElementById('knob-switch-size');
+  const knobSwitchState = document.getElementById('knob-switch-state');
+  const knobSwitchDisabled = document.getElementById('knob-switch-disabled');
+  const knobSwitchText = document.getElementById('knob-switch-text');
+
+  function updateSwitch() {
+    if (!switchTarget) return;
+    const isMini = knobSwitchSize?.value === 'mini';
+    const isOn = knobSwitchState?.checked ?? true;
+    const isDisabled = knobSwitchDisabled?.checked ?? false;
+    const text = knobSwitchText?.value ?? 'Background Indexing';
+
+    if (isMini) switchTarget.classList.add('mini'); else switchTarget.classList.remove('mini');
+    if (isOn) switchTarget.classList.add('on'); else switchTarget.classList.remove('on');
+    if (isDisabled) switchTarget.classList.add('disabled'); else switchTarget.classList.remove('disabled');
+
+    if (switchLabelTarget) switchLabelTarget.textContent = text;
+
+    if (switchCode) {
+      let code = `MacSwitch::new("my-switch", ${isOn})\n`;
+      if (isMini) code += `    .size(MacSwitchSize::Mini)\n`;
+      if (isDisabled) code += `    .disabled(true)\n`;
+      code += `    .on_click(cx.listener(|this, _event, cx| {\n        this.enabled = !this.enabled;\n        cx.notify();\n    }))`;
+      switchCode.textContent = code;
+    }
+  }
+
+  if (switchTarget) {
+    switchTarget.addEventListener('click', () => {
+      if (switchTarget.classList.contains('disabled')) return;
+      const willBeOn = !switchTarget.classList.contains('on');
+      if (knobSwitchState) knobSwitchState.checked = willBeOn;
+      updateSwitch();
+    });
+    knobSwitchSize?.addEventListener('change', updateSwitch);
+    knobSwitchState?.addEventListener('change', updateSwitch);
+    knobSwitchDisabled?.addEventListener('change', updateSwitch);
+    knobSwitchText?.addEventListener('input', updateSwitch);
+  }
+
+  // ----------------------------------------------------
+  // B. MacButton Playground
+  // ----------------------------------------------------
+  const buttonTarget = document.getElementById('knob-target-button');
+  const buttonCode = document.getElementById('dynamic-code-button');
+
+  const knobBtnVariant = document.getElementById('knob-btn-variant');
+  const knobBtnSize = document.getElementById('knob-btn-size');
+  const knobBtnDisabled = document.getElementById('knob-btn-disabled');
+  const knobBtnLoading = document.getElementById('knob-btn-loading');
+  const knobBtnText = document.getElementById('knob-btn-text');
+
+  let clickCount = 0;
+  function updateButton() {
+    if (!buttonTarget) return;
+    const variant = knobBtnVariant?.value || 'prominent';
+    const size = knobBtnSize?.value || 'regular';
+    const isDisabled = knobBtnDisabled?.checked || false;
+    const isLoading = knobBtnLoading?.checked || false;
+    const text = knobBtnText?.value || 'Save Changes';
+
+    buttonTarget.className = 'mac-button';
+    if (variant !== 'push') buttonTarget.classList.add(variant);
+    if (size !== 'regular') buttonTarget.classList.add(size);
+    if (isDisabled) buttonTarget.classList.add('disabled');
+
+    if (isLoading) {
+      buttonTarget.innerHTML = `<div class="mac-spinner small" style="margin-right: 6px;"></div><span>${text}</span>`;
+    } else {
+      buttonTarget.textContent = text;
+    }
+
+    if (buttonCode) {
+      let code = `MacButton::new("action-btn", "${text}")\n`;
+      if (variant === 'prominent') code += `    .prominent()\n`;
+      else if (variant === 'destructive') code += `    .destructive()\n`;
+      else if (variant === 'borderless') code += `    .borderless()\n`;
+
+      if (size === 'small') code += `    .size(MacButtonSize::Small)\n`;
+      else if (size === 'large') code += `    .size(MacButtonSize::Large)\n`;
+
+      if (isDisabled) code += `    .disabled(true)\n`;
+      code += `    .on_click(cx.listener(|this, _event, cx| {\n        this.save_changes();\n    }))`;
+      buttonCode.textContent = code;
+    }
+  }
+
+  if (buttonTarget) {
+    buttonTarget.addEventListener('click', () => {
+      if (buttonTarget.classList.contains('disabled')) return;
+      clickCount++;
+      showToast(`Button clicked (${clickCount})`);
+    });
+    knobBtnVariant?.addEventListener('change', updateButton);
+    knobBtnSize?.addEventListener('change', updateButton);
+    knobBtnDisabled?.addEventListener('change', updateButton);
+    knobBtnLoading?.addEventListener('change', updateButton);
+    knobBtnText?.addEventListener('input', updateButton);
+  }
+
+  // ----------------------------------------------------
+  // C. MacCheckbox Playground
+  // ----------------------------------------------------
+  const checkboxRowTarget = document.getElementById('knob-target-checkbox-row');
+  const checkboxBoxTarget = document.getElementById('knob-target-checkbox-box');
+  const checkboxLabelTarget = document.getElementById('knob-target-checkbox-label');
+  const checkboxCode = document.getElementById('dynamic-code-checkbox');
+
+  const knobCheckState = document.getElementById('knob-check-state');
+  const knobCheckDisabled = document.getElementById('knob-check-disabled');
+  const knobCheckText = document.getElementById('knob-check-text');
+
+  function updateCheckbox() {
+    if (!checkboxBoxTarget) return;
+    const state = knobCheckState?.value || 'checked';
+    const isDisabled = knobCheckDisabled?.checked || false;
+    const text = knobCheckText?.value || 'Preserve GPS location data';
+
+    checkboxBoxTarget.classList.remove('checked', 'mixed');
+    if (state === 'checked') checkboxBoxTarget.classList.add('checked');
+    else if (state === 'mixed') checkboxBoxTarget.classList.add('mixed');
+
+    if (isDisabled) checkboxRowTarget?.classList.add('disabled');
+    else checkboxRowTarget?.classList.remove('disabled');
+
+    if (checkboxLabelTarget) checkboxLabelTarget.textContent = text;
+
+    if (checkboxCode) {
+      let stateStr = state === 'checked' ? 'MacCheckboxState::Checked' : (state === 'mixed' ? 'MacCheckboxState::Mixed' : 'MacCheckboxState::Unchecked');
+      let code = `MacCheckbox::new("meta-check", ${stateStr})\n    .label("${text}")\n`;
+      if (isDisabled) code += `    .disabled(true)\n`;
+      code += `    .on_click(cx.listener(|this, state, cx| {\n        this.preserve_gps = state.is_checked();\n    }))`;
+      checkboxCode.textContent = code;
+    }
+  }
+
+  if (checkboxRowTarget) {
+    checkboxRowTarget.addEventListener('click', () => {
+      if (checkboxRowTarget.classList.contains('disabled')) return;
+      const current = knobCheckState?.value || 'checked';
+      let next = 'checked';
+      if (current === 'checked') next = 'mixed';
+      else if (current === 'mixed') next = 'unchecked';
+      else next = 'checked';
+
+      if (knobCheckState) knobCheckState.value = next;
+      updateCheckbox();
+    });
+    knobCheckState?.addEventListener('change', updateCheckbox);
+    knobCheckDisabled?.addEventListener('change', updateCheckbox);
+    knobCheckText?.addEventListener('input', updateCheckbox);
+  }
+
+  // ----------------------------------------------------
+  // D. MacRadio Group Playground
+  // ----------------------------------------------------
+  const radioGroup = document.getElementById('knob-target-radio-group');
+  const radioCode = document.getElementById('dynamic-code-radio');
+  if (radioGroup) {
+    const radioRows = radioGroup.querySelectorAll('.mac-radio-row');
+    radioRows.forEach((row, idx) => {
+      row.addEventListener('click', () => {
+        if (row.classList.contains('disabled')) return;
+        radioRows.forEach(r => r.classList.remove('selected'));
+        row.classList.add('selected');
+        const val = row.querySelector('.mac-radio-text')?.textContent || '';
+        showToast(`Selected: ${val}`);
+
+        if (radioCode) {
+          radioCode.textContent = `MacRadio::new("radio-opt-${idx}", true)\n    .label("${val}")\n    .on_click(cx.listener(|this, _event, cx| {\n        this.selected_idx = ${idx};\n    }))`;
+        }
+      });
+    });
+  }
+
+  // ----------------------------------------------------
+  // E. MacSegmentedControl Playground & Dynamic Views
+  // ----------------------------------------------------
+  const segmentedControl = document.getElementById('demo-segmented-control');
+  const segmentedViewContent = document.getElementById('segmented-view-content');
+  const segmentedCode = document.getElementById('dynamic-code-segmented');
+
+  if (segmentedControl) {
+    const segments = segmentedControl.querySelectorAll('.mac-segment');
+    segments.forEach((seg, idx) => {
       seg.addEventListener('click', () => {
         segments.forEach(s => s.classList.remove('active'));
         seg.classList.add('active');
+
+        const viewType = seg.getAttribute('data-view');
+        if (segmentedViewContent) {
+          if (viewType === 'grid') {
+            segmentedViewContent.innerHTML = `
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 480px;">
+                <div style="height: 70px; background: rgba(0,122,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌄</div>
+                <div style="height: 70px; background: rgba(52,199,89,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏖️</div>
+                <div style="height: 70px; background: rgba(255,149,0,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🗼</div>
+                <div style="height: 70px; background: rgba(175,82,222,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌸</div>
+              </div>
+            `;
+          } else if (viewType === 'list') {
+            segmentedViewContent.innerHTML = `
+              <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
+                  <span>IMG_2026_Fuji.heic</span><span style="color: var(--apple-secondary-label);">4.8 MB</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
+                  <span>IMG_2026_Tokyo.jpg</span><span style="color: var(--apple-secondary-label);">3.2 MB</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
+                  <span>IMG_2026_Kyoto.raw</span><span style="color: var(--apple-secondary-label);">38.4 MB</span>
+                </div>
+              </div>
+            `;
+          } else {
+            segmentedViewContent.innerHTML = `
+              <div style="width: 100%; max-width: 480px; height: 100px; background: var(--apple-surface-hover); border-radius: 8px; border: 1px dashed var(--apple-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;">
+                <span style="font-size: 24px;">📍</span>
+                <span style="font-size: 12px; color: var(--apple-secondary-label);">34 Photos in Tokyo, Japan</span>
+              </div>
+            `;
+          }
+        }
+
+        if (segmentedCode) {
+          segmentedCode.textContent = `MacSegmentedControl::new("view-switcher", ${idx})\n    .segment(MacSegment::new("grid", "Grid View"))\n    .segment(MacSegment::new("list", "List View"))\n    .segment(MacSegment::new("map", "Map View"))\n    .on_change(cx.listener(|this, idx, cx| {\n        this.view_idx = idx;\n    }))`;
+        }
       });
     });
-  });
+  }
 
-  // MacSlider
-  document.querySelectorAll('.mac-slider').forEach(slider => {
-    const output = slider.closest('.preview-stage')?.querySelector('.slider-val-badge');
-    slider.addEventListener('input', () => {
-      if (output) output.textContent = `${slider.value}%`;
+  // ----------------------------------------------------
+  // F. MacSearchField Playground & Real-Time Filter
+  // ----------------------------------------------------
+  const searchInput = document.getElementById('demo-search-input');
+  const searchClearBtn = document.getElementById('demo-search-clear');
+  const searchResultsContainer = document.getElementById('demo-search-results');
+  const searchItems = [
+    { title: 'Tokyo Skyline Night', tag: 'Landscape · Japan' },
+    { title: 'Kyoto Bamboo Forest', tag: 'Nature · Japan' },
+    { title: 'Sunset at Golden Gate', tag: 'Golden Hour · SF' },
+    { title: 'Mount Fuji Sunrise', tag: 'Winter · Japan' },
+  ];
+
+  function renderSearchResults(filter = '') {
+    if (!searchResultsContainer) return;
+    const q = filter.toLowerCase().trim();
+    const filtered = searchItems.filter(item => !q || item.title.toLowerCase().includes(q) || item.tag.toLowerCase().includes(q));
+
+    if (filtered.length === 0) {
+      searchResultsContainer.innerHTML = `<div style="font-size: 12px; color: var(--apple-tertiary-label); padding: 8px;">No matching photos found</div>`;
+      return;
+    }
+
+    searchResultsContainer.innerHTML = filtered.map(item => `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
+        <span style="font-weight: 500;">${item.title}</span>
+        <span style="font-size: 11px; color: var(--apple-secondary-label);">${item.tag}</span>
+      </div>
+    `).join('');
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (searchClearBtn) searchClearBtn.style.display = val.length > 0 ? 'flex' : 'none';
+      renderSearchResults(val);
     });
-  });
 
-  // MacStepper
-  document.querySelectorAll('.mac-stepper-interactive').forEach(stepper => {
-    const display = stepper.closest('.preview-stage')?.querySelector('.stepper-val-badge');
-    let val = 1;
-    const upBtn = stepper.querySelector('.stepper-up');
-    const downBtn = stepper.querySelector('.stepper-down');
-
-    if (upBtn) {
-      upBtn.addEventListener('click', () => {
-        val++;
-        if (display) display.textContent = val;
+    if (searchClearBtn) {
+      searchClearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchClearBtn.style.display = 'none';
+        renderSearchResults('');
+        searchInput.focus();
       });
     }
-    if (downBtn) {
-      downBtn.addEventListener('click', () => {
-        if (val > 0) val--;
-        if (display) display.textContent = val;
-      });
-    }
-  });
+  }
 
-  // MacColorWell
-  document.querySelectorAll('.mac-color-well').forEach(well => {
-    const input = well.querySelector('input[type="color"]');
-    const swatch = well.querySelector('.mac-color-well-swatch');
-    const badge = well.closest('.preview-stage')?.querySelector('.color-val-badge');
+  // ----------------------------------------------------
+  // G. MacSlider Playground & Photo Exposure Simulation
+  // ----------------------------------------------------
+  const liveSlider = document.getElementById('demo-interactive-slider');
+  const liveSliderVal = document.getElementById('demo-slider-val');
+  const liveSliderImg = document.getElementById('demo-slider-img-target');
 
-    if (input && swatch) {
-      input.addEventListener('input', (e) => {
-        swatch.style.backgroundColor = e.target.value;
-        if (badge) badge.textContent = e.target.value.toUpperCase();
-      });
-    }
-  });
-
-  // MacDisclosure
-  document.querySelectorAll('.mac-disclosure-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const container = header.closest('.mac-disclosure-container');
-      if (container) {
-        container.classList.toggle('open');
+  if (liveSlider) {
+    liveSlider.addEventListener('input', () => {
+      const val = liveSlider.value;
+      if (liveSliderVal) liveSliderVal.textContent = `${val}%`;
+      if (liveSliderImg) {
+        const brightness = 0.5 + (val / 100);
+        liveSliderImg.style.filter = `brightness(${brightness})`;
       }
     });
-  });
+  }
 
-  // MacSidebar Row selection
-  document.querySelectorAll('.mac-sidebar-preview').forEach(sidebar => {
-    const rows = sidebar.querySelectorAll('.mac-sidebar-row');
-    rows.forEach(row => {
+  // ----------------------------------------------------
+  // H. MacColorWell Playground
+  // ----------------------------------------------------
+  const colorWellInput = document.getElementById('demo-color-input');
+  const colorWellSwatch = document.getElementById('demo-color-swatch');
+  const colorWellBadge = document.getElementById('demo-color-badge');
+  const colorWellStageCard = document.getElementById('demo-color-stage-card');
+
+  if (colorWellInput && colorWellSwatch) {
+    colorWellInput.addEventListener('input', (e) => {
+      const hex = e.target.value.toUpperCase();
+      colorWellSwatch.style.backgroundColor = hex;
+      if (colorWellBadge) colorWellBadge.textContent = hex;
+      if (colorWellStageCard) colorWellStageCard.style.backgroundColor = `${hex}18`;
+    });
+  }
+
+  // ----------------------------------------------------
+  // I. MacPopupButton Popover Simulation
+  // ----------------------------------------------------
+  const popupBtn = document.getElementById('demo-popup-button');
+  const popupMenu = document.getElementById('demo-popup-menu');
+  const popupLabel = document.getElementById('demo-popup-label');
+
+  if (popupBtn && popupMenu) {
+    popupBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      popupMenu.classList.toggle('open');
+    });
+
+    popupMenu.querySelectorAll('.mac-popover-item').forEach(item => {
+      item.addEventListener('click', () => {
+        popupMenu.querySelectorAll('.mac-popover-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        const text = item.textContent.replace(/^✓\s*/, '').trim();
+        if (popupLabel) popupLabel.textContent = text;
+        popupMenu.classList.remove('open');
+        showToast(`Ratio changed: ${text}`);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!popupBtn.contains(e.target) && !popupMenu.contains(e.target)) {
+        popupMenu.classList.remove('open');
+      }
+    });
+  }
+
+  // ----------------------------------------------------
+  // J. MacDialog Modal Sheet Simulation
+  // ----------------------------------------------------
+  const triggerDialogBtn = document.getElementById('trigger-modal-sheet-btn');
+  const modalOverlay = document.getElementById('demo-modal-sheet-overlay');
+  const modalCancelBtn = document.getElementById('modal-sheet-cancel');
+  const modalConfirmBtn = document.getElementById('modal-sheet-confirm');
+
+  if (triggerDialogBtn && modalOverlay) {
+    triggerDialogBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('open');
+    });
+
+    modalCancelBtn?.addEventListener('click', () => {
+      modalOverlay.classList.remove('open');
+    });
+
+    modalConfirmBtn?.addEventListener('click', () => {
+      modalOverlay.classList.remove('open');
+      showToast('Export confirmed');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+    });
+  }
+
+  // ----------------------------------------------------
+  // K. MacSettingsGroup Interactive Dependencies
+  // ----------------------------------------------------
+  const syncMasterSwitch = document.getElementById('settings-sync-master');
+  const syncSubRow1 = document.getElementById('settings-subrow-1');
+  const syncSubRow2 = document.getElementById('settings-subrow-2');
+
+  if (syncMasterSwitch) {
+    syncMasterSwitch.addEventListener('click', () => {
+      syncMasterSwitch.classList.toggle('on');
+      const isMasterOn = syncMasterSwitch.classList.contains('on');
+
+      if (syncSubRow1) {
+        syncSubRow1.style.opacity = isMasterOn ? '1' : '0.4';
+        syncSubRow1.style.pointerEvents = isMasterOn ? 'auto' : 'none';
+      }
+      if (syncSubRow2) {
+        syncSubRow2.style.opacity = isMasterOn ? '1' : '0.4';
+        syncSubRow2.style.pointerEvents = isMasterOn ? 'auto' : 'none';
+      }
+      showToast(isMasterOn ? 'Automatic sync enabled' : 'Automatic sync paused');
+    });
+  }
+
+  // ----------------------------------------------------
+  // L. MacSidebar Gallery Switching
+  // ----------------------------------------------------
+  const sidebarRows = document.querySelectorAll('.mac-sidebar-preview .mac-sidebar-row');
+  const sidebarGalleryTitle = document.getElementById('sidebar-gallery-title');
+  const sidebarGalleryCount = document.getElementById('sidebar-gallery-count');
+
+  if (sidebarRows.length > 0) {
+    sidebarRows.forEach(row => {
       row.addEventListener('click', () => {
-        rows.forEach(r => r.classList.remove('active'));
+        sidebarRows.forEach(r => r.classList.remove('active'));
         row.classList.add('active');
+        const title = row.querySelector('.sidebar-row-title')?.textContent || 'Photos';
+        const badge = row.querySelector('.mac-badge')?.textContent || '0';
+
+        if (sidebarGalleryTitle) sidebarGalleryTitle.textContent = title;
+        if (sidebarGalleryCount) sidebarGalleryCount.textContent = `${badge} photos`;
+        showToast(`Viewing: ${title}`);
       });
-    });
-  });
-
-  // MacSearchField Clear Action
-  document.querySelectorAll('.mac-search-field').forEach(field => {
-    const input = field.querySelector('.mac-search-field-input');
-    const clearBtn = field.querySelector('.mac-search-clear-btn');
-    if (input && clearBtn) {
-      input.addEventListener('input', () => {
-        clearBtn.style.display = input.value.length > 0 ? 'flex' : 'none';
-      });
-      clearBtn.addEventListener('click', () => {
-        input.value = '';
-        clearBtn.style.display = 'none';
-        input.focus();
-      });
-    }
-  });
-
-  // MacProgress Interactive Demo
-  const startProgressBtn = document.getElementById('demo-progress-btn');
-  const progressBar = document.getElementById('demo-progress-bar');
-  const progressVal = document.getElementById('demo-progress-val');
-  if (startProgressBtn && progressBar && progressVal) {
-    let timer = null;
-    startProgressBtn.addEventListener('click', () => {
-      if (timer) clearInterval(timer);
-      let p = 0;
-      progressBar.style.width = '0%';
-      progressVal.textContent = '0%';
-      timer = setInterval(() => {
-        p += 5;
-        if (p > 100) {
-          p = 100;
-          clearInterval(timer);
-        }
-        progressBar.style.width = `${p}%`;
-        progressVal.textContent = `${p}%`;
-      }, 75);
-    });
-  }
-
-  // MacDialog Interactive trigger
-  const showDialogBtn = document.getElementById('show-dialog-btn');
-  const dialogCard = document.getElementById('interactive-dialog-card');
-  const dismissDialogBtn = document.getElementById('dismiss-dialog-btn');
-  const okDialogBtn = document.getElementById('ok-dialog-btn');
-
-  if (showDialogBtn && dialogCard) {
-    showDialogBtn.addEventListener('click', () => {
-      dialogCard.style.display = 'flex';
-      showDialogBtn.style.display = 'none';
-    });
-  }
-  if (dismissDialogBtn && dialogCard && showDialogBtn) {
-    dismissDialogBtn.addEventListener('click', () => {
-      dialogCard.style.display = 'none';
-      showDialogBtn.style.display = 'inline-flex';
-    });
-  }
-  if (okDialogBtn && dialogCard && showDialogBtn) {
-    okDialogBtn.addEventListener('click', () => {
-      showToast('Action confirmed in dialog');
-      dialogCard.style.display = 'none';
-      showDialogBtn.style.display = 'inline-flex';
     });
   }
 }
 
 /* ==========================================================================
-   5. Copy Code to Clipboard & Toast
+   6. Copy Code to Clipboard & Toast
    ========================================================================== */
 
 function initCopyCodeButtons() {
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const codeBox = btn.closest('.code-box');
+      const codeBox = btn.closest('.code-box') || btn.closest('.playground-code-view');
       const codeEl = codeBox?.querySelector('code');
       if (codeEl) {
         try {
@@ -513,12 +801,11 @@ function showToast(message) {
 }
 
 /* ==========================================================================
-   6. Keyboard Shortcuts
+   7. Keyboard Shortcuts
    ========================================================================== */
 
 function initKeyboardShortcuts() {
   window.addEventListener('keydown', (e) => {
-    // ⌘K or Ctrl+K to search
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       const search = document.getElementById('sidebar-search-input');
