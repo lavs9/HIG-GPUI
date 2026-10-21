@@ -1,0 +1,33 @@
+<svg width="400" height="180" viewBox="0 0 400 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="180" rx="12" fill="#F5F5F7" stroke="#E5E5EA" stroke-width="1"/>
+  
+  <!-- Row 1: Push Standard, Prominent, Destructive -->
+  <g transform="translate(35, 45)">
+    <!-- Push Standard -->
+    <rect width="95" height="24" rx="6" fill="#FFFFFF" stroke="#D1D1D6" stroke-width="1"/>
+    <text x="47.5" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="450" fill="#1D1D1F" text-anchor="middle">Cancel</text>
+
+    <!-- Prominent -->
+    <rect x="115" width="95" height="24" rx="6" fill="#007AFF"/>
+    <text x="162.5" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="500" fill="#FFFFFF" text-anchor="middle">Save Changes</text>
+
+    <!-- Destructive -->
+    <rect x="230" width="95" height="24" rx="6" fill="rgba(255, 59, 48, 0.12)" stroke="rgba(255, 59, 48, 0.2)" stroke-width="1"/>
+    <text x="277.5" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="500" fill="#FF3B30" text-anchor="middle">Delete Item</text>
+  </g>
+
+  <!-- Row 2: Borderless, Small, Large -->
+  <g transform="translate(35, 105)">
+    <!-- Borderless -->
+    <rect width="80" height="24" rx="6" fill="transparent"/>
+    <text x="40" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="450" fill="#007AFF" text-anchor="middle">Toolbar Action</text>
+
+    <!-- Small -->
+    <rect x="110" y="2" width="70" height="20" rx="5" fill="#FFFFFF" stroke="#D1D1D6" stroke-width="1"/>
+    <text x="145" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="450" fill="#1D1D1F" text-anchor="middle">Small (20pt)</text>
+
+    <!-- Large -->
+    <rect x="210" y="-2" width="115" height="28" rx="6" fill="#007AFF"/>
+    <text x="267.5" y="16" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">Large (28pt)</text>
+  </g>
+</svg>
