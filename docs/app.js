@@ -331,12 +331,11 @@ function initInteractivePlaygrounds() {
   initMaterialsPlayground();
 
   // ----------------------------------------------------
-  // A. MacSwitch Playground
+  // 1. MacSwitch Playground
   // ----------------------------------------------------
   const switchTarget = document.getElementById('knob-target-switch');
   const switchLabelTarget = document.getElementById('knob-target-switch-label');
   const switchCode = document.getElementById('dynamic-code-switch');
-
   const knobSwitchSize = document.getElementById('knob-switch-size');
   const knobSwitchState = document.getElementById('knob-switch-state');
   const knobSwitchDisabled = document.getElementById('knob-switch-disabled');
@@ -352,15 +351,14 @@ function initInteractivePlaygrounds() {
     if (isMini) switchTarget.classList.add('mini'); else switchTarget.classList.remove('mini');
     if (isOn) switchTarget.classList.add('on'); else switchTarget.classList.remove('on');
     if (isDisabled) switchTarget.classList.add('disabled'); else switchTarget.classList.remove('disabled');
-
     if (switchLabelTarget) switchLabelTarget.textContent = text;
 
     if (switchCode) {
-      let code = `MacSwitch::new("my-switch", ${isOn})\n`;
-      if (isMini) code += `    .size(MacSwitchSize::Mini)\n`;
-      if (isDisabled) code += `    .disabled(true)\n`;
-      code += `    .on_click(cx.listener(|this, _event, cx| {\n        this.enabled = !this.enabled;\n        cx.notify();\n    }))`;
-      switchCode.textContent = code;
+      let c = `MacSwitch::new("my-switch", ${isOn})\n`;
+      if (isMini) c += `    .size(MacSwitchSize::Mini)\n`;
+      if (isDisabled) c += `    .disabled(true)\n`;
+      c += `    .on_click(cx.listener(|this, _event, cx| {\n        this.enabled = !this.enabled;\n        cx.notify();\n    }))`;
+      switchCode.textContent = c;
     }
   }
 
@@ -378,73 +376,61 @@ function initInteractivePlaygrounds() {
   }
 
   // ----------------------------------------------------
-  // B. MacButton Playground
+  // 2. MacButton Playground
   // ----------------------------------------------------
   const buttonTarget = document.getElementById('knob-target-button');
   const buttonCode = document.getElementById('dynamic-code-button');
-
   const knobBtnVariant = document.getElementById('knob-btn-variant');
   const knobBtnSize = document.getElementById('knob-btn-size');
   const knobBtnDisabled = document.getElementById('knob-btn-disabled');
-  const knobBtnLoading = document.getElementById('knob-btn-loading');
   const knobBtnText = document.getElementById('knob-btn-text');
+  let btnClickCount = 0;
 
-  let clickCount = 0;
   function updateButton() {
     if (!buttonTarget) return;
     const variant = knobBtnVariant?.value || 'prominent';
     const size = knobBtnSize?.value || 'regular';
     const isDisabled = knobBtnDisabled?.checked || false;
-    const isLoading = knobBtnLoading?.checked || false;
     const text = knobBtnText?.value || 'Save Changes';
 
     buttonTarget.className = 'mac-button';
     if (variant !== 'push') buttonTarget.classList.add(variant);
     if (size !== 'regular') buttonTarget.classList.add(size);
     if (isDisabled) buttonTarget.classList.add('disabled');
-
-    if (isLoading) {
-      buttonTarget.innerHTML = `<div class="mac-spinner small" style="margin-right: 6px;"></div><span>${text}</span>`;
-    } else {
-      buttonTarget.textContent = text;
-    }
+    buttonTarget.textContent = text;
 
     if (buttonCode) {
-      let code = `MacButton::new("action-btn", "${text}")\n`;
-      if (variant === 'prominent') code += `    .prominent()\n`;
-      else if (variant === 'destructive') code += `    .destructive()\n`;
-      else if (variant === 'borderless') code += `    .borderless()\n`;
-
-      if (size === 'small') code += `    .size(MacButtonSize::Small)\n`;
-      else if (size === 'large') code += `    .size(MacButtonSize::Large)\n`;
-
-      if (isDisabled) code += `    .disabled(true)\n`;
-      code += `    .on_click(cx.listener(|this, _event, cx| {\n        this.save_changes();\n    }))`;
-      buttonCode.textContent = code;
+      let c = `MacButton::new("action-btn", "${text}")\n`;
+      if (variant === 'prominent') c += `    .prominent()\n`;
+      else if (variant === 'destructive') c += `    .destructive()\n`;
+      else if (variant === 'borderless') c += `    .borderless()\n`;
+      if (size === 'small') c += `    .size(MacButtonSize::Small)\n`;
+      else if (size === 'large') c += `    .size(MacButtonSize::Large)\n`;
+      if (isDisabled) c += `    .disabled(true)\n`;
+      c += `    .on_click(cx.listener(|this, _event, cx| {\n        this.save_changes();\n    }))`;
+      buttonCode.textContent = c;
     }
   }
 
   if (buttonTarget) {
     buttonTarget.addEventListener('click', () => {
       if (buttonTarget.classList.contains('disabled')) return;
-      clickCount++;
-      showToast(`Button clicked (${clickCount})`);
+      btnClickCount++;
+      showToast(`Button clicked (${btnClickCount})`);
     });
     knobBtnVariant?.addEventListener('change', updateButton);
     knobBtnSize?.addEventListener('change', updateButton);
     knobBtnDisabled?.addEventListener('change', updateButton);
-    knobBtnLoading?.addEventListener('change', updateButton);
     knobBtnText?.addEventListener('input', updateButton);
   }
 
   // ----------------------------------------------------
-  // C. MacCheckbox Playground
+  // 3. MacCheckbox Playground
   // ----------------------------------------------------
   const checkboxRowTarget = document.getElementById('knob-target-checkbox-row');
   const checkboxBoxTarget = document.getElementById('knob-target-checkbox-box');
   const checkboxLabelTarget = document.getElementById('knob-target-checkbox-label');
   const checkboxCode = document.getElementById('dynamic-code-checkbox');
-
   const knobCheckState = document.getElementById('knob-check-state');
   const knobCheckDisabled = document.getElementById('knob-check-disabled');
   const knobCheckText = document.getElementById('knob-check-text');
@@ -453,7 +439,7 @@ function initInteractivePlaygrounds() {
     if (!checkboxBoxTarget) return;
     const state = knobCheckState?.value || 'checked';
     const isDisabled = knobCheckDisabled?.checked || false;
-    const text = knobCheckText?.value || 'Preserve GPS location data';
+    const text = knobCheckText?.value || 'Generate Smart Previews';
 
     checkboxBoxTarget.classList.remove('checked', 'mixed');
     if (state === 'checked') checkboxBoxTarget.classList.add('checked');
@@ -466,10 +452,10 @@ function initInteractivePlaygrounds() {
 
     if (checkboxCode) {
       let stateStr = state === 'checked' ? 'MacCheckboxState::Checked' : (state === 'mixed' ? 'MacCheckboxState::Mixed' : 'MacCheckboxState::Unchecked');
-      let code = `MacCheckbox::new("meta-check", ${stateStr})\n    .label("${text}")\n`;
-      if (isDisabled) code += `    .disabled(true)\n`;
-      code += `    .on_click(cx.listener(|this, state, cx| {\n        this.preserve_gps = state.is_checked();\n    }))`;
-      checkboxCode.textContent = code;
+      let c = `MacCheckbox::new("meta-check", ${stateStr})\n    .label("${text}")\n`;
+      if (isDisabled) c += `    .disabled(true)\n`;
+      c += `    .on_click(cx.listener(|this, state, cx| {\n        this.smart_previews = state.is_checked();\n    }))`;
+      checkboxCode.textContent = c;
     }
   }
 
@@ -477,11 +463,7 @@ function initInteractivePlaygrounds() {
     checkboxRowTarget.addEventListener('click', () => {
       if (checkboxRowTarget.classList.contains('disabled')) return;
       const current = knobCheckState?.value || 'checked';
-      let next = 'checked';
-      if (current === 'checked') next = 'mixed';
-      else if (current === 'mixed') next = 'unchecked';
-      else next = 'checked';
-
+      let next = current === 'checked' ? 'mixed' : (current === 'mixed' ? 'unchecked' : 'checked');
       if (knobCheckState) knobCheckState.value = next;
       updateCheckbox();
     });
@@ -491,272 +473,50 @@ function initInteractivePlaygrounds() {
   }
 
   // ----------------------------------------------------
-  // D. MacRadio Group Playground
+  // 4. MacRadio Group Playground
   // ----------------------------------------------------
   const radioGroup = document.getElementById('knob-target-radio-group');
+  const radioSelect = document.getElementById('knob-radio-selected');
+  const radioDisabled = document.getElementById('knob-radio-disabled');
   const radioCode = document.getElementById('dynamic-code-radio');
+
+  function updateRadio(val) {
+    if (!radioGroup) return;
+    const selectedVal = val || radioSelect?.value || 'lossless';
+    const isDisabled = radioDisabled?.checked || false;
+
+    if (radioSelect) radioSelect.value = selectedVal;
+    if (isDisabled) radioGroup.classList.add('disabled');
+    else radioGroup.classList.remove('disabled');
+
+    const rows = radioGroup.querySelectorAll('.mac-radio-row');
+    rows.forEach(r => {
+      if (r.getAttribute('data-value') === selectedVal) r.classList.add('selected');
+      else r.classList.remove('selected');
+    });
+
+    if (radioCode) {
+      radioCode.textContent = `MacRadioGroup::new("codec-group")\n    .selected("${selectedVal}")\n    .disabled(${isDisabled})\n    .on_change(cx.listener(|this, val, cx| {\n        this.selected_codec = val.to_string();\n    }))`;
+    }
+  }
+
   if (radioGroup) {
     const radioRows = radioGroup.querySelectorAll('.mac-radio-row');
-    radioRows.forEach((row, idx) => {
+    radioRows.forEach(row => {
       row.addEventListener('click', () => {
-        if (row.classList.contains('disabled')) return;
-        radioRows.forEach(r => r.classList.remove('selected'));
-        row.classList.add('selected');
-        const val = row.querySelector('.mac-radio-text')?.textContent || '';
-        showToast(`Selected: ${val}`);
-
-        if (radioCode) {
-          radioCode.textContent = `MacRadio::new("radio-opt-${idx}", true)\n    .label("${val}")\n    .on_click(cx.listener(|this, _event, cx| {\n        this.selected_idx = ${idx};\n    }))`;
-        }
+        if (radioGroup.classList.contains('disabled')) return;
+        const val = row.getAttribute('data-value');
+        updateRadio(val);
+        const label = row.querySelector('.mac-radio-text')?.textContent.trim() || val;
+        showToast(`Selected: ${label}`);
       });
     });
+    radioSelect?.addEventListener('change', () => updateRadio(radioSelect.value));
+    radioDisabled?.addEventListener('change', () => updateRadio());
   }
 
   // ----------------------------------------------------
-  // E. MacSegmentedControl Playground & Dynamic Views
-  // ----------------------------------------------------
-  const segmentedControl = document.getElementById('demo-segmented-control');
-  const segmentedViewContent = document.getElementById('segmented-view-content');
-  const segmentedCode = document.getElementById('dynamic-code-segmented');
-
-  if (segmentedControl) {
-    const segments = segmentedControl.querySelectorAll('.mac-segment');
-    segments.forEach((seg, idx) => {
-      seg.addEventListener('click', () => {
-        segments.forEach(s => s.classList.remove('active'));
-        seg.classList.add('active');
-
-        const viewType = seg.getAttribute('data-view');
-        if (segmentedViewContent) {
-          if (viewType === 'grid') {
-            segmentedViewContent.innerHTML = `
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 480px;">
-                <div style="height: 70px; background: rgba(0,122,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌄</div>
-                <div style="height: 70px; background: rgba(52,199,89,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏖️</div>
-                <div style="height: 70px; background: rgba(255,149,0,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🗼</div>
-                <div style="height: 70px; background: rgba(175,82,222,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🌸</div>
-              </div>
-            `;
-          } else if (viewType === 'list') {
-            segmentedViewContent.innerHTML = `
-              <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
-                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
-                  <span>IMG_2026_Fuji.heic</span><span style="color: var(--apple-secondary-label);">4.8 MB</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
-                  <span>IMG_2026_Tokyo.jpg</span><span style="color: var(--apple-secondary-label);">3.2 MB</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--apple-surface-hover); border-radius: 4px;">
-                  <span>IMG_2026_Kyoto.raw</span><span style="color: var(--apple-secondary-label);">38.4 MB</span>
-                </div>
-              </div>
-            `;
-          } else {
-            segmentedViewContent.innerHTML = `
-              <div style="width: 100%; max-width: 480px; height: 100px; background: var(--apple-surface-hover); border-radius: 8px; border: 1px dashed var(--apple-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;">
-                <span style="font-size: 24px;">📍</span>
-                <span style="font-size: 12px; color: var(--apple-secondary-label);">34 Photos in Tokyo, Japan</span>
-              </div>
-            `;
-          }
-        }
-
-        if (segmentedCode) {
-          segmentedCode.textContent = `MacSegmentedControl::new("view-switcher", ${idx})\n    .segment(MacSegment::new("grid", "Grid View"))\n    .segment(MacSegment::new("list", "List View"))\n    .segment(MacSegment::new("map", "Map View"))\n    .on_change(cx.listener(|this, idx, cx| {\n        this.view_idx = idx;\n    }))`;
-        }
-      });
-    });
-  }
-
-  // ----------------------------------------------------
-  // F. MacSearchField Playground & Real-Time Filter
-  // ----------------------------------------------------
-  const searchInput = document.getElementById('demo-search-input');
-  const searchClearBtn = document.getElementById('demo-search-clear');
-  const searchResultsContainer = document.getElementById('demo-search-results');
-  const searchItems = [
-    { title: 'Tokyo Skyline Night', tag: 'Landscape · Japan' },
-    { title: 'Kyoto Bamboo Forest', tag: 'Nature · Japan' },
-    { title: 'Sunset at Golden Gate', tag: 'Golden Hour · SF' },
-    { title: 'Mount Fuji Sunrise', tag: 'Winter · Japan' },
-  ];
-
-  function renderSearchResults(filter = '') {
-    if (!searchResultsContainer) return;
-    const q = filter.toLowerCase().trim();
-    const filtered = searchItems.filter(item => !q || item.title.toLowerCase().includes(q) || item.tag.toLowerCase().includes(q));
-
-    if (filtered.length === 0) {
-      searchResultsContainer.innerHTML = `<div style="font-size: 12px; color: var(--apple-tertiary-label); padding: 8px;">No matching photos found</div>`;
-      return;
-    }
-
-    searchResultsContainer.innerHTML = filtered.map(item => `
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: 6px; background: var(--apple-surface-hover); font-size: 12px;">
-        <span style="font-weight: 500;">${item.title}</span>
-        <span style="font-size: 11px; color: var(--apple-secondary-label);">${item.tag}</span>
-      </div>
-    `).join('');
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const val = e.target.value;
-      if (searchClearBtn) searchClearBtn.style.display = val.length > 0 ? 'flex' : 'none';
-      renderSearchResults(val);
-    });
-
-    if (searchClearBtn) {
-      searchClearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        searchClearBtn.style.display = 'none';
-        renderSearchResults('');
-        searchInput.focus();
-      });
-    }
-  }
-
-  // ----------------------------------------------------
-  // G. MacSlider Playground & Photo Exposure Simulation
-  // ----------------------------------------------------
-  const liveSlider = document.getElementById('demo-interactive-slider');
-  const liveSliderVal = document.getElementById('demo-slider-val');
-  const liveSliderImg = document.getElementById('demo-slider-img-target');
-
-  if (liveSlider) {
-    liveSlider.addEventListener('input', () => {
-      const val = liveSlider.value;
-      if (liveSliderVal) liveSliderVal.textContent = `${val}%`;
-      if (liveSliderImg) {
-        const brightness = 0.5 + (val / 100);
-        liveSliderImg.style.filter = `brightness(${brightness})`;
-      }
-    });
-  }
-
-  // ----------------------------------------------------
-  // H. MacColorWell Playground
-  // ----------------------------------------------------
-  const colorWellInput = document.getElementById('demo-color-input');
-  const colorWellSwatch = document.getElementById('demo-color-swatch');
-  const colorWellBadge = document.getElementById('demo-color-badge');
-  const colorWellStageCard = document.getElementById('demo-color-stage-card');
-
-  if (colorWellInput && colorWellSwatch) {
-    colorWellInput.addEventListener('input', (e) => {
-      const hex = e.target.value.toUpperCase();
-      colorWellSwatch.style.backgroundColor = hex;
-      if (colorWellBadge) colorWellBadge.textContent = hex;
-      if (colorWellStageCard) colorWellStageCard.style.backgroundColor = `${hex}18`;
-    });
-  }
-
-  // ----------------------------------------------------
-  // I. MacPopupButton Popover Simulation
-  // ----------------------------------------------------
-  const popupBtn = document.getElementById('demo-popup-button');
-  const popupMenu = document.getElementById('demo-popup-menu');
-  const popupLabel = document.getElementById('demo-popup-label');
-
-  if (popupBtn && popupMenu) {
-    popupBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      popupMenu.classList.toggle('open');
-    });
-
-    popupMenu.querySelectorAll('.mac-popover-item').forEach(item => {
-      item.addEventListener('click', () => {
-        popupMenu.querySelectorAll('.mac-popover-item').forEach(i => i.classList.remove('selected'));
-        item.classList.add('selected');
-        const text = item.textContent.replace(/^✓\s*/, '').trim();
-        if (popupLabel) popupLabel.textContent = text;
-        popupMenu.classList.remove('open');
-        showToast(`Ratio changed: ${text}`);
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!popupBtn.contains(e.target) && !popupMenu.contains(e.target)) {
-        popupMenu.classList.remove('open');
-      }
-    });
-  }
-
-  // ----------------------------------------------------
-  // J. MacDialog Modal Sheet Simulation
-  // ----------------------------------------------------
-  const triggerDialogBtn = document.getElementById('trigger-modal-sheet-btn');
-  const modalOverlay = document.getElementById('demo-modal-sheet-overlay');
-  const modalCancelBtn = document.getElementById('modal-sheet-cancel');
-  const modalConfirmBtn = document.getElementById('modal-sheet-confirm');
-
-  if (triggerDialogBtn && modalOverlay) {
-    triggerDialogBtn.addEventListener('click', () => {
-      modalOverlay.classList.add('open');
-    });
-
-    modalCancelBtn?.addEventListener('click', () => {
-      modalOverlay.classList.remove('open');
-    });
-
-    modalConfirmBtn?.addEventListener('click', () => {
-      modalOverlay.classList.remove('open');
-      showToast('Export confirmed');
-    });
-
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) modalOverlay.classList.remove('open');
-    });
-  }
-
-  // ----------------------------------------------------
-  // K. MacSettingsGroup Interactive Dependencies
-  // ----------------------------------------------------
-  const syncMasterSwitch = document.getElementById('settings-sync-master');
-  const syncSubRow1 = document.getElementById('settings-subrow-1');
-  const syncSubRow2 = document.getElementById('settings-subrow-2');
-
-  if (syncMasterSwitch) {
-    syncMasterSwitch.addEventListener('click', () => {
-      syncMasterSwitch.classList.toggle('on');
-      const isMasterOn = syncMasterSwitch.classList.contains('on');
-
-      if (syncSubRow1) {
-        syncSubRow1.style.opacity = isMasterOn ? '1' : '0.4';
-        syncSubRow1.style.pointerEvents = isMasterOn ? 'auto' : 'none';
-      }
-      if (syncSubRow2) {
-        syncSubRow2.style.opacity = isMasterOn ? '1' : '0.4';
-        syncSubRow2.style.pointerEvents = isMasterOn ? 'auto' : 'none';
-      }
-      showToast(isMasterOn ? 'Automatic sync enabled' : 'Automatic sync paused');
-    });
-  }
-
-  // ----------------------------------------------------
-  // L. MacSidebar Gallery Switching
-  // ----------------------------------------------------
-  const sidebarRows = document.querySelectorAll('.mac-sidebar-preview .mac-sidebar-row');
-  const sidebarGalleryTitle = document.getElementById('sidebar-gallery-title');
-  const sidebarGalleryCount = document.getElementById('sidebar-gallery-count');
-
-  if (sidebarRows.length > 0) {
-    sidebarRows.forEach(row => {
-      row.addEventListener('click', () => {
-        sidebarRows.forEach(r => r.classList.remove('active'));
-        row.classList.add('active');
-        const title = row.querySelector('.sidebar-row-title')?.textContent || 'Photos';
-        const badge = row.querySelector('.mac-badge')?.textContent || '0';
-
-        if (sidebarGalleryTitle) sidebarGalleryTitle.textContent = title;
-        if (sidebarGalleryCount) sidebarGalleryCount.textContent = `${badge} photos`;
-        showToast(`Viewing: ${title}`);
-      });
-    });
-  }
-
-  // ----------------------------------------------------
-  // M. MacComboBox
+  // 5. MacComboBox Playground
   // ----------------------------------------------------
   const comboTrigger = document.getElementById('knob-combobox-trigger');
   const comboDropdown = document.getElementById('knob-combobox-dropdown');
@@ -765,6 +525,34 @@ function initInteractivePlaygrounds() {
   const comboDisabled = document.getElementById('knob-combobox-disabled');
   const comboTarget = document.getElementById('knob-target-combobox');
   const comboCode = document.getElementById('dynamic-code-combobox');
+
+  function updateComboBox(val) {
+    const selectedVal = val || comboSelect?.value || 'Apple ProRAW (14-bit)';
+    const isDisabled = comboDisabled?.checked || false;
+    if (comboValue) comboValue.textContent = selectedVal;
+    if (comboSelect) comboSelect.value = selectedVal;
+
+    if (comboDropdown) {
+      comboDropdown.querySelectorAll('.mac-combobox-option').forEach(o => {
+        if (o.getAttribute('data-value') === selectedVal || o.textContent.trim() === selectedVal) {
+          o.classList.add('selected');
+        } else {
+          o.classList.remove('selected');
+        }
+      });
+    }
+
+    if (isDisabled) {
+      comboTarget?.classList.add('disabled');
+      comboDropdown?.classList.remove('open');
+    } else {
+      comboTarget?.classList.remove('disabled');
+    }
+
+    if (comboCode) {
+      comboCode.textContent = `MacComboBox::new("raw-codec")\n    .placeholder("Select RAW Preset...")\n    .option("${selectedVal}")\n    .disabled(${isDisabled})\n    .selected_index(Some(0))\n    .on_select(cx.listener(|this, _idx, text, cx| {\n        this.active_profile = text.to_string();\n    }))`;
+    }
+  }
 
   if (comboTrigger && comboDropdown) {
     comboTrigger.addEventListener('click', (e) => {
@@ -782,39 +570,18 @@ function initInteractivePlaygrounds() {
     comboDropdown.querySelectorAll('.mac-combobox-option').forEach(opt => {
       opt.addEventListener('click', () => {
         const val = opt.getAttribute('data-value') || opt.textContent.trim();
-        comboDropdown.querySelectorAll('.mac-combobox-option').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-        if (comboValue) comboValue.textContent = val;
-        if (comboSelect) comboSelect.value = val;
+        updateComboBox(val);
         comboDropdown.classList.remove('open');
         showToast(`Selected: ${val}`);
-        if (comboCode) {
-          comboCode.textContent = `MacComboBox::new("raw-codec")\n    .placeholder("Select RAW Preset...")\n    .option("${val}")\n    .selected_index(Some(0))\n    .on_select(cx.listener(|this, idx, text, cx| {\n        this.active_profile = text.to_string();\n    }))`;
-        }
       });
     });
 
-    comboSelect?.addEventListener('change', () => {
-      const val = comboSelect.value;
-      if (comboValue) comboValue.textContent = val;
-      comboDropdown.querySelectorAll('.mac-combobox-option').forEach(o => {
-        if (o.getAttribute('data-value') === val) o.classList.add('selected');
-        else o.classList.remove('selected');
-      });
-    });
-
-    comboDisabled?.addEventListener('change', () => {
-      if (comboDisabled.checked) {
-        comboTarget?.classList.add('disabled');
-        comboDropdown.classList.remove('open');
-      } else {
-        comboTarget?.classList.remove('disabled');
-      }
-    });
+    comboSelect?.addEventListener('change', () => updateComboBox(comboSelect.value));
+    comboDisabled?.addEventListener('change', () => updateComboBox());
   }
 
   // ----------------------------------------------------
-  // N. MacDigitEntry
+  // 6. MacDigitEntry Playground
   // ----------------------------------------------------
   const digitValInput = document.getElementById('knob-digit-val');
   const digitSecureCheck = document.getElementById('knob-digit-secure');
@@ -847,7 +614,7 @@ function initInteractivePlaygrounds() {
   digitCountSelect?.addEventListener('change', updateDigitEntry);
 
   // ----------------------------------------------------
-  // O. MacImageWell
+  // 7. MacImageWell Playground
   // ----------------------------------------------------
   const wellLoadedCheck = document.getElementById('knob-well-loaded');
   const wellCaptionInput = document.getElementById('knob-well-caption');
@@ -896,7 +663,7 @@ function initInteractivePlaygrounds() {
   });
 
   // ----------------------------------------------------
-  // P. MacDatePicker
+  // 8. MacDatePicker Playground
   // ----------------------------------------------------
   const dateInput = document.getElementById('knob-date-input');
   const dateShowTime = document.getElementById('knob-date-showtime');
@@ -919,20 +686,294 @@ function initInteractivePlaygrounds() {
   dateShowTime?.addEventListener('change', updateDatePicker);
 
   // ----------------------------------------------------
-  // Q. MacContextMenu & Menu Bar
+  // 9. MacSegmentedControl Playground
+  // ----------------------------------------------------
+  const segmentedTarget = document.getElementById('knob-target-segmented');
+  const segmentedSelect = document.getElementById('knob-segment-active');
+  const segmentedDisabled = document.getElementById('knob-segment-disabled');
+  const segmentedDisplay = document.getElementById('segmented-live-display');
+  const segmentedCode = document.getElementById('dynamic-code-segmented');
+
+  const segmentLabels = ['Grid View (0)', 'List Details (1)', 'Map Geo (2)'];
+
+  function updateSegmented(idx) {
+    if (!segmentedTarget) return;
+    const activeIdx = idx !== undefined ? String(idx) : (segmentedSelect?.value || '0');
+    const isDisabled = segmentedDisabled?.checked || false;
+
+    if (segmentedSelect) segmentedSelect.value = activeIdx;
+    if (isDisabled) segmentedTarget.classList.add('disabled');
+    else segmentedTarget.classList.remove('disabled');
+
+    const segments = segmentedTarget.querySelectorAll('.mac-segment');
+    segments.forEach(seg => {
+      if (seg.getAttribute('data-index') === activeIdx) seg.classList.add('active');
+      else seg.classList.remove('active');
+    });
+
+    const activeLabel = segmentLabels[parseInt(activeIdx, 10)] || `Mode ${activeIdx}`;
+    if (segmentedDisplay) {
+      segmentedDisplay.innerHTML = `Active Mode: <strong>${activeLabel}</strong>`;
+    }
+
+    if (segmentedCode) {
+      segmentedCode.textContent = `MacSegmentedControl::new("view-switcher", ${activeIdx})\n    .segment(MacSegment::new("grid", "Grid View"))\n    .segment(MacSegment::new("list", "List Details"))\n    .segment(MacSegment::new("map", "Map Geo"))\n    .disabled(${isDisabled})\n    .on_change(cx.listener(|this, idx, cx| {\n        this.view_idx = idx;\n    }))`;
+    }
+  }
+
+  if (segmentedTarget) {
+    segmentedTarget.querySelectorAll('.mac-segment').forEach(seg => {
+      seg.addEventListener('click', () => {
+        if (segmentedTarget.classList.contains('disabled')) return;
+        const idx = seg.getAttribute('data-index');
+        updateSegmented(idx);
+        showToast(`Segment: ${seg.textContent.trim()}`);
+      });
+    });
+    segmentedSelect?.addEventListener('change', () => updateSegmented());
+    segmentedDisabled?.addEventListener('change', () => updateSegmented());
+  }
+
+  // ----------------------------------------------------
+  // 10. MacSlider Playground
+  // ----------------------------------------------------
+  const targetSlider = document.getElementById('knob-target-slider');
+  const sliderBadge = document.getElementById('knob-slider-val-badge');
+  const sliderNumInput = document.getElementById('knob-slider-num');
+  const sliderDisabledCheck = document.getElementById('knob-slider-disabled');
+  const sliderCode = document.getElementById('dynamic-code-slider');
+
+  function updateSlider(val) {
+    if (!targetSlider) return;
+    const v = val !== undefined ? val : (targetSlider.value || '65');
+    const isDisabled = sliderDisabledCheck?.checked || false;
+
+    targetSlider.value = v;
+    if (sliderNumInput) sliderNumInput.value = v;
+    if (sliderBadge) sliderBadge.textContent = `${v}%`;
+    targetSlider.disabled = isDisabled;
+
+    if (sliderCode) {
+      sliderCode.textContent = `MacSlider::new("exposure-slider", ${(v / 100).toFixed(2)})\n    .min(0.0)\n    .max(1.0)\n    .disabled(${isDisabled})\n    .on_change(cx.listener(|this, val, cx| {\n        this.exposure_value = val;\n    }))`;
+    }
+  }
+
+  targetSlider?.addEventListener('input', () => updateSlider(targetSlider.value));
+  sliderNumInput?.addEventListener('input', () => updateSlider(sliderNumInput.value));
+  sliderDisabledCheck?.addEventListener('change', () => updateSlider(targetSlider?.value));
+
+  // ----------------------------------------------------
+  // 11. MacStepper Playground
+  // ----------------------------------------------------
+  const stepperValDisp = document.getElementById('knob-stepper-val-display');
+  const stepperValInput = document.getElementById('knob-stepper-val-input');
+  const stepperStepInput = document.getElementById('knob-stepper-step');
+  const stepperUpBtn = document.getElementById('knob-stepper-up');
+  const stepperDownBtn = document.getElementById('knob-stepper-down');
+  const stepperCode = document.getElementById('dynamic-code-stepper');
+
+  function updateStepper(newVal) {
+    const val = newVal !== undefined ? newVal : parseInt(stepperValInput?.value || '42', 10);
+    const step = parseInt(stepperStepInput?.value || '1', 10);
+    if (stepperValDisp) stepperValDisp.textContent = val;
+    if (stepperValInput) stepperValInput.value = val;
+
+    if (stepperCode) {
+      stepperCode.textContent = `MacStepper::new("photo-batch-count", ${val})\n    .step(${step})\n    .min(0)\n    .max(999)\n    .on_change(cx.listener(|this, val, cx| {\n        this.batch_count = val;\n    }))`;
+    }
+  }
+
+  stepperUpBtn?.addEventListener('click', () => {
+    const step = parseInt(stepperStepInput?.value || '1', 10);
+    const cur = parseInt(stepperValInput?.value || '42', 10);
+    updateStepper(cur + step);
+    showToast(`Value: ${cur + step}`);
+  });
+
+  stepperDownBtn?.addEventListener('click', () => {
+    const step = parseInt(stepperStepInput?.value || '1', 10);
+    const cur = parseInt(stepperValInput?.value || '42', 10);
+    updateStepper(Math.max(0, cur - step));
+    showToast(`Value: ${Math.max(0, cur - step)}`);
+  });
+
+  stepperValInput?.addEventListener('input', () => updateStepper());
+  stepperStepInput?.addEventListener('input', () => updateStepper());
+
+  // ----------------------------------------------------
+  // 12. MacColorWell Playground
+  // ----------------------------------------------------
+  const targetColorInput = document.getElementById('knob-target-color-input');
+  const sideColorPicker = document.getElementById('knob-color-picker-side');
+  const colorHexDisp = document.getElementById('knob-color-hex');
+  const colorCode = document.getElementById('dynamic-code-color');
+
+  function updateColor(hex) {
+    const val = (hex || targetColorInput?.value || '#007AFF').toUpperCase();
+    if (targetColorInput) targetColorInput.value = val;
+    if (sideColorPicker) sideColorPicker.value = val;
+    if (colorHexDisp) colorHexDisp.textContent = val;
+
+    if (colorCode) {
+      colorCode.textContent = `MacColorWell::new("accent-color")\n    .color(gpui::rgb(0x${val.replace('#', '')}))\n    .alpha(1.0)\n    .on_change(cx.listener(|this, color, cx| {\n        this.highlight_color = color;\n    }))`;
+    }
+  }
+
+  targetColorInput?.addEventListener('input', (e) => updateColor(e.target.value));
+  sideColorPicker?.addEventListener('input', (e) => updateColor(e.target.value));
+
+  // ----------------------------------------------------
+  // 13. MacTextField Playground
+  // ----------------------------------------------------
+  const textFieldTarget = document.getElementById('knob-target-text-field');
+  const textInputTarget = document.getElementById('knob-target-text-input');
+  const textSizeSelect = document.getElementById('knob-text-size');
+  const textSecureCheck = document.getElementById('knob-text-secure');
+  const textDisabledCheck = document.getElementById('knob-text-disabled');
+  const textCode = document.getElementById('dynamic-code-text');
+
+  function updateTextField() {
+    if (!textFieldTarget || !textInputTarget) return;
+    const size = textSizeSelect?.value || 'regular';
+    const isSecure = textSecureCheck?.checked || false;
+    const isDisabled = textDisabledCheck?.checked || false;
+    const text = textInputTarget.value || '';
+
+    textFieldTarget.classList.remove('small', 'large');
+    if (size === 'small') textFieldTarget.classList.add('small');
+    else if (size === 'large') textFieldTarget.classList.add('large');
+
+    textInputTarget.type = isSecure ? 'password' : 'text';
+    textInputTarget.disabled = isDisabled;
+    if (isDisabled) textFieldTarget.classList.add('disabled');
+    else textFieldTarget.classList.remove('disabled');
+
+    if (textCode) {
+      let c = `MacTextField::new("title-field")\n    .value("${text}")\n`;
+      if (size === 'small') c += `    .size(MacFieldSize::Small)\n`;
+      else if (size === 'large') c += `    .size(MacFieldSize::Large)\n`;
+      if (isSecure) c += `    .secure(true)\n`;
+      if (isDisabled) c += `    .disabled(true)\n`;
+      c += `    .on_change(cx.listener(|this, val, cx| {\n        this.collection_title = val.to_string();\n    }))`;
+      textCode.textContent = c;
+    }
+  }
+
+  textInputTarget?.addEventListener('input', updateTextField);
+  textSizeSelect?.addEventListener('change', updateTextField);
+  textSecureCheck?.addEventListener('change', updateTextField);
+  textDisabledCheck?.addEventListener('change', updateTextField);
+
+  // ----------------------------------------------------
+  // 14. MacPopupButton Playground
+  // ----------------------------------------------------
+  const popupTargetBtn = document.getElementById('knob-target-popup-btn');
+  const popupLabelDisp = document.getElementById('knob-popup-label');
+  const popupDropdownMenu = document.getElementById('knob-popup-dropdown');
+  const popupSelectKnob = document.getElementById('knob-popup-select');
+  const popupDisabledCheck = document.getElementById('knob-popup-disabled');
+  const popupCode = document.getElementById('dynamic-code-popup');
+
+  function updatePopup(val) {
+    const selected = val || popupSelectKnob?.value || 'Export as sRGB (Web)';
+    const isDisabled = popupDisabledCheck?.checked || false;
+
+    if (popupLabelDisp) popupLabelDisp.textContent = selected;
+    if (popupSelectKnob) popupSelectKnob.value = selected;
+
+    if (popupDropdownMenu) {
+      popupDropdownMenu.querySelectorAll('.mac-popover-item').forEach(item => {
+        if (item.getAttribute('data-value') === selected || item.textContent.trim() === selected) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    if (popupTargetBtn) {
+      if (isDisabled) popupTargetBtn.classList.add('disabled');
+      else popupTargetBtn.classList.remove('disabled');
+    }
+
+    if (popupCode) {
+      popupCode.textContent = `MacPopupButton::new("color-space-popup")\n    .selected("${selected}")\n    .disabled(${isDisabled})\n    .item("sRGB (Web)")\n    .item("Display P3 (Wide Color)")\n    .item("Adobe RGB (Print)")\n    .item("ProPhoto RGB (Archival)")\n    .on_select(cx.listener(|this, val, cx| {\n        this.target_profile = val.to_string();\n    }))`;
+    }
+  }
+
+  if (popupTargetBtn && popupDropdownMenu) {
+    popupTargetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (popupTargetBtn.classList.contains('disabled')) return;
+      popupDropdownMenu.classList.toggle('open');
+    });
+
+    popupDropdownMenu.querySelectorAll('.mac-popover-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const val = item.getAttribute('data-value') || item.textContent.trim();
+        updatePopup(val);
+        popupDropdownMenu.classList.remove('open');
+        showToast(`Profile: ${val}`);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!popupTargetBtn.contains(e.target) && !popupDropdownMenu.contains(e.target)) {
+        popupDropdownMenu.classList.remove('open');
+      }
+    });
+
+    popupSelectKnob?.addEventListener('change', () => updatePopup(popupSelectKnob.value));
+    popupDisabledCheck?.addEventListener('change', () => updatePopup());
+  }
+
+  // ----------------------------------------------------
+  // 15. MacContextMenu Playground
+  // ----------------------------------------------------
+  const contextMenuCard = document.querySelector('.mac-context-menu-card');
+  const menuWidthInput = document.getElementById('knob-menu-w');
+  const menuShortcutsCheck = document.getElementById('knob-menu-sc');
+  const contextMenuCode = document.getElementById('dynamic-code-contextmenu');
+
+  function updateContextMenu() {
+    if (!contextMenuCard) return;
+    const w = parseInt(menuWidthInput?.value || '220', 10);
+    const showShortcuts = menuShortcutsCheck?.checked ?? true;
+
+    contextMenuCard.style.width = `${w}px`;
+    contextMenuCard.querySelectorAll('.mac-context-row span:last-child').forEach(s => {
+      s.style.display = showShortcuts ? 'inline' : 'none';
+    });
+
+    if (contextMenuCode) {
+      contextMenuCode.textContent = `MacContextMenu::new("photo-actions")\n    .width(${w}.0)\n    .item("Open in Loupe", Some("Return"))\n    .item("Export DNG...", Some("Shift+Cmd+E"))\n    .separator()\n    .item("Copy Metadata", Some("Cmd+C"))\n    .item("Show in Finder", Some("Cmd+R"))\n    .separator()\n    .destructive_item("Delete Photo", Some("Cmd+Backspace"))`;
+    }
+  }
+
+  menuWidthInput?.addEventListener('input', updateContextMenu);
+  menuShortcutsCheck?.addEventListener('change', updateContextMenu);
+  contextMenuCard?.querySelectorAll('.mac-context-row').forEach(row => {
+    row.addEventListener('click', () => {
+      showToast(`Action: ${row.querySelector('span:first-child')?.textContent.trim()}`);
+    });
+  });
+
+  // ----------------------------------------------------
+  // 16. MacMenuBar Playground
   // ----------------------------------------------------
   const menuBarTitleInput = document.getElementById('knob-menubar-title');
   const menuBarAppDisp = document.getElementById('knob-menubar-appname');
   const menuBarCode = document.getElementById('dynamic-code-menubar');
 
-  menuBarTitleInput?.addEventListener('input', () => {
-    const title = menuBarTitleInput.value || 'Loupe';
+  function updateMenuBar() {
+    const title = menuBarTitleInput?.value || 'Loupe';
     if (menuBarAppDisp) menuBarAppDisp.textContent = title;
     if (menuBarCode) {
-      menuBarCode.textContent = `MacMenuBar::new("sys-menubar", "${title}")\n    .menus(vec!["File", "Edit", "View", "Window", "Help"])\n    .active_menu(Some(0))`;
+      menuBarCode.textContent = `MacMenuBar::new("sys-menubar", "${title}")\n    .menus(vec!["File", "Edit", "View", "Window", "Help"])\n    .active_menu(Some(0))\n    .on_item_click(cx.listener(|this, menu, item, cx| {\n        this.handle_menu_cmd(menu, item);\n    }))`;
     }
-  });
+  }
 
+  menuBarTitleInput?.addEventListener('input', updateMenuBar);
   document.querySelectorAll('.mac-menubar-item').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.mac-menubar-item').forEach(i => i.classList.remove('active'));
@@ -942,71 +983,118 @@ function initInteractivePlaygrounds() {
   });
 
   // ----------------------------------------------------
-  // R. MacPathControl
+  // 17. MacSearchField Playground
+  // ----------------------------------------------------
+  const searchInputTarget = document.getElementById('knob-target-search-input');
+  const searchPlaceholderKnob = document.getElementById('knob-search-placeholder');
+  const searchHintDisp = document.getElementById('search-results-hint');
+  const searchCode = document.getElementById('dynamic-code-search');
+
+  function updateSearchField() {
+    const val = searchInputTarget?.value || '';
+    const placeholder = searchPlaceholderKnob?.value || 'Search photos, tags, metadata...';
+    if (searchInputTarget) searchInputTarget.placeholder = placeholder;
+
+    if (searchHintDisp) {
+      if (val.trim()) {
+        searchHintDisp.innerHTML = `Found <strong>4 matches</strong> for "<em>${val}</em>" in RAW catalog`;
+      } else {
+        searchHintDisp.textContent = 'Type above to see live filter response';
+      }
+    }
+
+    if (searchCode) {
+      searchCode.textContent = `MacSearchField::new("photo-search")\n    .placeholder("${placeholder}")\n    .value("${val}")\n    .shortcut("Cmd+F")\n    .on_change(cx.listener(|this, query, cx| {\n        this.filter_library(query);\n    }))`;
+    }
+  }
+
+  searchInputTarget?.addEventListener('input', updateSearchField);
+  searchPlaceholderKnob?.addEventListener('input', updateSearchField);
+
+  // ----------------------------------------------------
+  // 18. MacTabBar Playground
+  // ----------------------------------------------------
+  const tabSelectKnob = document.getElementById('knob-tab-active-select');
+  const tabTargetBar = document.getElementById('knob-target-tabbar');
+  const tabCode = document.getElementById('dynamic-code-tabs');
+
+  function updateTabBar(tabId) {
+    const cur = tabId || tabSelectKnob?.value || 'general';
+    if (tabSelectKnob) tabSelectKnob.value = cur;
+
+    if (tabTargetBar) {
+      tabTargetBar.querySelectorAll('.mac-tab-item').forEach(tab => {
+        if (tab.getAttribute('data-tab') === cur) tab.classList.add('active');
+        else tab.classList.remove('active');
+      });
+    }
+
+    if (tabCode) {
+      tabCode.textContent = `MacTabBar::new("prefs-tabs")\n    .tab("general", "General")\n    .tab("rendering", "Color & Display")\n    .tab("shortcuts", "Shortcuts")\n    .active_tab("${cur}")\n    .on_change(cx.listener(|this, tab, cx| {\n        this.active_settings_tab = tab.to_string();\n    }))`;
+    }
+  }
+
+  if (tabTargetBar) {
+    tabTargetBar.querySelectorAll('.mac-tab-item').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('data-tab');
+        updateTabBar(tabId);
+        showToast(`Tab: ${tab.querySelector('span')?.textContent || tabId}`);
+      });
+    });
+    tabSelectKnob?.addEventListener('change', () => updateTabBar(tabSelectKnob.value));
+  }
+
+  // ----------------------------------------------------
+  // 19. MacPathControl Playground
   // ----------------------------------------------------
   const pathLeafInput = document.getElementById('knob-path-leaf');
   const pathCurrentCrumb = document.querySelector('.mac-path-crumb.current');
   const pathCode = document.getElementById('dynamic-code-path');
 
-  pathLeafInput?.addEventListener('input', () => {
-    const leaf = pathLeafInput.value || 'photo-engine';
+  function updatePathControl() {
+    const leaf = pathLeafInput?.value || 'photo-engine';
     if (pathCurrentCrumb) pathCurrentCrumb.textContent = `📷 ${leaf}`;
-    if (pathCode) {
-      pathCode.textContent = `MacPathControl::new("finder-path")\n    .item("Macintosh HD")\n    .item("Users")\n    .item("mayank")\n    .item("${leaf}")`;
-    }
-  });
 
+    if (pathCode) {
+      pathCode.textContent = `MacPathControl::new("finder-path")\n    .item("Macintosh HD")\n    .item("Users")\n    .item("mayank")\n    .item("${leaf}")\n    .on_select(cx.listener(|this, path, cx| {\n        this.reveal_in_finder(path);\n    }))`;
+    }
+  }
+
+  pathLeafInput?.addEventListener('input', updatePathControl);
   document.querySelectorAll('.mac-path-crumb').forEach(crumb => {
     crumb.addEventListener('click', () => {
-      showToast(`Navigated to: ${crumb.textContent.trim()}`);
+      showToast(`Path: ${crumb.textContent.trim()}`);
     });
   });
 
   // ----------------------------------------------------
-  // S. MacTabBar
-  // ----------------------------------------------------
-  const tabSelect = document.getElementById('knob-tab-active-select');
-  const tabItems = document.querySelectorAll('.mac-tab-demo .mac-tab-item');
-  const tabCode = document.getElementById('dynamic-code-tabs');
-
-  tabItems.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabItems.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const tabId = tab.getAttribute('data-tab');
-      if (tabSelect && tabId) tabSelect.value = tabId;
-      showToast(`Switched tab: ${tab.querySelector('span')?.textContent || tabId}`);
-    });
-  });
-
-  tabSelect?.addEventListener('change', () => {
-    const val = tabSelect.value;
-    tabItems.forEach(t => {
-      if (t.getAttribute('data-tab') === val) t.classList.add('active');
-      else t.classList.remove('active');
-    });
-  });
-
-  // ----------------------------------------------------
-  // T. MacTokenField
+  // 20. MacTokenField Playground
   // ----------------------------------------------------
   const tokenContainer = document.getElementById('knob-target-tokenfield');
   const tokenAddInput = document.getElementById('knob-token-add-input');
   const tokenCode = document.getElementById('dynamic-code-token');
 
-  function bindTokenCloseButtons() {
+  function updateTokenCode() {
+    if (!tokenCode || !tokenContainer) return;
+    const chips = [...tokenContainer.querySelectorAll('.mac-token-chip span:first-child')].map(s => `"${s.textContent.trim()}"`);
+    tokenCode.textContent = `MacTokenField::new("metadata-tags")\n    .placeholder("Add keywords...")\n    .tokens(vec![${chips.join(', ')}])\n    .on_add(cx.listener(|this, token, cx| {\n        this.add_tag(token);\n    }))\n    .on_remove(cx.listener(|this, idx, cx| {\n        this.remove_tag(idx);\n    }))`;
+  }
+
+  function bindTokenCloses() {
     tokenContainer?.querySelectorAll('.mac-token-chip .close-btn').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
         const chip = btn.closest('.mac-token-chip');
-        const chipName = chip?.querySelector('span')?.textContent || 'tag';
+        const name = chip?.querySelector('span')?.textContent || 'tag';
         chip?.remove();
-        showToast(`Removed tag: ${chipName}`);
+        updateTokenCode();
+        showToast(`Removed tag: ${name}`);
       };
     });
   }
-  bindTokenCloseButtons();
 
+  bindTokenCloses();
   tokenAddInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const val = tokenAddInput.value.trim();
@@ -1016,145 +1104,493 @@ function initInteractivePlaygrounds() {
         newChip.innerHTML = `<span>${val}</span><span class="close-btn">×</span>`;
         tokenContainer.insertBefore(newChip, tokenContainer.lastElementChild);
         tokenAddInput.value = '';
-        bindTokenCloseButtons();
+        bindTokenCloses();
+        updateTokenCode();
         showToast(`Added tag: ${val}`);
       }
     }
   });
 
   // ----------------------------------------------------
-  // U. MacGauge
+  // 21. MacDialog Playground
+  // ----------------------------------------------------
+  const dialogTitleDisp = document.getElementById('knob-dialog-title-display');
+  const dialogTitleInput = document.getElementById('knob-dialog-title-input');
+  const dialogDestructiveCheck = document.getElementById('knob-dialog-destructive');
+  const dialogCancelBtn = document.getElementById('knob-dialog-cancel-btn');
+  const dialogActionBtn = document.getElementById('knob-dialog-action-btn');
+  const dialogCode = document.getElementById('dynamic-code-dialog');
+
+  function updateDialog() {
+    const title = dialogTitleInput?.value || 'Remove Photo Index?';
+    const isDestructive = dialogDestructiveCheck?.checked ?? true;
+
+    if (dialogTitleDisp) dialogTitleDisp.textContent = title;
+    if (dialogActionBtn) {
+      if (isDestructive) dialogActionBtn.className = 'mac-button destructive';
+      else dialogActionBtn.className = 'mac-button prominent';
+    }
+
+    if (dialogCode) {
+      dialogCode.textContent = `MacDialog::alert("confirm-delete", "${title}")\n    .message("This removes the local embedding index from disk.")\n    .destructive(${isDestructive})\n    .cancel_button("Cancel")\n    .action_button("Remove")\n    .on_action(cx.listener(|this, _event, cx| {\n        this.purge_cache();\n    }))`;
+    }
+  }
+
+  dialogTitleInput?.addEventListener('input', updateDialog);
+  dialogDestructiveCheck?.addEventListener('change', updateDialog);
+  dialogCancelBtn?.addEventListener('click', () => showToast('Dialog cancelled'));
+  dialogActionBtn?.addEventListener('click', () => showToast('Dialog action executed'));
+
+  // ----------------------------------------------------
+  // 22. MacPopover Playground
+  // ----------------------------------------------------
+  const popoverCard = document.querySelector('.mac-popover-card');
+  const popoverWidthInput = document.getElementById('knob-popover-w');
+  const popoverCode = document.getElementById('dynamic-code-popover');
+
+  function updatePopover() {
+    if (!popoverCard) return;
+    const w = parseInt(popoverWidthInput?.value || '240', 10);
+    popoverCard.style.width = `${w}px`;
+
+    if (popoverCode) {
+      popoverCode.textContent = `MacPopover::new("histogram-popover")\n    .width(${w}.0)\n    .title("Histogram Inspector")\n    .content(histogram_chart_view())\n    .footer("ISO 100 • 35mm • ƒ/2.8 • 1/500s")`;
+    }
+  }
+
+  popoverWidthInput?.addEventListener('input', updatePopover);
+
+  // ----------------------------------------------------
+  // 23. MacPanel Playground
+  // ----------------------------------------------------
+  const panelTarget = document.getElementById('knob-target-panel');
+  const panelTitleDisp = document.getElementById('knob-panel-title-disp');
+  const panelTitleInput = document.getElementById('knob-panel-title-input');
+  const panelHudCheck = document.getElementById('knob-panel-hud');
+  const panelCode = document.getElementById('dynamic-code-panel');
+
+  function updatePanel() {
+    if (!panelTarget) return;
+    const title = panelTitleInput?.value || 'Adjustments Inspector';
+    const isHud = panelHudCheck?.checked || false;
+
+    if (panelTitleDisp) panelTitleDisp.textContent = title;
+    if (isHud) panelTarget.classList.add('hud');
+    else panelTarget.classList.remove('hud');
+
+    if (panelCode) {
+      panelCode.textContent = `MacPanel::new("adjustments-inspector", "${title}")\n    .hud_style(${isHud})\n    .closable(true)\n    .row("Vibrance", "+24")\n    .row("Highlights", "-12")`;
+    }
+  }
+
+  panelTitleInput?.addEventListener('input', updatePanel);
+  panelHudCheck?.addEventListener('change', updatePanel);
+
+  // ----------------------------------------------------
+  // 24. MacPageControl Playground
+  // ----------------------------------------------------
+  const pageContainer = document.getElementById('knob-target-pagecontrol');
+  const pageStatus = document.getElementById('knob-page-status');
+  const pageTotalInput = document.getElementById('knob-page-total');
+  const pageCurrInput = document.getElementById('knob-page-curr');
+  const pageCode = document.getElementById('dynamic-code-pagecontrol');
+
+  function updatePageControl() {
+    if (!pageContainer) return;
+    const total = Math.max(1, Math.min(10, parseInt(pageTotalInput?.value || '5', 10)));
+    const curr = Math.max(1, Math.min(total, parseInt(pageCurrInput?.value || '2', 10)));
+
+    let html = '';
+    for (let i = 1; i <= total; i++) {
+      html += `<div class="mac-page-dot ${i === curr ? 'active' : ''}" data-page="${i}"></div>`;
+    }
+    pageContainer.innerHTML = html;
+
+    if (pageStatus) pageStatus.textContent = `Page ${curr} of ${total}`;
+
+    pageContainer.querySelectorAll('.mac-page-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const p = parseInt(dot.getAttribute('data-page'), 10);
+        if (pageCurrInput) pageCurrInput.value = p;
+        updatePageControl();
+        showToast(`Page ${p}`);
+      });
+    });
+
+    if (pageCode) {
+      pageCode.textContent = `MacPageControl::new("gallery-pager", ${total})\n    .current_page(${curr - 1})\n    .on_change(cx.listener(|this, page, cx| {\n        this.active_slide = page;\n    }))`;
+    }
+  }
+
+  pageTotalInput?.addEventListener('input', updatePageControl);
+  pageCurrInput?.addEventListener('input', updatePageControl);
+
+  // ----------------------------------------------------
+  // 25. MacWindow Playground
+  // ----------------------------------------------------
+  const winTitleDisp = document.getElementById('knob-win-title-disp');
+  const winSubDisp = document.getElementById('knob-win-sub-disp');
+  const winTitleInput = document.getElementById('knob-win-title-input');
+  const winSubInput = document.getElementById('knob-win-sub-input');
+  const winCode = document.getElementById('dynamic-code-win');
+
+  function updateWindow() {
+    const title = winTitleInput?.value || 'Loupe — RAW Canvas';
+    const sub = winSubInput?.value || 'Edited — DSC04921.ARW';
+
+    if (winTitleDisp) winTitleDisp.textContent = title;
+    if (winSubDisp) winSubDisp.textContent = sub;
+
+    if (winCode) {
+      winCode.textContent = `MacWindow::new("canvas-win")\n    .title("${title}")\n    .subtitle("${sub}")\n    .traffic_lights(true)\n    .content(photo_canvas_view())`;
+    }
+  }
+
+  winTitleInput?.addEventListener('input', updateWindow);
+  winSubInput?.addEventListener('input', updateWindow);
+
+  // ----------------------------------------------------
+  // 26. MacProgress Playground
+  // ----------------------------------------------------
+  const progSlider = document.getElementById('knob-prog-slider');
+  const progIndetCheck = document.getElementById('knob-prog-indet');
+  const progPctDisp = document.getElementById('knob-prog-pct');
+  const progBarContainer = document.getElementById('knob-target-prog-bar');
+  const progFillTarget = document.getElementById('knob-target-prog-fill');
+  const progCode = document.getElementById('dynamic-code-prog');
+
+  function updateProgress() {
+    const val = parseInt(progSlider?.value || '60', 10);
+    const isIndet = progIndetCheck?.checked || false;
+
+    if (isIndet) {
+      if (progPctDisp) progPctDisp.textContent = 'Indeterminate';
+      if (progBarContainer) progBarContainer.classList.add('indeterminate');
+    } else {
+      if (progPctDisp) progPctDisp.textContent = `${val}%`;
+      if (progBarContainer) progBarContainer.classList.remove('indeterminate');
+      if (progFillTarget) {
+        progFillTarget.style.width = `${val}%`;
+      }
+    }
+
+    if (progCode) {
+      progCode.textContent = `MacProgress::new("export-progress")\n    .indeterminate(${isIndet})\n    .value(${(val / 100).toFixed(2)})\n    .label("Exporting JPEG Proxies...")`;
+    }
+  }
+
+  progSlider?.addEventListener('input', updateProgress);
+  progIndetCheck?.addEventListener('change', updateProgress);
+
+  // ----------------------------------------------------
+  // 27. MacGauge Playground
   // ----------------------------------------------------
   const gaugeSlider = document.getElementById('knob-gauge-slider');
   const gaugeValDisp = document.getElementById('knob-gauge-val-disp');
   const gaugeFill = document.getElementById('knob-target-gauge-fill');
   const gaugeCode = document.getElementById('dynamic-code-gauge');
 
-  gaugeSlider?.addEventListener('input', () => {
-    const val = parseInt(gaugeSlider.value, 10);
+  function updateGauge() {
+    const val = parseInt(gaugeSlider?.value || '82', 10);
     if (gaugeValDisp) gaugeValDisp.textContent = `${val}%`;
     if (gaugeFill) {
       gaugeFill.style.width = `${val}%`;
-      if (val >= 90) {
-        gaugeFill.style.backgroundColor = 'var(--apple-system-red)';
-      } else if (val >= 70) {
-        gaugeFill.style.backgroundColor = 'var(--apple-system-orange)';
-      } else {
-        gaugeFill.style.backgroundColor = 'var(--apple-accent)';
-      }
+      if (val >= 90) gaugeFill.style.backgroundColor = 'var(--apple-system-red)';
+      else if (val >= 70) gaugeFill.style.backgroundColor = 'var(--apple-system-orange)';
+      else gaugeFill.style.backgroundColor = 'var(--apple-accent)';
     }
+
     if (gaugeCode) {
       gaugeCode.textContent = `MacGauge::new("disk-gauge", ${(val / 100).toFixed(2)})\n    .label("Scratch Disk Cache")\n    .thresholds(0.70, 0.90)`;
     }
-  });
+  }
+
+  gaugeSlider?.addEventListener('input', updateGauge);
 
   // ----------------------------------------------------
-  // V. MacRatingIndicator
+  // 28. MacRatingIndicator Playground
   // ----------------------------------------------------
-  const ratingStars = document.querySelectorAll('.mac-rating-star');
+  const ratingTarget = document.getElementById('knob-target-rating');
   const ratingLabel = document.getElementById('knob-rating-label');
   const ratingSelect = document.getElementById('knob-rating-select');
   const ratingCode = document.getElementById('dynamic-code-rating');
 
   function setRating(score) {
-    ratingStars.forEach((star, idx) => {
+    const stars = ratingTarget?.querySelectorAll('.mac-rating-star') || [];
+    stars.forEach((star, idx) => {
       if (idx < score) star.classList.add('filled');
       else star.classList.remove('filled');
     });
     if (ratingLabel) ratingLabel.textContent = `${score} of 5 Stars`;
     if (ratingSelect) ratingSelect.value = String(score);
+
     if (ratingCode) {
       ratingCode.textContent = `MacRatingIndicator::new("photo-rating", ${score})\n    .max_rating(5)\n    .on_rate(cx.listener(|this, stars, cx| {\n        this.photo_stars = stars;\n    }))`;
     }
   }
 
-  ratingStars.forEach((star, idx) => {
-    star.addEventListener('click', () => {
-      const score = idx + 1;
-      setRating(score);
-      showToast(`Rated: ${score} Stars`);
+  if (ratingTarget) {
+    const stars = ratingTarget.querySelectorAll('.mac-rating-star');
+    stars.forEach((star, idx) => {
+      star.addEventListener('click', () => {
+        setRating(idx + 1);
+        showToast(`Rated: ${idx + 1} Stars`);
+      });
     });
-  });
-
-  ratingSelect?.addEventListener('change', () => {
-    setRating(parseInt(ratingSelect.value, 10));
-  });
+    ratingSelect?.addEventListener('change', () => setRating(parseInt(ratingSelect.value, 10)));
+  }
 
   // ----------------------------------------------------
-  // W. MacSplitView
+  // 29. MacActivityRings Playground
+  // ----------------------------------------------------
+  const ringsSvg = document.querySelector('.mac-rings-svg');
+  const ringsSizeInput = document.getElementById('knob-rings-size');
+  const ringsCode = document.getElementById('dynamic-code-rings');
+
+  function updateRings() {
+    const size = parseInt(ringsSizeInput?.value || '80', 10);
+    if (ringsSvg) {
+      ringsSvg.style.width = `${size}px`;
+      ringsSvg.style.height = `${size}px`;
+    }
+
+    if (ringsCode) {
+      ringsCode.textContent = `MacActivityRings::new("perf-rings")\n    .size(${size}.0)\n    .ring("CPU", 0.68, gpui::rgb(0xFF3B30))\n    .ring("GPU", 0.65, gpui::rgb(0x34C759))\n    .ring("RAM", 0.80, gpui::rgb(0x007AFF))`;
+    }
+  }
+
+  ringsSizeInput?.addEventListener('input', updateRings);
+
+  // ----------------------------------------------------
+  // 30. MacBadge Playground
+  // ----------------------------------------------------
+  const badgeTarget = document.getElementById('knob-target-badge');
+  const badgeVariantSelect = document.getElementById('knob-badge-variant');
+  const badgeTextInput = document.getElementById('knob-badge-text');
+  const badgeCode = document.getElementById('dynamic-code-badge');
+
+  function updateBadge() {
+    if (!badgeTarget) return;
+    const variant = badgeVariantSelect?.value || 'accent';
+    const text = badgeTextInput?.value || '4,281 items indexed';
+
+    badgeTarget.className = `mac-badge ${variant}`;
+    badgeTarget.textContent = text;
+
+    if (badgeCode) {
+      let varPascal = variant.charAt(0).toUpperCase() + variant.slice(1);
+      badgeCode.textContent = `MacBadge::new("catalog-count", "${text}")\n    .variant(MacBadgeVariant::${varPascal})`;
+    }
+  }
+
+  badgeVariantSelect?.addEventListener('change', updateBadge);
+  badgeTextInput?.addEventListener('input', updateBadge);
+
+  // ----------------------------------------------------
+  // 31. MacTableView Playground & Zebra Striping
+  // ----------------------------------------------------
+  const tableTarget = document.getElementById('knob-target-table') || document.querySelector('.mac-table-card');
+  const tableZebraCheck = document.getElementById('knob-table-zebra');
+  const tableCode = document.getElementById('dynamic-code-table');
+
+  function updateTableView() {
+    if (!tableTarget) return;
+    const isZebra = tableZebraCheck?.checked ?? true;
+
+    if (isZebra) {
+      tableTarget.classList.remove('no-zebra');
+    } else {
+      tableTarget.classList.add('no-zebra');
+    }
+
+    const rows = tableTarget.querySelectorAll('.mac-table-row');
+    let selectedIdx = -1;
+    rows.forEach((r, idx) => {
+      if (r.classList.contains('selected')) selectedIdx = idx;
+    });
+
+    if (tableCode) {
+      tableCode.textContent = `MacTableView::new("photo-library-table")\n    .zebra_striping(${isZebra})\n    .column("Name", 140.0)\n    .column("Size", 80.0)\n    .column("Format", 100.0)\n    .row(vec!["DSC04921.ARW", "34.2 MB", "Sony RAW"])\n    .row(vec!["DSC04922.ARW", "32.8 MB", "Sony RAW"])\n    .row(vec!["IMG_0084.CR3", "41.0 MB", "Canon RAW"])\n    .selected_row(${selectedIdx >= 0 ? `Some(${selectedIdx})` : 'None'})\n    .on_select(cx.listener(|this, row_idx, cx| {\n        this.handle_row_select(row_idx);\n    }))`;
+    }
+  }
+
+  if (tableTarget) {
+    tableTarget.querySelectorAll('.mac-table-row').forEach((row, idx) => {
+      row.addEventListener('click', () => {
+        tableTarget.querySelectorAll('.mac-table-row').forEach(r => r.classList.remove('selected'));
+        row.classList.add('selected');
+        updateTableView();
+        const name = row.querySelector('span:first-child')?.textContent.trim() || `Row ${idx + 1}`;
+        showToast(`Selected: ${name}`);
+      });
+    });
+    tableZebraCheck?.addEventListener('change', () => {
+      updateTableView();
+      showToast(tableZebraCheck.checked ? 'Zebra striping enabled' : 'Zebra striping disabled');
+    });
+  }
+
+  // ----------------------------------------------------
+  // 32. MacSplitView Playground
   // ----------------------------------------------------
   const splitWidthSlider = document.getElementById('knob-split-width');
   const splitFirstPane = document.querySelector('.mac-split-demo > div:first-child');
   const splitCode = document.getElementById('dynamic-code-split');
 
-  splitWidthSlider?.addEventListener('input', () => {
-    const w = splitWidthSlider.value;
+  function updateSplitView() {
+    const w = splitWidthSlider?.value || '140';
     if (splitFirstPane) splitFirstPane.style.width = `${w}px`;
     if (splitCode) {
       splitCode.textContent = `MacSplitView::new("main-split")\n    .leading_width(${w}.0)\n    .leading(MacSidebar::new("sidebar"))\n    .trailing(photo_canvas)`;
     }
-  });
+  }
+
+  splitWidthSlider?.addEventListener('input', updateSplitView);
 
   // ----------------------------------------------------
-  // X. MacOutlineView
+  // 33. MacOutlineView Playground
   // ----------------------------------------------------
-  const outlineRows = document.querySelectorAll('.mac-outline-row');
-  outlineRows.forEach(row => {
+  const outlineTarget = document.getElementById('knob-target-outline') || document.querySelector('.mac-outline-demo');
+  const outlineCode = document.getElementById('dynamic-code-outline');
+
+  if (outlineTarget) {
+    const outlineRows = outlineTarget.querySelectorAll('.mac-outline-row');
+    outlineRows.forEach((row, idx) => {
+      row.addEventListener('click', () => {
+        outlineRows.forEach(r => r.classList.remove('selected'));
+        row.classList.add('selected');
+        const name = row.querySelector('span:last-child')?.textContent.trim() || `Item ${idx}`;
+        if (outlineCode) {
+          outlineCode.textContent = `MacOutlineView::new("library-outline")\n    .section("LIBRARY")\n    .item("All Photos", "icon-photos")\n    .item("Favorites", "icon-star")\n    .section("FOLDERS")\n    .item("2026 Yosemite", "icon-folder")\n    .selected_row(Some(${idx}))\n    .on_select(cx.listener(|this, item, cx| {\n        this.navigate_folder(item);\n    }))`;
+        }
+        showToast(`Selected: ${name}`);
+      });
+    });
+  }
+
+  // ----------------------------------------------------
+  // 34. MacColumnView Playground
+  // ----------------------------------------------------
+  const colWidthInput = document.getElementById('knob-col-w');
+  const columnPanes = document.querySelectorAll('.mac-column-demo .mac-column-pane');
+  const columnCode = document.getElementById('dynamic-code-column');
+
+  function updateColumnView() {
+    const w = parseInt(colWidthInput?.value || '140', 10);
+    columnPanes.forEach(pane => {
+      pane.style.width = `${w}px`;
+    });
+
+    if (columnCode) {
+      columnCode.textContent = `MacColumnView::new("finder-columns")\n    .column_width(${w}.0)\n    .pane(vec!["📁 Pictures", "📁 Documents"])\n    .pane(vec!["📁 2026", "📁 2025"])\n    .pane(vec!["📄 DSC04921.ARW"])\n    .on_select(cx.listener(|this, col, item, cx| {\n        this.navigate_column(col, item);\n    }))`;
+    }
+  }
+
+  colWidthInput?.addEventListener('input', updateColumnView);
+  document.querySelectorAll('.mac-column-row').forEach(row => {
     row.addEventListener('click', () => {
-      outlineRows.forEach(r => r.classList.remove('selected'));
+      const pane = row.closest('.mac-column-pane');
+      pane?.querySelectorAll('.mac-column-row').forEach(r => r.classList.remove('selected'));
       row.classList.add('selected');
-      const name = row.querySelector('span:last-child')?.textContent || 'item';
-      showToast(`Selected outline: ${name}`);
+      showToast(`Selected: ${row.textContent.trim()}`);
     });
   });
 
   // ----------------------------------------------------
-  // Y. MacChart
+  // 35. MacTextView Playground
+  // ----------------------------------------------------
+  const tvLinesCheck = document.getElementById('knob-tv-lines');
+  const tvGutter = document.querySelector('.mac-textview-gutter');
+  const tvCode = document.getElementById('dynamic-code-textview');
+
+  function updateTextView() {
+    const showLines = tvLinesCheck?.checked ?? true;
+    if (tvGutter) tvGutter.style.display = showLines ? 'block' : 'none';
+
+    if (tvCode) {
+      tvCode.textContent = `MacTextView::new("notes-editor")\n    .line_numbers(${showLines})\n    .editable(true)\n    .font_size(13.0)\n    .on_change(cx.listener(|this, text, cx| {\n        this.notes_content = text.to_string();\n    }))`;
+    }
+  }
+
+  tvLinesCheck?.addEventListener('change', updateTextView);
+
+  // ----------------------------------------------------
+  // 36. MacImageView Playground
+  // ----------------------------------------------------
+  const imgRadiusInput = document.getElementById('knob-img-radius');
+  const imgBoxTarget = document.querySelector('#image-view .playground-stage div > div:first-child');
+  const imgCode = document.getElementById('dynamic-code-imageview');
+
+  function updateImageView() {
+    const r = parseInt(imgRadiusInput?.value || '8', 10);
+    if (imgBoxTarget) imgBoxTarget.style.borderRadius = `${r}px`;
+
+    if (imgCode) {
+      imgCode.textContent = `MacImageView::new("hero-image")\n    .source("yosemite_sunrise.raw")\n    .corner_radius(${r}.0)\n    .aspect_ratio(16.0 / 10.0)\n    .shadow(true)`;
+    }
+  }
+
+  imgRadiusInput?.addEventListener('input', updateImageView);
+
+  // ----------------------------------------------------
+  // 37. MacChart Playground
   // ----------------------------------------------------
   const chartPeakSlider = document.getElementById('knob-chart-peak');
   const chartWedBar = document.querySelector('.mac-chart-bar-item:nth-child(3) .mac-chart-bar-rect');
   const chartCode = document.getElementById('dynamic-code-chart');
 
-  chartPeakSlider?.addEventListener('input', () => {
-    const h = chartPeakSlider.value;
+  function updateChart() {
+    const h = chartPeakSlider?.value || '90';
     if (chartWedBar) chartWedBar.style.height = `${h}px`;
+
     if (chartCode) {
       chartCode.textContent = `MacChart::new("ingest-chart")\n    .title("Weekly Photo Ingest Volume")\n    .point("Mon", 0.40)\n    .point("Tue", 0.70)\n    .point_colored("Wed", ${(h / 100).toFixed(2)}, MacAccentColor::Green)\n    .point("Thu", 0.50)\n    .point("Fri", 0.85)`;
     }
-  });
-
-  // ----------------------------------------------------
-  // Z. MacPageControl
-  // ----------------------------------------------------
-  const pageDots = document.querySelectorAll('.mac-page-dot');
-  const pageStatus = document.getElementById('knob-page-status');
-  const pageCurrInput = document.getElementById('knob-page-curr');
-  const pageCode = document.getElementById('dynamic-code-pagecontrol');
-
-  function setPage(page) {
-    pageDots.forEach((dot, idx) => {
-      if (idx === page) dot.classList.add('active');
-      else dot.classList.remove('active');
-    });
-    if (pageStatus) pageStatus.textContent = `Page ${page + 1} of ${pageDots.length}`;
-    if (pageCurrInput) pageCurrInput.value = page + 1;
-    if (pageCode) {
-      pageCode.textContent = `MacPageControl::new("gallery-pager", ${pageDots.length})\n    .current_page(${page})\n    .on_change(cx.listener(|this, page, cx| {\n        this.active_slide = page;\n    }))`;
-    }
   }
 
-  pageDots.forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      setPage(idx);
-      showToast(`Page ${idx + 1}`);
-    });
-  });
+  chartPeakSlider?.addEventListener('input', updateChart);
 
-  pageCurrInput?.addEventListener('input', () => {
-    const p = Math.max(1, Math.min(pageDots.length, parseInt(pageCurrInput.value || '1', 10))) - 1;
-    setPage(p);
-  });
+  // ----------------------------------------------------
+  // Initial Synchronization across all playgrounds
+  // ----------------------------------------------------
+  updateSwitch();
+  updateButton();
+  updateCheckbox();
+  updateRadio();
+  updateComboBox();
+  updateDigitEntry();
+  updateImageWell();
+  updateDatePicker();
+  updateSegmented();
+  updateSlider();
+  updateStepper();
+  updateColor();
+  updateTextField();
+  updatePopup();
+  updateContextMenu();
+  updateMenuBar();
+  updateSearchField();
+  updateTabBar();
+  updatePathControl();
+  updateTokenCode();
+  updateDialog();
+  updatePopover();
+  updatePanel();
+  updatePageControl();
+  updateWindow();
+  updateProgress();
+  updateGauge();
+  setRating(4);
+  updateRings();
+  updateBadge();
+  updateTableView();
+  updateSplitView();
+  updateColumnView();
+  updateTextView();
+  updateImageView();
+  updateChart();
 }
+
 
 /* ==========================================================================
    6. Copy Code to Clipboard & Toast

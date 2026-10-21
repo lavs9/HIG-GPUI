@@ -640,6 +640,10 @@ pre {
   width: 100%;
   max-width: 440px;
 }
+.mac-radio-group.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 .mac-radio-row {
   display: inline-flex;
@@ -706,6 +710,10 @@ pre {
   padding: 2px;
   border-radius: 7px;
   user-select: none;
+}
+.mac-segmented.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .mac-segment {
@@ -999,9 +1007,27 @@ pre {
   transition: all 0.15s;
 }
 
+.mac-text-field.small {
+  height: 20px;
+  padding: 0 6px;
+}
+
+.mac-text-field.small input {
+  font-size: 11px;
+}
+
 .mac-text-field.large {
   height: 28px;
   padding: 0 10px;
+}
+
+.mac-text-field.large input {
+  font-size: 14px;
+}
+
+.mac-text-field.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .mac-text-field:focus-within {
@@ -1182,6 +1208,11 @@ pre {
 
 .mac-popup-btn:hover {
   background-color: var(--apple-surface-hover);
+}
+
+.mac-popup-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .mac-popup-chevrons {
@@ -2045,6 +2076,18 @@ pre {
   color: var(--apple-label);
 }
 
+.mac-panel-card.hud {
+  background-color: rgba(24, 24, 24, 0.94) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+}
+.mac-panel-card.hud .mac-panel-hdr {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+
 /* 11. MacPageControl */
 .mac-page-control {
   display: flex;
@@ -2145,16 +2188,24 @@ pre {
   color: var(--apple-label);
   cursor: pointer;
   border-bottom: 1px solid var(--apple-surface-hover);
+  transition: background-color 0.15s ease;
 }
-.mac-table-row:nth-child(even) {
-  background-color: rgba(128, 128, 128, 0.03);
+.mac-table-card:not(.no-zebra) .mac-table-row:nth-child(odd):not(.selected) {
+  background-color: rgba(128, 128, 128, 0.09);
+}
+[data-theme="dark"] .mac-table-card:not(.no-zebra) .mac-table-row:nth-child(odd):not(.selected) {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.mac-table-card.no-zebra .mac-table-row:not(.selected) {
+  background-color: transparent !important;
 }
 .mac-table-row:hover:not(.selected) {
   background-color: var(--apple-surface-hover);
 }
 .mac-table-row.selected {
-  background-color: var(--apple-accent);
-  color: #FFFFFF;
+  background-color: var(--apple-accent) !important;
+  color: #FFFFFF !important;
+  font-weight: 500;
 }
 
 /* 16. MacSplitView */
