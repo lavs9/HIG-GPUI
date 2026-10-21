@@ -1,0 +1,12 @@
+[package]
+name = "gpui-apple-hig"
+version = "0.1.0"
+edition = "2021"
+description = "Apple Human Interface Guidelines (macOS HIG) component library for GPUI"
+license = "MIT"
+
+[dependencies]
+gpui-kit = "0.7.3"
+
+[dev-dependencies]
+anyhow = "1.0"
