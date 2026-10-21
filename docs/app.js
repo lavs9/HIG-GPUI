@@ -218,6 +218,10 @@ function initSidebar() {
   const searchInput = document.getElementById('sidebar-search-input');
   const navItems = document.querySelectorAll('.nav-item');
   const navSections = document.querySelectorAll('.nav-section');
+  const mainContent = document.querySelector('.main-content');
+
+  let isClickScrolling = false;
+  let clickScrollTimeout = null;
 
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -245,31 +249,47 @@ function initSidebar() {
         e.preventDefault();
         const target = document.querySelector(href);
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          isClickScrolling = true;
           navItems.forEach(i => i.classList.remove('active'));
           link.classList.add('active');
+          link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           history.pushState(null, null, href);
+
+          clearTimeout(clickScrollTimeout);
+          clickScrollTimeout = setTimeout(() => {
+            isClickScrolling = false;
+          }, 800);
         }
       }
     });
   });
 
   const sections = document.querySelectorAll('section[id]');
-  if ('IntersectionObserver' in window && sections.length > 0) {
+  if ('IntersectionObserver' in window && sections.length > 0 && mainContent) {
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navItems.forEach(item => {
-            if (item.getAttribute('href') === `#${id}`) {
-              item.classList.add('active');
-            } else {
-              item.classList.remove('active');
-            }
-          });
+      if (isClickScrolling) return;
+
+      const visible = entries.filter(e => e.isIntersecting);
+      if (visible.length === 0) return;
+
+      visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      const topEntry = visible[0];
+      const id = topEntry.target.getAttribute('id');
+
+      navItems.forEach(item => {
+        if (item.getAttribute('href') === `#${id}`) {
+          item.classList.add('active');
+          item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+          item.classList.remove('active');
         }
       });
-    }, { rootMargin: '-20% 0px -70% 0px' });
+    }, {
+      root: mainContent,
+      rootMargin: '-10% 0px -65% 0px',
+      threshold: [0, 0.15, 0.5]
+    });
 
     sections.forEach(s => observer.observe(s));
   }

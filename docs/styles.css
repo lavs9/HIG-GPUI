@@ -110,6 +110,9 @@ body {
   flex-direction: column;
   flex-shrink: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 128, 0.25) transparent;
 }
 
 .sidebar-header {
@@ -234,7 +237,16 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-padding-top: 64px;
   background-color: var(--apple-window-bg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 128, 0.25) transparent;
+}
+
+section[id] {
+  scroll-margin-top: 64px;
 }
 
 /* Top Toolbar */
