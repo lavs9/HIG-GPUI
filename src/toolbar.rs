@@ -1,15 +1,16 @@
 use gpui_kit::base::StyledExt;
 use gpui_kit::component::ActiveTheme;
+use gpui_kit::prelude::FluentBuilder;
 use gpui_kit::{
     AnyElement, App, ElementId, InteractiveElement, IntoElement, ParentElement as _,
     RenderOnce, SharedString, StyleRefinement, Styled,
-    Window, div, px,
+    Window, div, px, rgba,
 };
 
 use crate::theme::{AppleColors, MacAccentColor};
 use crate::typography::MacTypographyExt;
 
-pub const MAC_TRAFFIC_LIGHT_CLEARANCE: f32 = 78.0;
+pub const MAC_TRAFFIC_LIGHT_CLEARANCE: f32 = 96.0;
 
 /// A macOS Unified Title Bar & Toolbar adhering to Apple Human Interface Guidelines.
 #[derive(IntoElement)]
@@ -70,48 +71,66 @@ impl RenderOnce for MacToolbar {
             AppleColors::light(MacAccentColor::Blue)
         };
 
+        let has_center = !self.center.is_empty() || self.title.is_some();
+
         div()
             .id(self.id)
             .refine_style(&self.style)
+            .relative()
             .w_full()
             .h(px(52.0))
-            .bg(apple_colors.toolbar_background)
+            .bg(if is_dark {
+                rgba(0x242426E6)
+            } else {
+                rgba(0xF6F6F6E6)
+            })
             .border_b_1()
             .border_color(apple_colors.separator)
             .flex()
             .items_center()
             .justify_between()
-            .px(px(16.0))
-            // Clearance for native macOS traffic lights in the top-left
-            .pl(px(MAC_TRAFFIC_LIGHT_CLEARANCE))
             .child(
                 div()
+                    .pl(px(MAC_TRAFFIC_LIGHT_CLEARANCE))
                     .flex()
                     .items_center()
                     .gap(px(8.0))
-                    .children(self.title.map(|title| {
-                        div()
-                            .mac_headline()
-                            .text_color(apple_colors.label)
-                            .child(title)
-                    }))
                     .children(self.leading),
             )
             .child(
                 div()
-                    .flex()
-                    .items_center()
-                    .justify_center()
-                    .gap(px(8.0))
-                    .children(self.center),
-            )
-            .child(
-                div()
+                    .pr(px(16.0))
                     .flex()
                     .items_center()
                     .justify_end()
                     .gap(px(10.0))
                     .children(self.trailing),
             )
+            .when(has_center, |this| {
+                this.child(
+                    div()
+                        .absolute()
+                        .top_0()
+                        .bottom_0()
+                        .left_0()
+                        .right_0()
+                        .flex()
+                        .items_center()
+                        .justify_center()
+                        .child(
+                            div()
+                                .flex()
+                                .items_center()
+                                .gap(px(8.0))
+                                .children(self.title.map(|title| {
+                                    div()
+                                        .mac_headline()
+                                        .text_color(apple_colors.label)
+                                        .child(title)
+                                }))
+                                .children(self.center),
+                        ),
+                )
+            })
     }
 }
