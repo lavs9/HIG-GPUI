@@ -152,19 +152,19 @@ impl AppleColors {
             accent_active: rgb(0x0070E0).into(),
             switch_green: rgb(0x30D158).into(),
 
-            // macOS Dark surfaces
-            window_background: rgb(0x1E1E1E).into(),
-            content_background: rgb(0x1E1E1E).into(),
-            grouped_background: rgb(0x18181A).into(),
-            secondary_grouped_background: rgba(0xFFFFFF0F).into(),
-            tertiary_grouped_background: rgb(0x2C2C2E).into(),
-            sidebar_background: rgb(0x1A1A1C).into(),
-            toolbar_background: rgb(0x242426).into(),
+            // macOS Dark surfaces - Apple HIG semantic palette (soft dark slate/graphite, no harsh pure blacks)
+            window_background: rgb(0x28282A).into(),
+            content_background: rgb(0x28282A).into(),
+            grouped_background: rgb(0x202023).into(),
+            secondary_grouped_background: rgb(0x2C2C2E).into(),
+            tertiary_grouped_background: rgb(0x3A3A3C).into(),
+            sidebar_background: rgb(0x242427).into(),
+            toolbar_background: rgb(0x323235).into(),
             control_background: rgba(0xFFFFFF1F).into(),
             control_background_hover: rgba(0xFFFFFF2E).into(),
             control_hover: rgba(0xFFFFFF1F).into(),
             control_pressed: rgba(0xFFFFFF2E).into(),
-            popover_background: rgb(0x252528).into(),
+            popover_background: rgb(0x323236).into(),
 
             // Text
             label: rgba(0xFFFFFFFF).into(),

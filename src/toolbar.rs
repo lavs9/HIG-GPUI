@@ -80,7 +80,7 @@ impl RenderOnce for MacToolbar {
             .w_full()
             .h(px(52.0))
             .bg(if is_dark {
-                rgba(0x242426E6)
+                rgba(0x323235E6)
             } else {
                 rgba(0xF6F6F6E6)
             })

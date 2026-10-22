@@ -78,13 +78,13 @@ impl RenderOnce for MacWindow {
         };
 
         let bg = if is_dark {
-            rgb(0x1E1E1E)
+            rgb(0x28282A)
         } else {
             rgb(0xFFFFFF)
         };
 
         let titlebar_bg = if is_dark {
-            rgba(0x2D2D2DE6)
+            rgba(0x323235E6)
         } else {
             rgba(0xF6F6F6E6)
         };

@@ -282,13 +282,13 @@ impl MacMaterial {
         };
 
         if self.is_dark {
-            // macOS dark vibrancy: base is ~ #1E1E1E / #282828 with varying alpha
+            // macOS dark vibrancy: base is ~ #242427 / #323236 with varying alpha
             let rgb_val = match self.thickness {
-                MacMaterialThickness::UltraThin => 0x18181A,
-                MacMaterialThickness::Thin => 0x1E1E20,
-                MacMaterialThickness::Regular => 0x242426,
-                MacMaterialThickness::Thick => 0x2A2A2E,
-                MacMaterialThickness::UltraThick => 0x303034,
+                MacMaterialThickness::UltraThin => 0x202023,
+                MacMaterialThickness::Thin => 0x242427,
+                MacMaterialThickness::Regular => 0x2C2C30,
+                MacMaterialThickness::Thick => 0x323236,
+                MacMaterialThickness::UltraThick => 0x38383D,
             };
             let mut c: Hsla = rgb(rgb_val).into();
             c.a = alpha;
