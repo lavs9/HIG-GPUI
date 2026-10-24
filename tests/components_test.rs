@@ -326,14 +326,25 @@ fn test_material_surface_construction() {
 
 #[test]
 fn test_popup_and_pulldown_button_construction() {
+    let item1 = MacMenuItem::new("p3", "Display P3")
+        .shortcut("⌘1")
+        .separator_after(true);
+    let item2 = MacMenuItem::new("srgb", "sRGB")
+        .shortcut("⌘2")
+        .disabled(false);
+
     let popup = MacPopupButton::new("profile-popup")
-        .item(MacMenuItem::new("p3", "Display P3"))
-        .item(MacMenuItem::new("srgb", "sRGB"))
+        .item(item1)
+        .item(item2)
         .selected_index(1)
+        .anchor(gpui_kit::Anchor::TopRight)
         .disabled(false);
     let _ = popup;
 
     let pulldown = MacPullDownButton::new("export-pulldown", "Export Actions")
+        .item(MacMenuItem::new("act1", "Export PNG").shortcut("⌘E"))
+        .item(MacMenuItem::new("act2", "Export JPEG"))
+        .anchor(gpui_kit::Anchor::TopLeft)
         .disabled(false);
     let _ = pulldown;
 }
